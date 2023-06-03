@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.files.requests";
+
+message UploadFileRequest {
+  /**
+   * Bytes of file included into given chunk.
+   */
+  bytes chunk = 1;
+
+  message Response {
+    string fileId = 1;
+  }
+}

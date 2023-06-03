@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.users.types";
+
+message User {
+  /**
+   * User's identifier
+   */
+  int64 id = 1;
+
+  /**
+   * String identifier of 128 length. Can be null
+   * if there is no avatar.
+   */
+  optional string avatarId = 2;
+
+  /**
+   * User's name
+   */
+  string name = 3;
+
+  /**
+   * User's description.
+   */
+  string description = 4;
+
+  /**
+   * User's email up to 200 symbols.
+   * Can be null if there is no access.
+   */
+  optional string email = 5;
+}
+
+message Users {
+  repeated User users = 1;
+}

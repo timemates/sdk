@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.authorizations.requests";
+
+message StartAuthorizationRequest {
+  string emailAddress = 1;
+
+  message Result {
+    string verificationHash = 1;
+    int64 expiresAt = 2;
+    int32 attempts = 3;
+  }
+}

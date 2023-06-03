@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.authorizations.types";
+
+message Authorization {
+  /**
+   * Hash that used to identify user.
+   *
+   * Has null if it's not new authorization.
+   */
+  optional Hash accessHash = 2;
+
+  /**
+   * Hash that used to identify user.
+   *
+   * Has null if it's not new authorization.
+   */
+  optional Hash refreshHash = 3;
+
+  /**
+   * Denotes when authorization was generated.
+   */
+  int64 generationTime = 4;
+
+  /**
+   * Additional information about authorization.
+   */
+  optional Metadata metadata = 5;
+
+  message Hash {
+    string value = 1;
+    int64 expiresAt = 2;
+  }
+
+  message Metadata {
+    string clientName = 1;
+    string clientVersion = 2;
+    string clientIpAddress = 3;
+  }
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "io/timemates/api/users/types/User.proto";
+
+option java_package = "io.timemates.api.timers.members.invites.requests";
+
+message InviteMemberRequest {
+  int64 timerId = 1;
+  int32 maxJoiners = 2;
+
+  message Response {
+    string inviteCode = 1;
+  }
+}
