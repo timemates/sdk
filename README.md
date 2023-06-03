@@ -8,7 +8,7 @@ The TimeMates SDK is a software development kit that provides support for the Ti
 ## Usages example
 To demonstrate the usage of the SDK, consider the following example:
 ```kotlin
-val emailAuth = AccountLoginApi(GrpcRequestsEngine(..)).email
+val emailAuth = AccountLoginApi(GrpcTimeMatesRequestsEngine()).email
 val email = EmailAddress.create("developer@y9vad9.com").getOrElse { return }
 
 val authorizationResult = emailAuth.authorize(email)
@@ -30,7 +30,6 @@ the success or failure of the operations.
 > **Note** <br>
 > We're only at development stage, so there's no way to implement it until
 > we finish our development on SDK. <br><br>
-> Stay tuned!
 
 ## Community
 We have a vibrant and supportive community for TimeMates SDK users where 

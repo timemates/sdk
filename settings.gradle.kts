@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "timemates-sdk"
 
-include(":api")
+include(":sdk")
+include(":grpc-engine")

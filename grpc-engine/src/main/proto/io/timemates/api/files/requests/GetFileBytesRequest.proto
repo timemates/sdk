@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.files.requests";
+
+message GetFileBytesRequest {
+  string fileId = 1;
+
+  message Response {
+    /**
+     * Chunked file content bytes.
+     */
+    bytes chunk = 1;
+  }
+}

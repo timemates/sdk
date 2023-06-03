@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.users.requests";
+
+message EditUserRequest {
+  /**
+   * String identifier of 128 length. Can be null
+   * if there is no avatar.
+   */
+  optional string avatarId = 1;
+  /**
+   * User's name
+   */
+  optional string name = 2;
+
+  /**
+   * User's description.
+   */
+  optional string description = 3;
+}
