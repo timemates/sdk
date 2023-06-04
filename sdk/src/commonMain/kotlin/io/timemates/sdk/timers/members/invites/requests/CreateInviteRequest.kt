@@ -5,6 +5,7 @@ import io.timemates.sdk.common.types.TimeMatesEntity
 import io.timemates.sdk.common.types.TimeMatesRequest
 import io.timemates.sdk.common.types.value.Count
 import io.timemates.sdk.timers.members.invites.types.value.InviteCode
+import io.timemates.sdk.timers.members.invites.types.value.InviteName
 import io.timemates.sdk.timers.types.value.TimerId
 
 public data class CreateInviteRequest(

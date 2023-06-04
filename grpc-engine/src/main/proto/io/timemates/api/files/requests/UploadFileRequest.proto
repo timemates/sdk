@@ -3,12 +3,29 @@ syntax = "proto3";
 option java_package = "io.timemates.api.files.requests";
 
 message UploadFileRequest {
-  /**
-   * Bytes of file included into given chunk.
-   */
-  bytes chunk = 1;
+  oneof request {
+    /**
+     * Should always be sent as first request.
+     * Should not be repeated.
+     */
+    FileMetadata metadata = 1;
+    /**
+     * Bytes of file included into given chunk.
+     */
+    bytes chunk = 2;
+  }
 
   message Response {
     string fileId = 1;
+  }
+
+  message FileMetadata {
+    FileType fileType = 1;
+    string fileName = 2;
+
+    enum FileType {
+      BINARY = 0; // unsupported by default
+      IMAGE = 1;
+    }
   }
 }

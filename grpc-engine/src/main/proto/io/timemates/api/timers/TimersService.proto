@@ -2,7 +2,6 @@ syntax = "proto3";
 
 import "io/timemates/api/timers/requests/CreateTimerRequest.proto";
 import "io/timemates/api/timers/requests/EditTimerInfoRequest.proto";
-import "io/timemates/api/timers/requests/EditTimerSettingsRequest.proto";
 import "io/timemates/api/timers/requests/RemoveTimerRequest.proto";
 import "io/timemates/api/timers/requests/GetTimerRequest.proto";
 import "io/timemates/api/timers/requests/GetTimersRequest.proto";
@@ -33,14 +32,9 @@ service TimersService {
   rpc getTimers(GetTimersRequest) returns (GetTimersRequest.Response);
 
   /**
-   * Edits timer information (name, description).
+   * Edits timer information & settings (name, description).
    */
-  rpc setTimerInfo(EditTimerInfoRequest) returns (google.protobuf.Empty);
-
-  /**
-   * Edits timer information (name, description).
-   */
-  rpc setTimerSettings(EditTimerSettingsRequest) returns (google.protobuf.Empty);
+  rpc editTimer(EditTimerRequest) returns (google.protobuf.Empty);
 
   /**
    * Kicks member out of timer.

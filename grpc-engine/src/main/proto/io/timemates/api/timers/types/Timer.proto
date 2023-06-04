@@ -97,5 +97,15 @@ message Timer {
      * This field indicates whether confirmation is required for timer actions or not.
      */
     bool isConfirmationRequired = 7;
+
+    message Patch {
+      optional int32 workTime = 2;
+      optional int32 restTime = 3;
+      optional int32 bigRestTime = 4;
+      optional bool bigRestEnabled = 5;
+      optional int32 bigRestPer = 6;
+      optional bool isEveryoneCanPause = 7;
+      optional bool isConfirmationRequired = 8;
+    }
   }
 }
