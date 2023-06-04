@@ -5,9 +5,10 @@ import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.common.types.TimeMatesRequest
 import io.timemates.sdk.common.types.value.PageToken
 import io.timemates.sdk.timers.types.value.TimerId
+import io.timemates.sdk.users.profile.types.value.UserId
 
 public data class KickMemberRequest(
     val accessHash: AccessHash,
     val timerId: TimerId,
-    val pageToken: PageToken,
+    val userId: UserId,
 ) : TimeMatesRequest<Empty>()

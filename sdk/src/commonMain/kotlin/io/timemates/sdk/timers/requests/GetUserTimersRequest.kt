@@ -11,7 +11,7 @@ public data class GetUserTimersRequest(
     val pageToken: PageToken,
 ) : TimeMatesRequest<GetUserTimersRequest.Result>() {
     public data class Result(
-        val timer: List<Timer>,
+        val timers: List<Timer>,
         val nextPageToken: PageToken?,
     ) : TimeMatesEntity()
 }

@@ -29,7 +29,7 @@ the success or failure of the operations.
 ## Implementation
 > **Note** <br>
 > We're only at development stage, so there's no way to implement it until
-> we finish our development on SDK. <br><br>
+> we finish our development on SDK. 
 
 ## Community
 We have a vibrant and supportive community for TimeMates SDK users where 
