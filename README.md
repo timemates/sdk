@@ -37,6 +37,8 @@ You can implement sdk in next way:
 ```kotlin
 repositories {
     maven("https://maven.timemates.io")
+    // or
+    maven("https://jitpack.io")
 }
 
 dependencies {
