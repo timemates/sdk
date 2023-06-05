@@ -232,7 +232,7 @@ public class GrpcTimeMatesRequestsEngine(
 
             is GetUserTimersRequest -> timersService.getTimers(
                 buildGetTimersGrpcRequest {
-                    request.pageToken.let { nextPageToken = it.string }
+                    request.pageToken?.let { nextPageToken = it.string }
                 },
                 headers = authorizedMetadata(request.accessHash)
             ).let { response ->

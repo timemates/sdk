@@ -8,7 +8,7 @@ import io.timemates.sdk.timers.types.Timer
 
 public data class GetUserTimersRequest(
     val accessHash: AccessHash,
-    val pageToken: PageToken,
+    val pageToken: PageToken?,
 ) : TimeMatesRequest<GetUserTimersRequest.Result>() {
     public data class Result(
         val timers: List<Timer>,
