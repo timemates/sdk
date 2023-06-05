@@ -3,7 +3,9 @@
 ![GitHub](https://img.shields.io/github/license/timemates/sdk)
 ![GitHub issues](https://img.shields.io/github/issues/timemates/sdk)
 # TimeMates SDK
-The TimeMates SDK is a software development kit that provides support for the TimeMates API, which is built on top of gRPC. It offers a convenient and efficient way to interact with the TimeMates platform and integrate its features into your own applications.
+The TimeMates SDK is a software development kit that provides support for the TimeMates API,
+which is built on top of gRPC. It offers a convenient and efficient way to interact with the TimeMates 
+platform and integrate its features into your own applications.
 
 ## Usages example
 To demonstrate the usage of the SDK, consider the following example:

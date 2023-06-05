@@ -13,6 +13,7 @@ import io.timemates.api.grpc.mappers.AuthorizationsMapper
 import io.timemates.api.grpc.mappers.FilesMapper
 import io.timemates.api.grpc.mappers.TimersMapper
 import io.timemates.api.grpc.mappers.UsersMapper
+import io.timemates.api.timers.TimerSessionsServiceGrpcKt
 import io.timemates.api.timers.TimersServiceGrpcKt
 import io.timemates.api.users.UsersServiceGrpcKt
 import io.timemates.sdk.authorization.email.requests.ConfigureNewAccountRequest
@@ -39,6 +40,7 @@ import io.timemates.sdk.timers.members.invites.types.value.InviteCode
 import io.timemates.sdk.timers.members.requests.GetMembersRequest
 import io.timemates.sdk.timers.members.requests.KickMemberRequest
 import io.timemates.sdk.timers.requests.*
+import io.timemates.sdk.timers.sessions.requests.*
 import io.timemates.sdk.timers.types.value.TimerId
 import io.timemates.sdk.users.profile.requests.EditProfileRequest
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
@@ -62,6 +64,9 @@ import io.timemates.api.timers.requests.EditTimerInfoRequest.EditTimerRequest as
 import io.timemates.api.timers.requests.getTimerRequest as buildGetTimerGrpcRequest
 import io.timemates.api.timers.requests.getTimersRequest as buildGetTimersGrpcRequest
 import io.timemates.api.timers.requests.removeTimerRequest as buildRemoveTimerGrpcRequest
+import io.timemates.api.timers.sessions.requests.joinTimerSessionRequest as buildJoinTimerSessionGrpcRequest
+import io.timemates.api.timers.sessions.requests.startTimerRequest as buildStartTimerGrpcRequest
+import io.timemates.api.timers.sessions.requests.stopTimerRequest as buildStopTimerGrpcRequest
 import io.timemates.api.users.requests.CreateProfileRequestOuterClass.CreateProfileRequest as GrpcCreateProfileRequest
 import io.timemates.api.users.requests.EditUserRequestOuterClass.EditUserRequest as GrpcEditUserRequest
 import io.timemates.api.users.requests.GetUsersRequestOuterClass.GetUsersRequest as GrpcGetUsersRequest
@@ -76,7 +81,7 @@ public class GrpcTimeMatesRequestsEngine(
     endpoint: String = "https://api.timemates.io",
 ) : TimeMatesRequestsEngine {
     private companion object {
-        val ACCESS_HASH = Metadata.Key.of("access-hash", Metadata.ASCII_STRING_MARSHALLER)
+        val ACCESS_TOKEN: Metadata.Key<String> = Metadata.Key.of("access-token", Metadata.ASCII_STRING_MARSHALLER)
     }
 
     private val channel = ManagedChannelBuilder.forTarget(endpoint)
@@ -93,7 +98,7 @@ public class GrpcTimeMatesRequestsEngine(
     private val usersMapper = UsersMapper()
 
     private val timersService = TimersServiceGrpcKt.TimersServiceCoroutineStub(channel)
-    private val timerSessionsService = TimersServiceGrpcKt.TimersServiceCoroutineStub(channel)
+    private val timerSessionsService = TimerSessionsServiceGrpcKt.TimerSessionsServiceCoroutineStub(channel)
     private val timersMapper = TimersMapper()
 
     override suspend fun <T : TimeMatesEntity> execute(request: TimeMatesRequest<T>): Result<T> = runCatching {
@@ -299,12 +304,48 @@ public class GrpcTimeMatesRequestsEngine(
                 headers = authorizedMetadata(request.accessHash),
             ).let { SdkEmpty }
 
+            is StartTimerRequest -> timerSessionsService.startTimer(
+                buildStartTimerGrpcRequest {
+                    timerId = request.timerId.long
+                },
+                headers = authorizedMetadata(request.accessHash),
+            ).let { SdkEmpty }
+
+            is StopTimerRequest -> timerSessionsService.stopTimer(
+                buildStopTimerGrpcRequest {
+                    timerId = request.timerId.long
+                },
+                headers = authorizedMetadata(request.accessHash),
+            ).let { SdkEmpty }
+
+            is JoinTimerSessionRequest -> timerSessionsService.joinSession(
+                buildJoinTimerSessionGrpcRequest {
+                    timerId = request.timerId.long
+                },
+                headers = authorizedMetadata(request.accessHash),
+            ).let { SdkEmpty }
+
+            is LeaveTimerSessionRequest -> timerSessionsService.leaveSession(
+                Empty.getDefaultInstance(),
+                headers = authorizedMetadata(request.accessHash),
+            ).let { SdkEmpty }
+
+            is ConfirmTimerRoundRequest -> timerSessionsService.pingSession(
+                Empty.getDefaultInstance(),
+                headers = authorizedMetadata(request.accessHash),
+            ).let { SdkEmpty }
+
+            is PingSessionRequest -> timerSessionsService.pingSession(
+                Empty.getDefaultInstance(),
+                headers = authorizedMetadata(request.accessHash),
+            ).let { SdkEmpty }
+
             else -> unsupported(request::class)
         } as T
     }
 
     private fun authorizedMetadata(accessHash: AccessHash) = Metadata().apply {
-        put(ACCESS_HASH, accessHash.string)
+        put(ACCESS_TOKEN, accessHash.string)
     }
 
     private fun unsupported(kClass: KClass<*>): Nothing =
