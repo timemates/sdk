@@ -44,6 +44,10 @@ repositories {
 dependencies {
     implementation("io.timemates:sdk:$version")
     implementation("io.timemates:grpc-engine:$version")
+    
+    // for jitpack
+    implementation("com.github.timemates:sdk:$version")
+    implementation("com.github.timemates:grpc-engine:$version")
 }
 ```
 
