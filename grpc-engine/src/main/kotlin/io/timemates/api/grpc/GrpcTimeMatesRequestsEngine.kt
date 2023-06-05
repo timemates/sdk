@@ -78,14 +78,14 @@ import io.timemates.sdk.common.types.Empty as SdkEmpty
  * @param endpoint The endpoint URL for the gRPC API. Default value is "https://api.timemates.io".
  */
 public class GrpcTimeMatesRequestsEngine(
-    endpoint: String = "https://api.timemates.io",
+    endpoint: String = "api.timemates.io",
 ) : TimeMatesRequestsEngine {
     private companion object {
         val ACCESS_TOKEN: Metadata.Key<String> = Metadata.Key.of("access-token", Metadata.ASCII_STRING_MARSHALLER)
     }
 
     private val channel = ManagedChannelBuilder.forTarget(endpoint)
-        .usePlaintext()
+        .useTransportSecurity()
         .build()
 
     private val authorizationService = AuthorizationServiceGrpcKt.AuthorizationServiceCoroutineStub(channel)
