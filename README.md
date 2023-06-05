@@ -29,9 +29,21 @@ This ensures that the validation process is properly handled, and the client can
 the success or failure of the operations.
 
 ## Implementation
-> **Note** <br>
-> We're only at development stage, so there's no way to implement it until
-> we finish our development on SDK. 
+> **Warning** <br>
+> This is a very-very alpha version of the library, and it can contain unexpected bugs among with
+> changing of public API.
+
+You can implement sdk in next way:
+```kotlin
+repositories {
+    maven("https://maven.timemates.io")
+}
+
+dependencies {
+    implementation("io.timemates:sdk:$version")
+    implementation("io.timemates:grpc-engine:$version")
+}
+```
 
 ## Community
 We have a vibrant and supportive community for TimeMates SDK users where 

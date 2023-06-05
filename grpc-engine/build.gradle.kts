@@ -6,6 +6,7 @@ import com.google.protobuf.gradle.id
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.google.protobuf)
+    alias(libs.plugins.library.publish)
 }
 
 dependencies {
@@ -46,5 +47,23 @@ protobuf {
                 id("kotlin")
             }
         }
+    }
+}
+
+deployLibrary {
+    ssh(tag = "maven.timemates.io") {
+        host = System.getenv("TIMEMATES_SSH_HOST")
+        user = System.getenv("TIMEMATES_SSH_USER")
+        password = System.getenv("TIMEMATES_SSH_PASSWORD")
+        deployPath = System.getenv("TIMEMATES_SSH_DEPLOY_PATH")
+
+        group = "io.timemates"
+        componentName = "kotlin"
+        artifactId = "grpc-engine"
+        name = "grpc-engine"
+
+        description = "TimeMates grpc adapter for SDK"
+
+        version = properties["timemates.sdk.version"] as String
     }
 }
