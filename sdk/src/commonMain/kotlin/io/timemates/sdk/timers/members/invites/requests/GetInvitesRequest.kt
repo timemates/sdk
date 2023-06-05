@@ -11,7 +11,7 @@ public data class GetInvitesRequest(
     val accessHash: AccessHash,
     val timerId: TimerId,
     val pageToken: PageToken?,
-) : TimeMatesRequest<CreateInviteRequest.Result>() {
+) : TimeMatesRequest<GetInvitesRequest.Result>() {
     public data class Result(
         val invites: List<Invite>,
         val nextPageToken: PageToken?,
