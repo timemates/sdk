@@ -8,13 +8,14 @@ import io.timemates.sdk.files.requests.GetFileBytesRequest
 import io.timemates.sdk.files.requests.UploadFileRequest
 import io.timemates.sdk.files.types.FileType
 import io.timemates.sdk.files.types.value.FileId
+import io.timemates.sdk.files.types.value.FileName
 import kotlinx.coroutines.flow.Flow
 
 /**
  * Provides functionality for interacting with files through the API.
  *
  * @property engine The TimeMatesRequestsEngine instance used for making API requests.
- * @property accessHash The access hash for authentication purposes.
+ * @property tokenProvider The access hash provider for authentication purposes.
  */
 public class FileApi(
     private val engine: TimeMatesRequestsEngine,
@@ -23,13 +24,14 @@ public class FileApi(
     /**
      * Uploads a file with the specified type and byte data.
      *
+     * @param fileName The name of the original file (with extension).
      * @param fileType The type of the file being uploaded.
      * @param bytes The byte data of the file to upload as a Flow of ByteArrays.
      * @return A Result object containing the ID of the uploaded file if successful, or an error otherwise.
      */
-    public suspend fun upload(fileType: FileType, bytes: Flow<ByteArray>): Result<FileId> {
+    public suspend fun upload(fileName: FileName, fileType: FileType, bytes: Flow<ByteArray>): Result<FileId> {
         return tokenProvider.getAsResult()
-            .flatMap { token -> engine.execute(UploadFileRequest(token, bytes, fileType)) }
+            .flatMap { token -> engine.execute(UploadFileRequest(token, bytes, fileName, fileType)) }
             .map { it.fileId }
     }
 
