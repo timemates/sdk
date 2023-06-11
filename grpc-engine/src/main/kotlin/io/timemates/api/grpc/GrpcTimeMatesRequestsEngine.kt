@@ -6,9 +6,12 @@ import com.google.protobuf.Empty
 import com.google.protobuf.kotlin.toByteString
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
+import io.grpc.Status
+import io.grpc.StatusException
 import io.timemates.api.authorizations.AuthorizationServiceGrpcKt
 import io.timemates.api.files.FilesServiceGrpcKt
 import io.timemates.api.files.requests.UploadFileRequestKt.fileMetadata
+import io.timemates.api.grpc.internal.mapException
 import io.timemates.api.grpc.mappers.AuthorizationsMapper
 import io.timemates.api.grpc.mappers.FilesMapper
 import io.timemates.api.grpc.mappers.TimersMapper
@@ -25,6 +28,13 @@ import io.timemates.sdk.authorization.sessions.requests.TerminateCurrentAuthoriz
 import io.timemates.sdk.authorization.types.value.AccessHash
 import io.timemates.sdk.common.constructor.createOrThrow
 import io.timemates.sdk.common.engine.TimeMatesRequestsEngine
+import io.timemates.sdk.common.exceptions.AlreadyExistsException
+import io.timemates.sdk.common.exceptions.InternalServerError
+import io.timemates.sdk.common.exceptions.InvalidArgumentException
+import io.timemates.sdk.common.exceptions.NotFoundException
+import io.timemates.sdk.common.exceptions.PermissionDeniedException
+import io.timemates.sdk.common.exceptions.UnauthorizedException
+import io.timemates.sdk.common.exceptions.UnavailableException
 import io.timemates.sdk.common.exceptions.UnsupportedException
 import io.timemates.sdk.common.types.TimeMatesEntity
 import io.timemates.sdk.common.types.TimeMatesRequest
@@ -342,6 +352,28 @@ public class GrpcTimeMatesRequestsEngine(
 
             else -> unsupported(request::class)
         } as T
+    }.mapException {
+        val exception = (it as? StatusException) ?: return@mapException it
+        val status = exception.status
+
+        val message = exception.message ?: NO_MESSAGE
+
+        when (status) {
+            Status.INVALID_ARGUMENT, Status.FAILED_PRECONDITION ->
+                InvalidArgumentException(message, exception)
+            Status.UNAUTHENTICATED ->
+                UnauthorizedException(message, exception)
+            Status.INTERNAL ->
+                InternalServerError(message, exception)
+            Status.NOT_FOUND ->
+                NotFoundException(message, exception)
+            Status.ALREADY_EXISTS ->
+                AlreadyExistsException(message, exception)
+            Status.PERMISSION_DENIED -> PermissionDeniedException(message, exception)
+            Status.UNAVAILABLE -> UnavailableException(message, exception)
+
+            else -> InternalServerError(message, exception)
+        }
     }
 
     private fun authorizedMetadata(accessHash: AccessHash) = Metadata().apply {
@@ -353,3 +385,5 @@ public class GrpcTimeMatesRequestsEngine(
 
     private inline fun <reified T> unsupported(): Nothing = unsupported(T::class)
 }
+
+private const val NO_MESSAGE = "No message is provided."

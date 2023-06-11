@@ -8,5 +8,6 @@ package io.timemates.sdk.common.exceptions
  * @property message The error message associated with the not found exception.
  */
 public data class NotFoundException(
-    public override val message: String
-) : TimeMatesException(message)
+    public override val message: String,
+    public override val cause: Throwable? = null,
+) : TimeMatesException(message, cause)
