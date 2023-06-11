@@ -10,7 +10,7 @@ public value class ConfirmationCode private constructor(public val string: Strin
 
         override fun create(input: String): Result<ConfirmationCode> {
             return when {
-                input.isBlank() -> Result.failure(CreationFailure.ofBlankValue())
+                input.isBlank() -> Result.failure(CreationFailure.ofBlank())
                 input.length != SIZE -> Result.failure(CreationFailure.ofSizeExact(SIZE))
                 else -> Result.success(ConfirmationCode(input))
             }
