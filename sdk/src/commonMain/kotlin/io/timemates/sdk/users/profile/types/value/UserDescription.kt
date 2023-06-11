@@ -11,11 +11,11 @@ public value class UserDescription private constructor(public val string: String
         /**
          * Size range of the user's short bio.
          */
-        private val SIZE = 3..200
+        public val SIZE_RANGE: IntRange = 3..200
 
         override fun create(input: String): Result<UserDescription> {
             return when (input.length) {
-                !in 0..200 -> failure(CreationFailure.ofSize(SIZE))
+                !in 0..200 -> failure(CreationFailure.ofSizeRange(SIZE_RANGE))
                 else -> success(UserDescription(input))
             }
         }
