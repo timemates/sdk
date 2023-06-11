@@ -16,17 +16,17 @@ public sealed class CreationFailure(message: String) : TimeMatesException(messag
     /**
      * Represents a creation failure due to a size range constraint.
      */
-    public class SizeRangeFailure(public val range: IntRange) : CreationFailure("Constraint failure: size must be in range of $range")
+    public data class SizeRangeFailure(public val range: IntRange) : CreationFailure("Constraint failure: size must be in range of $range")
 
     /**
      * Represents a creation failure due to an exact size constraint.
      */
-    public class SizeExactFailure(public val size: Int) : CreationFailure("Constraint failure: size must be exactly $size")
+    public data class SizeExactFailure(public val size: Int) : CreationFailure("Constraint failure: size must be exactly $size")
 
     /**
      * Represents a creation failure due to a minimum value constraint.
      */
-    public class MinValueFailure(public val size: Int) : CreationFailure("Constraint failure: minimal value is $size")
+    public data class MinValueFailure(public val size: Int) : CreationFailure("Constraint failure: minimal value is $size")
 
     /**
      * Represents a creation failure due to a blank value constraint.
@@ -36,7 +36,7 @@ public sealed class CreationFailure(message: String) : TimeMatesException(messag
     /**
      * Represents a creation failure due to a pattern constraint.
      */
-    public class PatternFailure(public val regex: Regex) : CreationFailure("Constraint failure: input should match $regex")
+    public data class PatternFailure(public val regex: Regex) : CreationFailure("Constraint failure: input should match $regex")
 
     public companion object {
         /**
