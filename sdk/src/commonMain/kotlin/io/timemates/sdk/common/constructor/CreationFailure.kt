@@ -10,57 +10,80 @@ import io.timemates.sdk.common.exceptions.TimeMatesException
  *
  * @property message The error message associated with the creation failure.
  */
-public data class CreationFailure(
-    public override val message: String,
-) : TimeMatesException(message) {
+public sealed class CreationFailure(message: String) : TimeMatesException(message) {
+    /**
+     * Represents a creation failure due to a size range constraint.
+     */
+    public class SizeRangeFailure(public val size: IntRange) : CreationFailure("Constraint failure: size must be in range of $size")
+
+    /**
+     * Represents a creation failure due to an exact size constraint.
+     */
+    public class SizeExactFailure(public val size: Int) : CreationFailure("Constraint failure: size must be exactly $size")
+
+    /**
+     * Represents a creation failure due to a minimum value constraint.
+     */
+    public class MinValueFailure(public val size: Int) : CreationFailure("Constraint failure: minimal value is $size")
+
+    /**
+     * Represents a creation failure due to a blank value constraint.
+     */
+    public class BlankValueFailure : CreationFailure("Constraint failure: provided value is empty")
+
+    /**
+     * Represents a creation failure due to a pattern constraint.
+     */
+    public class PatternFailure(public val regex: Regex) : CreationFailure("Constraint failure: input should match $regex")
+
     public companion object {
         /**
-         * Creates a `CreationFailure` object with a size constraint failure message.
+         * Creates a [SizeRangeFailure] object with a size constraint failure message.
          *
          * @param size The size range constraint for the creation failure.
-         * @return The `CreationFailure` object with the specified size constraint failure message.
+         * @return The [SizeRangeFailure] object with the specified size constraint failure message.
          */
-        public fun ofSize(size: IntRange): CreationFailure {
-            return CreationFailure(
-                "Constraint failure: size must be in range of $size"
-            )
+        public fun ofSizeRange(size: IntRange): CreationFailure {
+            return SizeRangeFailure(size)
         }
 
         /**
-         * Creates a [CreationFailure] with a constraint failure message based on the provided size.
+         * Creates a [SizeExactFailure] with a constraint failure message based on the provided size.
+         *
          * @param size The expected size that caused the constraint failure.
-         * @return A [CreationFailure] object with the constraint failure message.
+         * @return A [SizeExactFailure] object with the constraint failure message.
          */
-        public fun ofSize(size: Int): CreationFailure {
-            return CreationFailure(
-                "Constraint failure: size must be exactly $size"
-            )
-        }
-
-        public fun ofMin(size: Int): CreationFailure {
-            return CreationFailure(
-                "Constraint failure: minimal value is the $size"
-            )
+        public fun ofSizeExact(size: Int): CreationFailure {
+            return SizeExactFailure(size)
         }
 
         /**
-         * Creates a [CreationFailure] with a constraint failure message for a blank value.
-         * @return A [CreationFailure] object with the constraint failure message.
+         * Creates a [MinValueFailure] with a constraint failure message for a minimum value.
+         *
+         * @param size The minimal value that caused the constraint failure.
+         * @return A [MinValueFailure] object with the constraint failure message.
          */
-        public fun ofBlank(): CreationFailure {
-            return CreationFailure("Constraint failure: provided value is empty")
+        public fun ofMinValue(size: Int): CreationFailure {
+            return MinValueFailure(size)
         }
 
         /**
-         * Creates a `CreationFailure` object with a pattern constraint failure message.
+         * Creates a [BlankValueFailure] with a constraint failure message for a blank value.
+         *
+         * @return A [BlankValueFailure] object with the constraint failure message.
+         */
+        public fun ofBlankValue(): CreationFailure {
+            return BlankValueFailure()
+        }
+
+        /**
+         * Creates a [PatternFailure] object with a pattern constraint failure message.
          *
          * @param regex The regular expression pattern constraint for the creation failure.
-         * @return The `CreationFailure` object with the specified pattern constraint failure message.
+         * @return The [PatternFailure] object with the specified pattern constraint failure message.
          */
         public fun ofPattern(regex: Regex): CreationFailure {
-            return CreationFailure(
-                "Constraint failure: input should match $regex"
-            )
+            return PatternFailure(regex)
         }
     }
 }

@@ -47,7 +47,7 @@ class DeployPlugin : Plugin<Project> {
                             version = data.version ?: error("shouldn't be null")
 
                             url = uri(
-                                "sftp://${data.host}:22/${data.deployPath}"
+                                "sftp://${data.user}@${data.host}:22/${data.deployPath}"
                             )
 
                             credentials {

@@ -7,7 +7,10 @@ package io.timemates.sdk.common.exceptions
  *
  * @property message The error message associated with the unauthorized exception.
  */
-public data class UnauthorizedException(override val message: String) : TimeMatesException(message) {
+public data class UnauthorizedException(
+    override val message: String,
+    override val cause: Throwable? = null
+) : TimeMatesException(message, cause) {
     public companion object {
         /**
          * The error message that denotes that client did not provide any token

@@ -9,6 +9,9 @@ kotlin {
     explicitApi()
 }
 
+group = "io.timemates"
+version = libs.versions.library.version.get()
+
 dependencies {
     commonMainImplementation(libs.kotlinx.datetime)
     commonMainImplementation(libs.kotlinx.coroutines)
@@ -28,6 +31,6 @@ deployLibrary {
 
         description = "TimeMates SDK"
 
-        version = properties["timemates.sdk.version"] as String
+        version = libs.versions.library.version.get()
     }
 }

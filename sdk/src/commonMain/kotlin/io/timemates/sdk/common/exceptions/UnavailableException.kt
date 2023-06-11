@@ -8,5 +8,6 @@ package io.timemates.sdk.common.exceptions
  * @property cause The cause of the unavailability, represented as a throwable.
  */
 public data class UnavailableException(
+    override val message: String,
     override val cause: Throwable
-) : TimeMatesException("Method or service is unavailable.", cause)
+) : TimeMatesException("Method or service is unavailable: $message", cause)
