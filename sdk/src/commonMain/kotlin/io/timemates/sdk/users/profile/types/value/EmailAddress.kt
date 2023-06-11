@@ -6,9 +6,9 @@ import io.timemates.sdk.common.constructor.CreationFailure
 @JvmInline
 public value class EmailAddress private constructor(public val string: String) {
     public companion object : Factory<EmailAddress, String>() {
-        private val SIZE: IntRange = 5..200
+        public val SIZE_RANGE: IntRange = 5..200
 
-        private val emailPattern = Regex(
+        public val PATTERN: Regex = Regex(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                 "\\@" +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -20,10 +20,10 @@ public value class EmailAddress private constructor(public val string: String) {
 
         override fun create(input: String): Result<EmailAddress> {
             return when {
-                input.length !in SIZE ->
-                    Result.failure(CreationFailure.ofSize(SIZE))
-                !emailPattern.matches(input) ->
-                    Result.failure(CreationFailure.ofPattern(emailPattern))
+                input.length !in SIZE_RANGE ->
+                    Result.failure(CreationFailure.ofSizeRange(SIZE_RANGE))
+                !PATTERN.matches(input) ->
+                    Result.failure(CreationFailure.ofPattern(PATTERN))
 
                 else -> Result.success(EmailAddress(input))
             }

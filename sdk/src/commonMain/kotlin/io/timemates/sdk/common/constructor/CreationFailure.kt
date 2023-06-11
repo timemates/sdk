@@ -1,3 +1,5 @@
+@file:Suppress("CanBeParameter", "MemberVisibilityCanBePrivate")
+
 package io.timemates.sdk.common.constructor
 
 import io.timemates.sdk.common.exceptions.TimeMatesException
@@ -14,7 +16,7 @@ public sealed class CreationFailure(message: String) : TimeMatesException(messag
     /**
      * Represents a creation failure due to a size range constraint.
      */
-    public class SizeRangeFailure(public val size: IntRange) : CreationFailure("Constraint failure: size must be in range of $size")
+    public class SizeRangeFailure(public val range: IntRange) : CreationFailure("Constraint failure: size must be in range of $range")
 
     /**
      * Represents a creation failure due to an exact size constraint.
@@ -63,7 +65,7 @@ public sealed class CreationFailure(message: String) : TimeMatesException(messag
          * @param size The minimal value that caused the constraint failure.
          * @return A [MinValueFailure] object with the constraint failure message.
          */
-        public fun ofMinValue(size: Int): CreationFailure {
+        public fun ofMin(size: Int): CreationFailure {
             return MinValueFailure(size)
         }
 
@@ -72,7 +74,7 @@ public sealed class CreationFailure(message: String) : TimeMatesException(messag
          *
          * @return A [BlankValueFailure] object with the constraint failure message.
          */
-        public fun ofBlankValue(): CreationFailure {
+        public fun ofBlank(): CreationFailure {
             return BlankValueFailure()
         }
 

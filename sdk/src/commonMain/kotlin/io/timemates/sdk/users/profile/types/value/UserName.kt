@@ -9,11 +9,11 @@ public value class UserName private constructor(public val string: String) {
         /**
          * Size range of the user's name.
          */
-        private val SIZE = 3..50
+        public val SIZE_RANGE: IntRange = 3..50
 
         override fun create(input: String): Result<UserName> {
             return when (input.length) {
-                !in SIZE -> Result.failure(CreationFailure.ofSize(SIZE))
+                !in SIZE_RANGE -> Result.failure(CreationFailure.ofSizeRange(SIZE_RANGE))
                 else -> Result.success(UserName(input))
             }
         }
