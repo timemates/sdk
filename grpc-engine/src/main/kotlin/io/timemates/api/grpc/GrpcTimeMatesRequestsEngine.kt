@@ -36,10 +36,11 @@ import io.timemates.sdk.common.exceptions.PermissionDeniedException
 import io.timemates.sdk.common.exceptions.UnauthorizedException
 import io.timemates.sdk.common.exceptions.UnavailableException
 import io.timemates.sdk.common.exceptions.UnsupportedException
+import io.timemates.sdk.common.pagination.Page
+import io.timemates.sdk.common.pagination.PageToken
 import io.timemates.sdk.common.types.TimeMatesEntity
 import io.timemates.sdk.common.types.TimeMatesRequest
 import io.timemates.sdk.common.types.value.Count
-import io.timemates.sdk.common.types.value.PageToken
 import io.timemates.sdk.files.requests.GetFileBytesRequest
 import io.timemates.sdk.files.requests.UploadFileRequest
 import io.timemates.sdk.files.types.value.FileId
@@ -158,7 +159,7 @@ public class GrpcTimeMatesRequestsEngine(
                     .build(),
                 headers = authorizedMetadata(request.accessHash),
             ).let { response ->
-                GetAuthorizationSessionsRequest.Result(
+                Page(
                     response.authorizationsList.map(authMapper::grpcAuthorizationToSdkAuthorization),
                     nextPageToken = response.nextPageToken.takeIf { it.isNotEmpty() }
                         ?.let(PageToken::createOrThrow),
@@ -246,7 +247,7 @@ public class GrpcTimeMatesRequestsEngine(
                 },
                 headers = authorizedMetadata(request.accessHash)
             ).let { response ->
-                GetUserTimersRequest.Result(
+                Page(
                     response.timersList.map { timersMapper.grpcTimerToSdkTimer(it) },
                     nextPageToken = response.nextPageToken.takeIf {
                         response.hasNextPageToken()
@@ -270,7 +271,7 @@ public class GrpcTimeMatesRequestsEngine(
                 },
                 headers = authorizedMetadata(request.accessHash)
             ).let { response ->
-                GetMembersRequest.Response(
+                Page(
                     response.usersList.map { usersMapper.grpcUserToSdkUser(it) },
                     nextPageToken = response.nextPageToken?.takeIf { it.isNotEmpty() }
                         ?.let { PageToken.createOrThrow(it) }
@@ -299,8 +300,8 @@ public class GrpcTimeMatesRequestsEngine(
                 },
                 headers = authorizedMetadata(request.accessHash),
             ).let { response ->
-                GetInvitesRequest.Result(
-                    invites = response.invitesList.map { timersMapper.grpcInviteToSdkInvite(it) },
+                Page(
+                    results = response.invitesList.map { timersMapper.grpcInviteToSdkInvite(it) },
                     nextPageToken = response.nextPageToken.takeIf { it.isNotEmpty() }
                         ?.let { PageToken.createOrThrow(it) }
                 )

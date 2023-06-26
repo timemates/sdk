@@ -1,11 +1,16 @@
 package io.timemates.sdk.timers
 
+import io.timemates.sdk.common.constructor.createOrThrow
 import io.timemates.sdk.common.engine.TimeMatesRequestsEngine
 import io.timemates.sdk.common.internal.flatMap
+import io.timemates.sdk.common.pagination.Page
+import io.timemates.sdk.common.pagination.PagesIterator
+import io.timemates.sdk.common.pagination.PagesIteratorImpl
+import io.timemates.sdk.common.pagination.PageToken
 import io.timemates.sdk.common.providers.AccessHashProvider
 import io.timemates.sdk.common.providers.getAsResult
 import io.timemates.sdk.common.types.Empty
-import io.timemates.sdk.common.types.value.PageToken
+import io.timemates.sdk.common.types.value.Count
 import io.timemates.sdk.timers.members.TimerMembersApi
 import io.timemates.sdk.timers.requests.*
 import io.timemates.sdk.timers.types.Timer
@@ -13,6 +18,8 @@ import io.timemates.sdk.timers.types.TimerSettings
 import io.timemates.sdk.timers.types.value.TimerDescription
 import io.timemates.sdk.timers.types.value.TimerId
 import io.timemates.sdk.timers.types.value.TimerName
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Provides methods for managing timers.
@@ -84,7 +91,7 @@ public class TimersApi(
      * @param pageToken The token representing the next page of results, or null for the first page.
      * @return A [Result] containing the result of the get user timers request if successful, or an error if unsuccessful.
      */
-    public suspend fun getUserTimers(pageToken: PageToken?): Result<GetUserTimersRequest.Result> {
+    public suspend fun getUserTimers(pageToken: PageToken? = null): Result<Page<Timer>> {
         return tokenProvider.getAsResult()
             .flatMap { token -> engine.execute(GetUserTimersRequest(token, pageToken)) }
     }
@@ -100,3 +107,14 @@ public class TimersApi(
             .flatMap { token -> engine.execute(RemoveTimerRequest(token, timerId)) }
     }
 }
+
+public fun TimersApi.getUserTimersPages(
+    pageToken: PageToken? = null,
+    maxRetries: Count = Count.createOrThrow(5),
+    initialDelayOnRetries: Duration = 1.seconds,
+): PagesIterator<Timer> = PagesIteratorImpl(
+    initialPageToken = pageToken,
+    provider = { _, pageToken -> getUserTimers(pageToken) },
+    maxRetries = maxRetries,
+    delayOnServerErrors = initialDelayOnRetries,
+)
