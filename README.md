@@ -53,7 +53,7 @@ iterator.forEach { timer -> /* ... */ }
 > **Warning** <br>
 > `asSequence` is experimental API and needs more considerations about possible misunderstanding of non-laziness way of loading and iterating data at start. You can just use `iterator.toList().asSequence()` or simply opt-in `ExperimentalApi` annotation.
 
-Overall, you can take a look at sources of [PagesIterator](/sdk/src/commonMain/kotlin/io/timemates/sdk/timers/TimersApi.kt) to get more information.
+Overall, you can take a look at sources of [PagesIterator](/sdk/src/commonMain/kotlin/io/timemates/sdk/common/pagination/PagesIterator.kt) to get more information.
 
 ## Implementation
 > **Warning** <br>
