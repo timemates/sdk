@@ -28,6 +28,33 @@ and `ConfirmationCode`, also employ the Result API.
 This ensures that the validation process is properly handled, and the client can take appropriate actions based on 
 the success or failure of the operations.
 
+### Pagination
+In some cases, we need to get a large set of data (for example, list of timers or members). We can use extensions provided for Api classes:
+```kotlin
+val timersApi: TimersApi = TimersApi(createEngine(), getTokenProvider())
+val iterator = timersApi.getUserTimersPages() // lazy iterator, it queries server only on `next()`
+
+// using collections (loads everything at once)
+iterator.toList().forEach { timer -> println(timer.name.string) }
+
+// using flow
+iterator.asFlow()
+    .collectLatest { page -> println(page.joinToString("\n")) }
+
+// using sequences (actually, it's just toList() + asSequence() from stdlib)
+iterator.asSequence()
+    .map { timer -> timer.name.string }
+    .forEach { name -> println(name) }
+
+// iterate directly
+iterator.forEachPage { page -> /* ... */ }
+iterator.forEach { timer -> /* ... */ }
+```
+> **Warning** <br>
+> `asSequence` is experimental API and needs more considerations about possible misunderstanding of non-laziness way of loading and iterating data at start. You can just use `iterator.toList().asSequence()` or simply opt-in `ExperimentalApi` annotation.
+
+Overall, you can take a look at sources of [PagesIterator](/sdk/src/commonMain/kotlin/io/timemates/sdk/timers/TimersApi.kt) to get more information.
+
 ## Implementation
 > **Warning** <br>
 > This is a very-very alpha version of the library, and it can contain unexpected bugs among with
@@ -36,16 +63,10 @@ the success or failure of the operations.
 You can implement sdk in next way:
 ```kotlin
 repositories {
-    maven("https://maven.timemates.io")
-    // or
     maven("https://jitpack.io")
 }
 
 dependencies {
-    implementation("io.timemates:sdk:$version")
-    implementation("io.timemates:grpc-engine:$version")
-    
-    // for jitpack
     implementation("com.github.timemates:sdk:$version")
     implementation("com.github.timemates:grpc-engine:$version")
 }
