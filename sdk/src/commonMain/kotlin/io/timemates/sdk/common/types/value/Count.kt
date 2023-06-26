@@ -4,7 +4,7 @@ import io.timemates.sdk.common.constructor.CreationFailure
 import io.timemates.sdk.common.constructor.Factory
 
 @JvmInline
-public value class Count internal constructor(public val int: Int) {
+public value class Count private constructor(public val int: Int) {
     public companion object : Factory<Count, Int>() {
         public const val MIN_VALUE: Int = 0
 
