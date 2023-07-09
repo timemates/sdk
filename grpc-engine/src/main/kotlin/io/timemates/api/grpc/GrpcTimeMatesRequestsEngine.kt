@@ -217,6 +217,7 @@ public class GrpcTimeMatesRequestsEngine(
                     .apply {
                         request.email.let { email = it.string }
                     }.build(),
+                headers = authorizedMetadata(request.accessHash),
             ).let { SdkEmpty }
 
             is EditEmailRequest -> unsupported<EditEmailRequest>()
