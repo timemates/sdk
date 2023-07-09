@@ -6,6 +6,7 @@ import io.timemates.sdk.common.providers.AccessHashProvider
 import io.timemates.sdk.common.providers.getAsResult
 import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.timers.sessions.requests.*
+import io.timemates.sdk.timers.types.Timer
 import io.timemates.sdk.timers.types.value.TimerId
 
 /**
@@ -81,5 +82,15 @@ public class TimersSessionsApi(
     public suspend fun confirmTimerRound(): Result<Empty> {
         return tokenProvider.getAsResult()
             .flatMap { token -> engine.execute(ConfirmTimerRoundRequest(token)) }
+    }
+
+    /**
+     * Returns current user session.
+     *
+     * @return A [Result] indicating the success or failure of the operation.
+     */
+    public suspend fun getUserCurrentSession(): Result<Timer> {
+        return tokenProvider.getAsResult()
+            .flatMap { token -> engine.execute(GetCurrentUserSessionRequest(token)) }
     }
 }
