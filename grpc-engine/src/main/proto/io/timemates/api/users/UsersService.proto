@@ -3,6 +3,7 @@ syntax = "proto3";
 import "io/timemates/api/users/requests/GetUsersRequest.proto";
 import "io/timemates/api/users/requests/EditUserRequest.proto";
 import "io/timemates/api/users/requests/EditEmailRequest.proto";
+import "io/timemates/api/users/requests/SetGravatarRequest.proto";
 import "io/timemates/api/users/types/User.proto";
 import "google/protobuf/empty.proto";
 
@@ -29,4 +30,11 @@ service UsersService {
    * Returns [Status]
    */
   rpc setEmail(EditEmailRequest) returns (google.protobuf.Empty);
+
+  /**
+   * Sets new gravatar for user avatar.
+   *
+   * Returns [Status]
+   */
+  rpc setGravatar(SetGravatarRequest) returns (google.protobuf.Empty);
 }

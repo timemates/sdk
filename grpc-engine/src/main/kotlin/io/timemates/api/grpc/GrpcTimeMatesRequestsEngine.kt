@@ -55,6 +55,7 @@ import io.timemates.sdk.timers.sessions.requests.*
 import io.timemates.sdk.timers.types.value.TimerId
 import io.timemates.sdk.users.profile.requests.EditProfileRequest
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
+import io.timemates.sdk.users.profile.requests.SetGravatarRequest
 import io.timemates.sdk.users.settings.requests.EditEmailRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -81,6 +82,7 @@ import io.timemates.api.timers.sessions.requests.stopTimerRequest as buildStopTi
 import io.timemates.api.users.requests.CreateProfileRequestOuterClass.CreateProfileRequest as GrpcCreateProfileRequest
 import io.timemates.api.users.requests.EditUserRequestOuterClass.EditUserRequest as GrpcEditUserRequest
 import io.timemates.api.users.requests.GetUsersRequestOuterClass.GetUsersRequest as GrpcGetUsersRequest
+import io.timemates.api.users.requests.SetGravatarRequestOuterClass.SetGravatarRequest as GrpcSetGravatarRequest
 import io.timemates.sdk.common.types.Empty as SdkEmpty
 
 /**
@@ -209,6 +211,13 @@ public class GrpcTimeMatesRequestsEngine(
                     .addAllUserId(request.users.map { it.long })
                     .build(),
             ).let { GetUsersRequest.Result(it.usersList.map { usersMapper.grpcUserToSdkUser(it) }) }
+
+            is SetGravatarRequest -> usersService.setGravatar(
+                GrpcSetGravatarRequest.newBuilder()
+                    .apply {
+                        request.email.let { email = it.string }
+                    }.build(),
+            ).let { SdkEmpty }
 
             is EditEmailRequest -> unsupported<EditEmailRequest>()
 
