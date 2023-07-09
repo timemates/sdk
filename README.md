@@ -69,6 +69,8 @@ repositories {
 dependencies {
     implementation("io.timemates:sdk:$version")
     implementation("io.timemates:grpc-engine:$version")
+    // for android
+    implementation("io.timemates:grpc-engine-android:$version")
 }
 ```
 
