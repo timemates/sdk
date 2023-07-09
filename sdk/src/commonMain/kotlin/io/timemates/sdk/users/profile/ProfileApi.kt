@@ -50,7 +50,7 @@ public class ProfileApi(
     }
 
     public suspend fun setGravatar(emailAddress: EmailAddress): Result<Empty> {
-        val setGravatarRequest = SetGravatarRequest(emailAddress)
-        return engine.execute(setGravatarRequest)
+        return tokenProvider.getAsResult()
+            .flatMap { token -> engine.execute(SetGravatarRequest(token, emailAddress)) }
     }
 }
