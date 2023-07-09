@@ -34,5 +34,5 @@ jobs:
           TIMEMATES_SSH_HOST: ${{ secrets.TIMEMATES_SSH_HOST }}
           TIMEMATES_SSH_PASSWORD: ${{ secrets.TIMEMATES_SSH_PASSWORD }}
           TIMEMATES_SSH_USER: ${{ secrets.TIMEMATES_SSH_USER }}
-          TIMEMATES_SDK_VERSION: ${{ github.sha }}
+          TIMEMATES_SDK_VERSION: dev-${{ github.sha }}
         run: ./gradlew publish -Pversion=dev-${{ env.TIMEMATES_SDK_VERSION }}
