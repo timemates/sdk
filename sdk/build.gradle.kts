@@ -10,7 +10,6 @@ kotlin {
 }
 
 group = "io.timemates"
-version = libs.versions.library.version.get()
 
 dependencies {
     commonMainImplementation(libs.kotlinx.datetime)
@@ -31,6 +30,6 @@ deployLibrary {
 
         description = "TimeMates SDK"
 
-        version = libs.versions.library.version.get()
+        version = System.getenv("TIMEMATES_SDK_VERSION")
     }
 }
