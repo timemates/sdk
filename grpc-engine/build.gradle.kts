@@ -51,7 +51,6 @@ protobuf {
 }
 
 group = "io.timemates"
-version = libs.versions.library.version.get()
 
 deployLibrary {
     ssh(tag = "maven.timemates.io") {
@@ -67,6 +66,6 @@ deployLibrary {
 
         description = "TimeMates grpc adapter for SDK"
 
-        version = libs.versions.library.version.get()
+        version = System.getenv("TIMEMATES_SDK_VERSION")
     }
 }
