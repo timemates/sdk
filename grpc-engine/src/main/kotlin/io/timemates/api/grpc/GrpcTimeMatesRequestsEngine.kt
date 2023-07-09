@@ -55,7 +55,7 @@ import io.timemates.sdk.timers.sessions.requests.*
 import io.timemates.sdk.timers.types.value.TimerId
 import io.timemates.sdk.users.profile.requests.EditProfileRequest
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
-import io.timemates.sdk.users.profile.requests.SetGravatarRequest
+import io.timemates.sdk.users.profile.requests.SetGravatarAvatarRequest
 import io.timemates.sdk.users.settings.requests.EditEmailRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -212,7 +212,7 @@ public class GrpcTimeMatesRequestsEngine(
                     .build(),
             ).let { GetUsersRequest.Result(it.usersList.map { usersMapper.grpcUserToSdkUser(it) }) }
 
-            is SetGravatarRequest -> usersService.setGravatar(
+            is SetGravatarAvatarRequest -> usersService.setGravatar(
                 GrpcSetGravatarRequest.newBuilder()
                     .apply {
                         request.email.let { email = it.string }

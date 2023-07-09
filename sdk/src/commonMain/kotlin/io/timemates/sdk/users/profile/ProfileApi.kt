@@ -7,7 +7,7 @@ import io.timemates.sdk.common.providers.getAsResult
 import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.users.profile.requests.EditProfileRequest
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
-import io.timemates.sdk.users.profile.requests.SetGravatarRequest
+import io.timemates.sdk.users.profile.requests.SetGravatarAvatarRequest
 import io.timemates.sdk.users.profile.types.User
 import io.timemates.sdk.users.profile.types.value.EmailAddress
 import io.timemates.sdk.users.profile.types.value.UserDescription
@@ -49,8 +49,8 @@ public class ProfileApi(
             .flatMap { token -> engine.execute(EditProfileRequest(token, null, name, description)) }
     }
 
-    public suspend fun setGravatar(emailAddress: EmailAddress): Result<Empty> {
+    public suspend fun setGravatarAvatar(emailAddress: EmailAddress): Result<Empty> {
         return tokenProvider.getAsResult()
-            .flatMap { token -> engine.execute(SetGravatarRequest(token, emailAddress)) }
+            .flatMap { token -> engine.execute(SetGravatarAvatarRequest(token, emailAddress)) }
     }
 }

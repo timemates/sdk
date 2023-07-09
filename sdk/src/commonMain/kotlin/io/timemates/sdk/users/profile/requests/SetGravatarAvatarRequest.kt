@@ -5,7 +5,7 @@ import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.common.types.TimeMatesRequest
 import io.timemates.sdk.users.profile.types.value.EmailAddress
 
-public data class SetGravatarRequest(
+public data class SetGravatarAvatarRequest(
     val accessToken: AccessHash,
     val email: EmailAddress,
 ): TimeMatesRequest<Empty>()
