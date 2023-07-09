@@ -31,4 +31,4 @@ jobs:
       - name: Build and Publish
         env:
           TIMEMATES_SDK_VERSION: ${{ github.sha }}
-        run: ./gradlew publish -Pversion=${{ env.TIMEMATES_SDK_VERSION }}
+        run: ./gradlew publish -Pversion=dev-${{ env.TIMEMATES_SDK_VERSION }}
