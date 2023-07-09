@@ -11,6 +11,7 @@ import io.grpc.StatusException
 import io.timemates.api.authorizations.AuthorizationServiceGrpcKt
 import io.timemates.api.files.FilesServiceGrpcKt
 import io.timemates.api.files.requests.UploadFileRequestKt.fileMetadata
+import io.timemates.api.grpc.factory.GrpcEngineBuilder
 import io.timemates.api.grpc.internal.mapException
 import io.timemates.api.grpc.mappers.AuthorizationsMapper
 import io.timemates.api.grpc.mappers.FilesMapper
@@ -92,14 +93,13 @@ import io.timemates.sdk.common.types.Empty as SdkEmpty
  */
 public class GrpcTimeMatesRequestsEngine(
     endpoint: String = "api.timemates.io",
+    grpcEngineBuilder: GrpcEngineBuilder,
 ) : TimeMatesRequestsEngine {
     private companion object {
         val ACCESS_TOKEN: Metadata.Key<String> = Metadata.Key.of("access-token", Metadata.ASCII_STRING_MARSHALLER)
     }
 
-    private val channel = ManagedChannelBuilder.forTarget(endpoint)
-        .useTransportSecurity()
-        .build()
+    private val channel = grpcEngineBuilder.createGrpcEngine(endpoint)
 
     private val authorizationService = AuthorizationServiceGrpcKt.AuthorizationServiceCoroutineStub(channel)
     private val authMapper = AuthorizationsMapper()
