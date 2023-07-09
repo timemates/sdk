@@ -31,4 +31,8 @@ jobs:
       - name: Build and Publish
         env:
           TIMEMATES_SDK_VERSION: ${{ github.ref }}
-        run: ./gradlew publish -Pversion=${{ env.TIMEMATES_SDK_VERSION }}
+          TIMEMATES_SSH_DEPLOY_PATH: ${{ env.TIMEMATES_SSH_DEPLOY_PATH }}
+          TIMEMATES_SSH_HOST: ${{ env.TIMEMATES_SSH_HOST }}
+          TIMEMATES_SSH_PASSWORD: ${{ env.TIMEMATES_SSH_PASSWORD }}
+          TIMEMATES_SSH_USER: ${{ env.TIMEMATES_SSH_USER }}
+        run: ./gradlew publish -Pversion=dev-${{ env.TIMEMATES_SDK_VERSION }}
