@@ -63,12 +63,12 @@ Overall, you can take a look at sources of [PagesIterator](/sdk/src/commonMain/k
 You can implement sdk in next way:
 ```kotlin
 repositories {
-    maven("https://jitpack.io")
+    maven("https://maven.timemates.io")
 }
 
 dependencies {
-    implementation("com.github.timemates:sdk:$version")
-    implementation("com.github.timemates:grpc-engine:$version")
+    implementation("io.timemates:sdk:$version")
+    implementation("io.timemates:grpc-engine:$version")
 }
 ```
 
