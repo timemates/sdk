@@ -19,7 +19,7 @@ class DeployPlugin : Plugin<Project> {
         target.afterEvaluate {
             configuration.targets.forEach { (tag, data) ->
                 configuration.apply {
-                    data.host ?: return@forEach
+                    data.host ?: return@forEach println("Skipping deployment of $tag, no host provided")
                     data.deployPath ?: error("`deployPath` should be defined in `deploy`")
                     data.componentName ?: error("`componentName` should be defined in `deploy`")
                     data.name ?: error("`name` should be defined in `deploy`")
