@@ -33,7 +33,7 @@ deployLibrary {
         deployPath = System.getenv("TIMEMATES_SSH_DEPLOY_PATH")
 
         group = "io.timemates"
-        componentName = "bundleReleaseAar"
+        componentName = "release"
         artifactId = "grpc-engine-android"
         name = "grpc-engine-android"
 
