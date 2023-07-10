@@ -1,4 +1,4 @@
-package io.timemates.android.grcp
+package io.timemates.android.grpc
 
 import android.content.Context
 import io.grpc.ManagedChannel
