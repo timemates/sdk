@@ -4,7 +4,6 @@ package io.timemates.api.grpc
 
 import com.google.protobuf.Empty
 import com.google.protobuf.kotlin.toByteString
-import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusException
@@ -52,7 +51,12 @@ import io.timemates.sdk.timers.members.invites.types.value.InviteCode
 import io.timemates.sdk.timers.members.requests.GetMembersRequest
 import io.timemates.sdk.timers.members.requests.KickMemberRequest
 import io.timemates.sdk.timers.requests.*
-import io.timemates.sdk.timers.sessions.requests.*
+import io.timemates.sdk.timers.sessions.requests.ConfirmTimerRoundRequest
+import io.timemates.sdk.timers.sessions.requests.JoinTimerSessionRequest
+import io.timemates.sdk.timers.sessions.requests.LeaveTimerSessionRequest
+import io.timemates.sdk.timers.sessions.requests.PingSessionRequest
+import io.timemates.sdk.timers.sessions.requests.StartTimerRequest
+import io.timemates.sdk.timers.sessions.requests.StopTimerRequest
 import io.timemates.sdk.timers.types.value.TimerId
 import io.timemates.sdk.users.profile.requests.EditProfileRequest
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
@@ -177,7 +181,7 @@ public class GrpcTimeMatesRequestsEngine(
                     GrpcGetFileBytesRequest
                         .newBuilder()
                         .setFileId(request.fileId.string)
-                        .build()
+                        .build(),
                 ).map { it.chunk.toByteArray() }.let { GetFileBytesRequest.Result(it) }
 
             is UploadFileRequest -> filesService.uploadFile(
@@ -194,7 +198,8 @@ public class GrpcTimeMatesRequestsEngine(
                             chunk = it.toByteString()
                         })
                     }
-                }
+                },
+                headers = authorizedMetadata(request.accessHash),
             ).let { UploadFileRequest.Result(FileId.createOrThrow(it.fileId)) }
 
             is EditProfileRequest -> usersService.setUser(
@@ -203,7 +208,8 @@ public class GrpcTimeMatesRequestsEngine(
                         request.name?.let { name = it.string }
                         request.description?.let { description = it.string }
                         request.avatarId?.let { avatarId = it.string }
-                    }.build()
+                    }.build(),
+                headers = authorizedMetadata(request.accessHash),
             ).let { SdkEmpty }
 
             is GetUsersRequest -> usersService.getUsers(
@@ -300,7 +306,8 @@ public class GrpcTimeMatesRequestsEngine(
                 buildCreateInviteGrpcRequest {
                     timerId = request.timerId.long
                     maxJoiners = request.maxJoinersCount.int
-                }
+                },
+                headers = authorizedMetadata(request.accessHash),
             ).let { CreateInviteRequest.Result(InviteCode.createOrThrow(it.inviteCode)) }
 
             is GetInvitesRequest -> timersService.getInvites(
@@ -372,14 +379,19 @@ public class GrpcTimeMatesRequestsEngine(
         when (status) {
             Status.INVALID_ARGUMENT, Status.FAILED_PRECONDITION ->
                 InvalidArgumentException(message, exception)
+
             Status.UNAUTHENTICATED ->
                 UnauthorizedException(message, exception)
+
             Status.INTERNAL ->
                 InternalServerError(message, exception)
+
             Status.NOT_FOUND ->
                 NotFoundException(message, exception)
+
             Status.ALREADY_EXISTS ->
                 AlreadyExistsException(message, exception)
+
             Status.PERMISSION_DENIED -> PermissionDeniedException(message, exception)
             Status.UNAVAILABLE -> UnavailableException(message, exception)
 

@@ -8,7 +8,7 @@ import io.timemates.sdk.users.profile.types.value.UserDescription
 import io.timemates.sdk.users.profile.types.value.UserName
 
 public data class EditProfileRequest(
-    val accessToken: AccessHash,
+    val accessHash: AccessHash,
     val avatarId: FileId?,
     val name: UserName?,
     val description: UserDescription?,
