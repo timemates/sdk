@@ -11,12 +11,7 @@ android {
         minSdk = libs.versions.android.min.get().toInt()
     }
 
-        compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
-    }
-
-    namespace = "io.timemates.android.grcp"
+    namespace = "io.timemates.android.grpc"
 }
 
 dependencies {

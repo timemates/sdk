@@ -25,7 +25,7 @@ val authorizationResult = emailAuth.authorize(email)
     .map { (isNewAccount, authorization) -> ... }
 ```
 > **Note** <br>
-> For android use [AndroidGrpcEngineBuilder](/grpc-engine/android/src/main/kotlin/io/timemates/android/grcp/AndroidGrpcEngineBuilder.kt)
+> For android use [AndroidGrpcEngineBuilder](/grpc-engine/android/src/main/kotlin/io/timemates/android/grpc/AndroidGrpcEngineBuilder.kt)
 >```kotlin
 > val engineBuilder = AndroidGrpcEngineBuilder(applicationContext)
 >```
