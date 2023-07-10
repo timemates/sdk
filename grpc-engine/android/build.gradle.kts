@@ -11,6 +11,11 @@ android {
         minSdk = libs.versions.android.min.get().toInt()
     }
 
+    compileOptions {
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+    }
+
     namespace = "io.timemates.android.grpc"
 }
 
