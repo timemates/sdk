@@ -361,6 +361,11 @@ public class GrpcTimeMatesRequestsEngine(
                 headers = authorizedMetadata(request.accessHash),
             ).let { SdkEmpty }
 
+            is GetCurrentUserSessionRequest -> timerSessionsService.getCurrentUserSession(
+                    request = Empty.getDefaultInstance(),
+                    headers = authorizedMetadata(request.accessHash),
+            ).let { timersMapper.grpcTimerToSdkTimer(it) }
+
             else -> unsupported(request::class)
         } as T
     }.mapException {
