@@ -5,6 +5,7 @@ import "io/timemates/api/timers/sessions/requests/StopTimerSessionRequest.proto"
 import "io/timemates/api/timers/sessions/requests/JoinTimerSessionRequest.proto";
 import "io/timemates/api/timers/sessions/requests/ConfirmTimerSessionRequest.proto";
 import "io/timemates/api/timers/sessions/requests/GetTimerStateRequest.proto";
+import "io/timemates/api/timers/sessions/requests/GetUserCurrentSession.proto";
 import "io/timemates/api/timers/sessions/types/TimerState.proto";
 import "google/protobuf/empty.proto";
 
