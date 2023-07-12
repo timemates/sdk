@@ -6,6 +6,6 @@ option java_package = "io.timemates.api.timers.requests";
 
 message GetCurrentTimerSessionRequest {
     message Response {
-        Timer timer = 1;
+        optional Timer timer = 1;
     }
 }
