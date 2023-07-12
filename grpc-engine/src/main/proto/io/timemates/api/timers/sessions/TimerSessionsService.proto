@@ -7,6 +7,7 @@ import "io/timemates/api/timers/sessions/requests/ConfirmTimerSessionRequest.pro
 import "io/timemates/api/timers/sessions/requests/GetTimerStateRequest.proto";
 import "io/timemates/api/timers/sessions/requests/GetUserCurrentSession.proto";
 import "io/timemates/api/timers/sessions/types/TimerState.proto";
+import "io/timemates/api/timers/types/Timer.proto";
 import "google/protobuf/empty.proto";
 
 option java_package = "io.timemates.api.timers";
