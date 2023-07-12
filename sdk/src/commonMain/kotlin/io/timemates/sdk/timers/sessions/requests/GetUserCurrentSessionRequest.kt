@@ -7,6 +7,6 @@ import io.timemates.sdk.timers.types.Timer
 /**
  * Gets current timer session.
  */
-public data class GetCurrentUserSessionRequest(
+public data class GetUserCurrentSessionRequest(
     val accessHash: AccessHash,
 ) : TimeMatesRequest<Timer>()

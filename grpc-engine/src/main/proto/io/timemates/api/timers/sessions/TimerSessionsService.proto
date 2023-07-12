@@ -5,7 +5,7 @@ import "io/timemates/api/timers/sessions/requests/StopTimerSessionRequest.proto"
 import "io/timemates/api/timers/sessions/requests/JoinTimerSessionRequest.proto";
 import "io/timemates/api/timers/sessions/requests/ConfirmTimerSessionRequest.proto";
 import "io/timemates/api/timers/sessions/requests/GetTimerStateRequest.proto";
-import "/io/timemates/api/timers/sessions/requests/GetUserSessionsRequest.proto";
+import "io/timemates/api/timers/sessions/requests/GetUserCurrentSessionRequest.proto";
 import "io/timemates/api/timers/sessions/types/TimerState.proto";
 import "io/timemates/api/timers/types/Timer.proto";
 import "google/protobuf/empty.proto";
@@ -67,5 +67,5 @@ service TimerSessionsService {
   /**
   * Gets current timer session
   */
-  rpc getCurrentTimerSession(GetCurrentTimerSessionRequest) returns (Timer);
+  rpc getUserCurrentSession(google.protobuf.Empty) returns (Timer);
 }

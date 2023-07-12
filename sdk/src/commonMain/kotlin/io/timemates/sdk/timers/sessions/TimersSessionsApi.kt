@@ -91,6 +91,6 @@ public class TimersSessionsApi(
      */
     public suspend fun getUserCurrentSession(): Result<Timer> {
         return tokenProvider.getAsResult()
-            .flatMap { token -> engine.execute(GetCurrentUserSessionRequest(token)) }
+            .flatMap { token -> engine.execute(GetUserCurrentSessionRequest(token)) }
     }
 }
