@@ -61,4 +61,9 @@ service TimerSessionsService {
    * The state is returned as a stream of TimerState messages.
    */
   rpc getState(GetTimerStateRequest) returns (stream TimerState);
+
+  /**
+  * Gets current timer session
+  */
+  rpc getCurrentTimerSession(google.protobuf.Empty) returns (Timer);
 }
