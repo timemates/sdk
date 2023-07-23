@@ -52,6 +52,7 @@ import io.timemates.sdk.timers.members.requests.GetMembersRequest
 import io.timemates.sdk.timers.members.requests.KickMemberRequest
 import io.timemates.sdk.timers.requests.*
 import io.timemates.sdk.timers.sessions.requests.ConfirmTimerRoundRequest
+import io.timemates.sdk.timers.sessions.requests.GetUserCurrentSessionRequest
 import io.timemates.sdk.timers.sessions.requests.JoinTimerSessionRequest
 import io.timemates.sdk.timers.sessions.requests.LeaveTimerSessionRequest
 import io.timemates.sdk.timers.sessions.requests.PingSessionRequest
