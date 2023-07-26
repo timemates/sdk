@@ -9,4 +9,5 @@ package io.timemates.sdk.common.exceptions
  */
 public data class TooManyRequestsException(
     override val message: String,
+    override val cause: Throwable?,
 ) : TimeMatesException(message)

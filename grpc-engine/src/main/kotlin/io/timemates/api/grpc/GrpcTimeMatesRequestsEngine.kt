@@ -33,6 +33,7 @@ import io.timemates.sdk.common.exceptions.InternalServerError
 import io.timemates.sdk.common.exceptions.InvalidArgumentException
 import io.timemates.sdk.common.exceptions.NotFoundException
 import io.timemates.sdk.common.exceptions.PermissionDeniedException
+import io.timemates.sdk.common.exceptions.TooManyRequestsException
 import io.timemates.sdk.common.exceptions.UnauthorizedException
 import io.timemates.sdk.common.exceptions.UnavailableException
 import io.timemates.sdk.common.exceptions.UnsupportedException
@@ -383,6 +384,9 @@ public class GrpcTimeMatesRequestsEngine(
         val message = exception.message ?: NO_MESSAGE
 
         when (status) {
+            Status.RESOURCE_EXHAUSTED ->
+                TooManyRequestsException("Too many requests.", exception)
+
             Status.INVALID_ARGUMENT, Status.FAILED_PRECONDITION ->
                 InvalidArgumentException(message, exception)
 
