@@ -6,7 +6,7 @@ import io.timemates.sdk.common.constructor.Factory
 @JvmInline
 public value class ConfirmationCode private constructor(public val string: String) {
     public companion object : Factory<ConfirmationCode, String>() {
-        public const val SIZE: Int = 6
+        public const val SIZE: Int = 8
 
         override fun create(input: String): Result<ConfirmationCode> {
             return when {
