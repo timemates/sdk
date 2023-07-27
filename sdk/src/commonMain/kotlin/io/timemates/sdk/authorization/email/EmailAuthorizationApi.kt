@@ -1,11 +1,14 @@
 package io.timemates.sdk.authorization.email
 
+import io.timemates.sdk.authorization.email.requests.ConfigureNewAccountRequest
 import io.timemates.sdk.authorization.email.requests.ConfirmAuthorizationRequest
 import io.timemates.sdk.authorization.email.requests.StartAuthorizationRequest
 import io.timemates.sdk.authorization.email.types.value.VerificationHash
 import io.timemates.sdk.authorization.sessions.types.value.ConfirmationCode
 import io.timemates.sdk.common.engine.TimeMatesRequestsEngine
 import io.timemates.sdk.users.profile.types.value.EmailAddress
+import io.timemates.sdk.users.profile.types.value.UserDescription
+import io.timemates.sdk.users.profile.types.value.UserName
 
 /**
  * This class provides an API for authorizing email addresses using the TimeMatesRequestsEngine.
@@ -35,5 +38,13 @@ public class EmailAuthorizationApi(private val engine: TimeMatesRequestsEngine) 
         confirmationCode: ConfirmationCode,
     ): Result<ConfirmAuthorizationRequest.Response> {
         return engine.execute(ConfirmAuthorizationRequest(verificationHash, confirmationCode))
+    }
+
+    public suspend fun createProfile(
+        verificationHash: VerificationHash,
+        name: UserName,
+        description: UserDescription,
+    ): Result<ConfigureNewAccountRequest.Result> {
+        return engine.execute(ConfigureNewAccountRequest(verificationHash, name, description))
     }
 }

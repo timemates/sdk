@@ -8,6 +8,7 @@ package io.timemates.api.grpc.internal
  * @param transform The transformation function to apply to the exception.
  * @return A new `Result` with the transformed exception, or the original `Result` if no exception is present.
  */
+@JvmSynthetic
 internal inline fun <T> Result<T>.mapException(transform: (Throwable) -> Throwable): Result<T> {
     val exception = exceptionOrNull() ?: return this
 
