@@ -1,9 +1,11 @@
 package io.timemates.api.grpc.mappers
 
 import io.timemates.api.timers.members.invites.types.InviteOuterClass.Invite
+import io.timemates.api.timers.sessions.types.TimerStateOuterClass.TimerState
 import io.timemates.api.timers.types.TimerKt
 import io.timemates.api.timers.types.TimerOuterClass.Timer
 import io.timemates.sdk.common.constructor.createOrThrow
+import io.timemates.sdk.common.exceptions.UnsupportedException
 import io.timemates.sdk.common.types.value.Count
 import io.timemates.sdk.timers.members.invites.types.value.InviteCode
 import io.timemates.sdk.timers.types.value.TimerDescription
@@ -11,7 +13,6 @@ import io.timemates.sdk.timers.types.value.TimerId
 import io.timemates.sdk.timers.types.value.TimerName
 import io.timemates.sdk.users.profile.types.value.UserId
 import kotlinx.datetime.Instant
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import io.timemates.sdk.timers.members.invites.types.Invite as SdkInvite
@@ -28,6 +29,34 @@ internal class TimersMapper {
             membersCount = Count.createOrThrow(membersCount),
             settings = grpcSettingsToSdkSettings(settings),
         )
+    }
+
+    fun grpcStateToSdkState(timerState: TimerState): SdkTimer.State = with(timerState) {
+        val publishTime = Instant.fromEpochMilliseconds(publishTime)
+
+        return when {
+            hasPaused() -> SdkTimer.State.Paused(publishTime)
+            hasRunning() -> SdkTimer.State.Running(
+                publishTime = publishTime,
+                endsAt = Instant.fromEpochMilliseconds(running.endsAt),
+            )
+
+            hasConfirmationWaiting() -> SdkTimer.State.ConfirmationWaiting(
+                publishTime = publishTime,
+                endsAt = Instant.fromEpochMilliseconds(confirmationWaiting.endsAt),
+            )
+
+            hasRest() -> SdkTimer.State.Rest(
+                publishTime = publishTime,
+                endsAt = Instant.fromEpochMilliseconds(rest.endsAt),
+            )
+
+            hasInactive() -> SdkTimer.State.Inactive(
+                publishTime = publishTime,
+            )
+
+            else -> throw UnsupportedException("Unsupported timer state.")
+        }
     }
 
     fun grpcSettingsToSdkSettings(settings: Timer.Settings): SdkTimerSettings = with(settings) {
@@ -80,7 +109,7 @@ internal class TimersMapper {
         return SdkInvite(
             inviteCode = InviteCode.createOrThrow(invite.code),
             creationTime = Instant.fromEpochMilliseconds(invite.creationTime),
-            limit = Count.createOrThrow(invite.limit)
+            limit = Count.createOrThrow(invite.limit),
         )
     }
 }

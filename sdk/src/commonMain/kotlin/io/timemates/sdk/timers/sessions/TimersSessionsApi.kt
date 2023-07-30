@@ -8,6 +8,7 @@ import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.timers.sessions.requests.*
 import io.timemates.sdk.timers.types.Timer
 import io.timemates.sdk.timers.types.value.TimerId
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Provides methods for interacting with timer sessions.
@@ -92,5 +93,18 @@ public class TimersSessionsApi(
     public suspend fun getUserCurrentSession(): Result<Timer> {
         return tokenProvider.getAsResult()
             .flatMap { token -> engine.execute(GetUserCurrentSessionRequest(token)) }
+    }
+
+    /**
+     * Retrieves the state of a timer for the given timer ID.
+     *
+     * @param timerId The ID of the timer for which to fetch the state.
+     * @return A [Result] containing a [Flow] representing the timer's state.
+     * The [Flow] emits the [Timer.State] updates whenever the state changes.
+     */
+    public suspend fun getTimerState(timerId: TimerId): Result<Flow<Timer.State>> {
+        return tokenProvider.getAsResult()
+            .flatMap { token -> engine.execute(GetTimerStateRequest(token, timerId)) }
+            .map { result -> result.flow }
     }
 }

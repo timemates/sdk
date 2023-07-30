@@ -18,6 +18,7 @@ import io.timemates.api.grpc.mappers.TimersMapper
 import io.timemates.api.grpc.mappers.UsersMapper
 import io.timemates.api.timers.TimerSessionsServiceGrpcKt
 import io.timemates.api.timers.TimersServiceGrpcKt
+import io.timemates.api.timers.sessions.requests.getTimerStateRequest
 import io.timemates.api.users.UsersServiceGrpcKt
 import io.timemates.sdk.authorization.email.requests.ConfigureNewAccountRequest
 import io.timemates.sdk.authorization.email.requests.ConfirmAuthorizationRequest
@@ -53,6 +54,7 @@ import io.timemates.sdk.timers.members.requests.GetMembersRequest
 import io.timemates.sdk.timers.members.requests.KickMemberRequest
 import io.timemates.sdk.timers.requests.*
 import io.timemates.sdk.timers.sessions.requests.ConfirmTimerRoundRequest
+import io.timemates.sdk.timers.sessions.requests.GetTimerStateRequest
 import io.timemates.sdk.timers.sessions.requests.GetUserCurrentSessionRequest
 import io.timemates.sdk.timers.sessions.requests.JoinTimerSessionRequest
 import io.timemates.sdk.timers.sessions.requests.LeaveTimerSessionRequest
@@ -371,9 +373,20 @@ public class GrpcTimeMatesRequestsEngine(
             ).let { SdkEmpty }
 
             is GetUserCurrentSessionRequest -> timerSessionsService.getUserCurrentSession(
-                    request = Empty.getDefaultInstance(),
-                    headers = authorizedMetadata(request.accessHash),
+                request = Empty.getDefaultInstance(),
+                headers = authorizedMetadata(request.accessHash),
             ).let { timersMapper.grpcTimerToSdkTimer(it) }
+
+            is GetTimerStateRequest -> timerSessionsService.getState(
+                request = getTimerStateRequest {
+
+                },
+                headers = authorizedMetadata(request.accessHash)
+            ).let { states ->
+                GetTimerStateRequest.Result(
+                    states.map { state -> timersMapper.grpcStateToSdkState(state) }
+                )
+            }
 
             else -> unsupported(request::class)
         } as T
