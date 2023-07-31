@@ -102,6 +102,15 @@ public suspend inline fun <T> PagesIterator<T>.forEach(block: (T) -> Unit) {
     }
 }
 
+/**
+ * Applies a transformation to the elements of the current [PagesIterator].
+ *
+ * @param mapper The mapping function that takes an element of type [T] and returns a new element of type [R].
+ * @return A new [PagesIterator] that represents the result of applying the given [mapper] function to each element of the original iterator.
+ */
+public fun <T, R> PagesIterator<T>.map(mapper: suspend (T) -> R): PagesIterator<R> {
+    return MappingPagesIterator(this, mapper)
+}
 
 /**
  * Internal implementation class for the [PagesIterator] interface.
@@ -183,5 +192,17 @@ internal class PagesIteratorImpl<T : TimeMatesEntity>(
         lastPage = page
 
         emit(page.results)
+    }
+}
+
+@PublishedApi
+internal class MappingPagesIterator<T, R>(
+    private val source: PagesIterator<T>,
+    private val mapper: suspend (T) -> R,
+) : PagesIterator<R> {
+    override suspend fun hasNext(): Boolean = source.hasNext()
+
+    override suspend fun next(): List<R> {
+        return source.next().map { mapper(it) }
     }
 }
