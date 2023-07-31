@@ -13,6 +13,7 @@ import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.common.types.value.Count
 import io.timemates.sdk.timers.members.TimerMembersApi
 import io.timemates.sdk.timers.requests.*
+import io.timemates.sdk.timers.sessions.TimersSessionsApi
 import io.timemates.sdk.timers.types.Timer
 import io.timemates.sdk.timers.types.TimerSettings
 import io.timemates.sdk.timers.types.value.TimerDescription
@@ -32,6 +33,7 @@ public class TimersApi(
     private val engine: TimeMatesRequestsEngine,
     private val tokenProvider: AccessHashProvider,
 ) {
+    public val sessions: TimersSessionsApi = TimersSessionsApi(engine, tokenProvider)
     public val members: TimerMembersApi = TimerMembersApi(engine, tokenProvider)
 
     /**
