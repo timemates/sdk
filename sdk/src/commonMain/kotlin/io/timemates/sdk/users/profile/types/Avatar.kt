@@ -3,7 +3,7 @@ package io.timemates.sdk.users.profile.types
 import io.timemates.sdk.common.constructor.CreationFailure
 import io.timemates.sdk.common.constructor.Factory
 
-public interface Avatar {
+public sealed interface Avatar {
     @JvmInline
     public value class GravatarId private constructor(public val string: String) : Avatar {
         public companion object : Factory<GravatarId, String>() {
