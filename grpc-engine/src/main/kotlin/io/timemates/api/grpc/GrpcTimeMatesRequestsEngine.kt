@@ -64,7 +64,7 @@ import io.timemates.sdk.timers.sessions.requests.StopTimerRequest
 import io.timemates.sdk.timers.types.value.TimerId
 import io.timemates.sdk.users.profile.requests.EditProfileRequest
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
-import io.timemates.sdk.users.profile.requests.SetGravatarAvatarRequest
+import io.timemates.sdk.users.profile.types.Avatar
 import io.timemates.sdk.users.settings.requests.EditEmailRequest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -91,7 +91,6 @@ import io.timemates.api.timers.sessions.requests.stopTimerRequest as buildStopTi
 import io.timemates.api.users.requests.CreateProfileRequestOuterClass.CreateProfileRequest as GrpcCreateProfileRequest
 import io.timemates.api.users.requests.EditUserRequestOuterClass.EditUserRequest as GrpcEditUserRequest
 import io.timemates.api.users.requests.GetUsersRequestOuterClass.GetUsersRequest as GrpcGetUsersRequest
-import io.timemates.api.users.requests.SetGravatarRequestOuterClass.SetGravatarRequest as GrpcSetGravatarRequest
 import io.timemates.sdk.common.types.Empty as SdkEmpty
 
 /**
@@ -211,7 +210,10 @@ public class GrpcTimeMatesRequestsEngine(
                     .apply {
                         request.name?.let { name = it.string }
                         request.description?.let { description = it.string }
-                        request.avatarId?.let { avatarId = it.string }
+                        request.avatar?.let {
+                            avatarId = (it as? Avatar.FileId)?.string
+                            gravatarId = (it as? Avatar.GravatarId)?.string
+                        }
                     }.build(),
                 headers = authorizedMetadata(request.accessHash),
             ).let { SdkEmpty }
@@ -221,14 +223,6 @@ public class GrpcTimeMatesRequestsEngine(
                     .addAllUserId(request.users.map { it.long })
                     .build(),
             ).let { GetUsersRequest.Result(it.usersList.map { usersMapper.grpcUserToSdkUser(it) }) }
-
-            is SetGravatarAvatarRequest -> usersService.setGravatar(
-                GrpcSetGravatarRequest.newBuilder()
-                    .apply {
-                        request.email.let { email = it.string }
-                    }.build(),
-                headers = authorizedMetadata(request.accessHash),
-            ).let { SdkEmpty }
 
             is EditEmailRequest -> unsupported<EditEmailRequest>()
 

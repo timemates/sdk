@@ -1,7 +1,6 @@
 package io.timemates.sdk.users.profile.types
 
 import io.timemates.sdk.common.types.TimeMatesEntity
-import io.timemates.sdk.files.types.value.FileId
 import io.timemates.sdk.users.profile.types.value.EmailAddress
 import io.timemates.sdk.users.profile.types.value.UserDescription
 import io.timemates.sdk.users.profile.types.value.UserId
@@ -20,6 +19,6 @@ public data class User(
     val id: UserId,
     val name: UserName,
     val description: UserDescription,
-    val avatarFileId: FileId,
     val emailAddress: EmailAddress?,
+    val avatar: Avatar?,
 ) : TimeMatesEntity()
