@@ -35,7 +35,7 @@ public interface PagesIterator<T> {
      * @throws NoSuchElementException if there are no more pages available.
      */
     @Throws(NoSuchElementException::class)
-    public suspend operator fun next(): List<T>
+    public suspend operator fun next(): Result<List<T>>
 
     /**
      * Returns an iterator over the pages.
@@ -50,7 +50,7 @@ public interface PagesIterator<T> {
  *
  * @return A [Flow] that emits lists of elements from the page iterator.
  */
-public fun <T> PagesIterator<T>.asFlow(): Flow<List<T>> = flow {
+public fun <T> PagesIterator<T>.asFlow(): Flow<Result<List<T>>> = flow {
     for (elements in this@asFlow)
         emit(elements)
 }
@@ -60,10 +60,13 @@ public fun <T> PagesIterator<T>.asFlow(): Flow<List<T>> = flow {
  *
  * @return A [List] containing all elements from the page iterator.
  */
-public suspend fun <T> PagesIterator<T>.toList(): List<T> {
+@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+public suspend fun <T> PagesIterator<T>.toList(): List<Result<T>> {
     return buildList {
-        for (elements in this@toList)
-            addAll(elements)
+        for (result in this@toList) {
+            if (result.isSuccess)
+                addAll(result.getOrThrow().map { Result.success(it) })
+        }
     }
 }
 
@@ -76,7 +79,7 @@ public suspend fun <T> PagesIterator<T>.toList(): List<T> {
  * @return A [Sequence] containing all elements from the page iterator.
  */
 @ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
-public suspend fun <T> PagesIterator<T>.asSequence(): Sequence<T> {
+public suspend fun <T> PagesIterator<T>.asSequence(): Sequence<Result<T>> {
     return toList().asSequence()
 }
 
@@ -85,7 +88,7 @@ public suspend fun <T> PagesIterator<T>.asSequence(): Sequence<T> {
  *
  * @param block The block to be executed on each page of elements.
  */
-public suspend inline fun <T> PagesIterator<T>.forEachPage(block: (List<T>) -> Unit) {
+public suspend inline fun <T> PagesIterator<T>.forEachPage(block: (Result<List<T>>) -> Unit) {
     while (hasNext()) {
         block(next())
     }
@@ -96,9 +99,16 @@ public suspend inline fun <T> PagesIterator<T>.forEachPage(block: (List<T>) -> U
  *
  * @param block The block to be executed on each element.
  */
-public suspend inline fun <T> PagesIterator<T>.forEach(block: (T) -> Unit) {
+@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+public suspend inline fun <T> PagesIterator<T>.forEach(block: (Result<T>) -> Unit) {
     forEachPage { page ->
-        page.forEach(block)
+        if (page.isSuccess) {
+            page.getOrThrow().forEach {
+                block(Result.success(it))
+            }
+        } else {
+            block(Result.failure(page.exceptionOrNull()!!))
+        }
     }
 }
 
@@ -160,21 +170,25 @@ internal class PagesIteratorImpl<T : TimeMatesEntity>(
      *
      * @throws NoSuchElementException if there are no more pages available.
      */
-    override suspend fun next(): List<T> {
+    override suspend fun next(): Result<List<T>> {
         if (state == State.DONE)
             throw NoSuchElementException("No more pages.")
 
         var delayOnServerErrors = delayOnServerErrors.inWholeMilliseconds
+        var lastFailure: Throwable? = null
 
         return createPageFlow()
             .catch {
                 delay(delayOnServerErrors)
                 if (increaseDelayOnRetries)
                     delayOnServerErrors *= 2
+
+                lastFailure = it
             }
             .retry(maxRetries.int.toLong()) { cause -> cause is TimeMatesException }
             .firstOrNull()
-            ?: emptyList<T>().also { state = State.DONE }
+            ?.let { Result.success(it) }
+            ?: Result.failure(lastFailure!!)
     }
 
     private fun createPageFlow(): Flow<List<T>> = flow {
@@ -202,7 +216,9 @@ internal class MappingPagesIterator<T, R>(
 ) : PagesIterator<R> {
     override suspend fun hasNext(): Boolean = source.hasNext()
 
-    override suspend fun next(): List<R> {
-        return source.next().map { mapper(it) }
+    override suspend fun next(): Result<List<R>> {
+        return source.next().map {
+            it.map { item -> mapper(item) }
+        }
     }
 }
