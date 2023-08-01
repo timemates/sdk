@@ -12,8 +12,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = JavaVersion.VERSION_19
-        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
     }
 
     namespace = "io.timemates.android.grpc"
@@ -26,7 +26,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(19)
+    jvmToolchain(17)
 }
 
 deployLibrary {

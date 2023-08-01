@@ -23,6 +23,7 @@ dependencies {
 
 kotlin {
     explicitApi()
+    jvmToolchain(17)
 }
 
 protobuf {
