@@ -27,6 +27,7 @@ internal class TimersMapper {
             description = TimerDescription.createOrThrow(description),
             ownerId = UserId.createOrThrow(ownerId),
             membersCount = Count.createOrThrow(membersCount),
+            state = grpcStateToSdkState(currentState),
             settings = grpcSettingsToSdkSettings(settings),
         )
     }
