@@ -14,6 +14,7 @@ public data class Timer (
     val description: TimerDescription,
     val ownerId: UserId,
     val membersCount: Count,
+    val state: State,
     val settings: TimerSettings,
 ) : TimeMatesEntity() {
     /**
