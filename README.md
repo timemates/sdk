@@ -11,8 +11,9 @@ platform and integrate its features into your own applications.
 To demonstrate the usage of the SDK, consider the following example:
 
 ```kotlin
-val engineBuilder = DefaultGrpcEngineBuilder()
-val engine = GrpcTimeMatesRequestsEngine(engineBuilder)
+val engine = RSocketTimeMatesRequestsEngine(
+    coroutineScope = Dispatchers.IO,
+)
 val emailAuth = AccountLoginApi(engineBuilder).email
 val email = EmailAddress.create("developer@y9vad9.com").getOrElse { return }
 
@@ -24,12 +25,6 @@ val authorizationResult = emailAuth.authorize(email)
     // until we complete our registration
     .map { (isNewAccount, authorization) -> ... }
 ```
-> **Note** <br>
-> For android use [AndroidGrpcEngineBuilder](/grpc-engine/android/src/main/kotlin/io/timemates/android/grpc/AndroidGrpcEngineBuilder.kt)
->```kotlin
-> val engineBuilder = AndroidGrpcEngineBuilder(applicationContext)
->```
-
 In the provided code snippet, the SDK utilizes the Kotlin Result API extensively.
 
 It's important to note that the SDK's value objects, such as `EmailAddress`
@@ -77,9 +72,7 @@ repositories {
 
 dependencies {
     implementation("io.timemates:sdk:$version")
-    implementation("io.timemates:grpc-engine:$version")
-    // for android
-    implementation("io.timemates:grpc-engine-android:$version")
+    implementation("io.timemates:rsocket-engine:$version")
 }
 ```
 
