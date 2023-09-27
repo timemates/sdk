@@ -1,22 +1,22 @@
 package io.timemates.api.rsocket.files.commands
 
 import io.rsocket.kotlin.RSocket
-import io.rsocket.kotlin.payload.buildPayload
 import io.timemates.api.rsocket.common.commands.RSocketCommand
-import io.timemates.api.rsocket.common.serialization.encodeToJson
-import io.timemates.api.rsocket.files.requests.GetFileRequest
+import io.timemates.api.rsocket.common.ext.requestStream
+import io.timemates.api.rsocket.common.serialization.decodeFromJson
+import io.timemates.api.rsocket.files.requests.RSocketGetFileRequest
+import io.timemates.api.rsocket.files.types.sdk
 import io.timemates.sdk.files.requests.GetFileBytesRequest
-import kotlinx.serialization.serializer
+import kotlinx.coroutines.flow.first
 
 internal object GetFileCommand : RSocketCommand<GetFileBytesRequest, GetFileBytesRequest.Result> {
     override suspend fun execute(rSocket: RSocket, input: GetFileBytesRequest): GetFileBytesRequest.Result {
-        return rSocket.requestResponse(
-            buildPayload {
-                data(GetFileRequest(input.fileId.string).encodeToJson(serializer()))
-            }
+        return rSocket.requestStream(
+            route = "files.get",
+            data = RSocketGetFileRequest(input.fileId.string),
         ).let { result ->
-//            GetFileBytesRequest.Result(result.data)
-            TODO()
+            val metadata = result.first().decodeFromJson<RSocketGetFileRequest.Response.Metadata>()
+            GetFileBytesRequest.Result(metadata.fileType.sdk(), result)
         }
     }
 }

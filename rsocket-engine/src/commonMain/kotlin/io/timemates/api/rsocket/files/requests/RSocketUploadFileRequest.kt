@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class UploadFileRequest(
+internal data class RSocketUploadFileRequest(
     val fileType: SerializableFileType,
     val bytes: Flow<ByteArray>,
 ) {
