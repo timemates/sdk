@@ -5,7 +5,7 @@ import io.timemates.api.rsocket.authorizations.types.sdk
 import io.timemates.api.rsocket.common.commands.RSocketCommand
 import io.timemates.api.rsocket.common.ext.requestResponse
 import io.timemates.sdk.authorization.email.requests.ConfigureNewAccountRequest
-import io.timemates.api.rsocket.authorizations.requests.ConfigureAccountRequest as RSocketConfigureAccountRequest
+import io.timemates.api.rsocket.authorizations.requests.RSocketConfigureAccountRequest as RSocketConfigureAccountRequest
 
 internal object ConfigureNewAccountCommand : RSocketCommand<ConfigureNewAccountRequest, ConfigureNewAccountRequest.Result> {
     override suspend fun execute(rSocket: RSocket, input: ConfigureNewAccountRequest): ConfigureNewAccountRequest.Result {

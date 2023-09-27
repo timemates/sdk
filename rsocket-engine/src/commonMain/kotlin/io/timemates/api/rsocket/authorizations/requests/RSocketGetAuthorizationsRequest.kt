@@ -5,9 +5,9 @@ import io.timemates.api.rsocket.common.markers.RSocketRequest
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class GetAuthorizationsRequest(
+internal data class RSocketGetAuthorizationsRequest(
     val pageToken: String? = null,
-) : RSocketRequest<GetAuthorizationsRequest.Result> {
+) : RSocketRequest<RSocketGetAuthorizationsRequest.Result> {
 
     @Serializable
     data class Result(val list: List<SerializableAuthorization>, val nextPageToken: String?)

@@ -5,10 +5,10 @@ import io.timemates.api.rsocket.common.markers.RSocketRequest
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class StartAuthorizationRequest(
+internal data class RSocketStartAuthorizationRequest(
     val email: String,
     val clientMetadata: SerializableAuthMetadata,
-) : RSocketRequest<StartAuthorizationRequest.Result> {
+) : RSocketRequest<RSocketStartAuthorizationRequest.Result> {
     @Serializable
     data class Result(
         val verificationHash: String,

@@ -4,6 +4,6 @@ import io.timemates.api.rsocket.common.markers.RSocketRequest
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class EditEmailRequest(
+internal data class RSocketEditEmailRequest(
     val email: String,
 ) : RSocketRequest<Unit>

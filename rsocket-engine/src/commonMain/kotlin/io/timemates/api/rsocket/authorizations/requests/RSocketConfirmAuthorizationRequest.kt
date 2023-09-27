@@ -5,13 +5,12 @@ import io.timemates.api.rsocket.common.markers.RSocketRequest
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class ConfigureAccountRequest(
+internal data class RSocketConfirmAuthorizationRequest(
     val verificationHash: String,
-    val name: String,
-    val description: String?,
-) : RSocketRequest<ConfigureAccountRequest.Result> {
-    @Serializable
-    data class Result(
-        val authorization: SerializableAuthorization,
+    val confirmationCode: String,
+) : RSocketRequest<RSocketConfirmAuthorizationRequest.Response> {
+    data class Response(
+        val isNewAccount: Boolean,
+        val authorization: SerializableAuthorization?,
     )
 }

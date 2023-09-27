@@ -5,7 +5,7 @@ import io.timemates.api.rsocket.users.types.SerializableAvatar
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class EditUserProfileRequest(
+internal data class RSocketEditUserProfileRequest(
     val avatar: SerializableAvatar?,
     val name: String?,
     val description: String?,

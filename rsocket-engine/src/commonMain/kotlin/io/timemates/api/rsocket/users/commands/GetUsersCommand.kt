@@ -6,7 +6,7 @@ import io.timemates.api.rsocket.common.ext.requestResponse
 import io.timemates.api.rsocket.users.types.SerializableUser
 import io.timemates.api.rsocket.users.types.sdk
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
-import io.timemates.api.rsocket.users.requests.GetUsersRequest as RSocketGetUsersRequest
+import io.timemates.api.rsocket.users.requests.RSocketGetUsersRequest as RSocketGetUsersRequest
 
 internal object GetUsersCommand : RSocketCommand<GetUsersRequest, GetUsersRequest.Result> {
     override suspend fun execute(rSocket: RSocket, input: GetUsersRequest): GetUsersRequest.Result {

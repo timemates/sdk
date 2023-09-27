@@ -1,7 +1,7 @@
 package io.timemates.api.rsocket.authorizations.commands
 
 import io.rsocket.kotlin.RSocket
-import io.timemates.api.rsocket.authorizations.requests.GetAuthorizationsRequest
+import io.timemates.api.rsocket.authorizations.requests.RSocketGetAuthorizationsRequest
 import io.timemates.api.rsocket.authorizations.types.SerializableAuthorization
 import io.timemates.api.rsocket.authorizations.types.sdk
 import io.timemates.api.rsocket.common.commands.RSocketCommand
@@ -16,7 +16,7 @@ internal object GetAuthorizationSessionsCommand : RSocketCommand<GetAuthorizatio
     override suspend fun execute(rSocket: RSocket, input: GetAuthorizationSessionsRequest): Page<Authorization> {
         return rSocket.requestResponse(
             route = "authorizations.list",
-            data = GetAuthorizationsRequest(input.nextPageToken?.string),
+            data = RSocketGetAuthorizationsRequest(input.nextPageToken?.string),
             accessHash = input.accessHash.string,
         ).let { result ->
             Page(

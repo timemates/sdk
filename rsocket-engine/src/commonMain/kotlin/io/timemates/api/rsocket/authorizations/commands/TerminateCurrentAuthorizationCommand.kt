@@ -1,7 +1,7 @@
 package io.timemates.api.rsocket.authorizations.commands
 
 import io.rsocket.kotlin.RSocket
-import io.timemates.api.rsocket.authorizations.requests.TerminateAuthorizationRequest
+import io.timemates.api.rsocket.authorizations.requests.RSocketTerminateAuthorizationRequest
 import io.timemates.api.rsocket.common.commands.RSocketCommand
 import io.timemates.api.rsocket.common.ext.requestResponse
 import io.timemates.sdk.authorization.sessions.requests.TerminateCurrentAuthorizationSessionRequest
@@ -11,7 +11,7 @@ internal object TerminateCurrentAuthorizationCommand : RSocketCommand<TerminateC
     override suspend fun execute(rSocket: RSocket, input: TerminateCurrentAuthorizationSessionRequest): Empty {
         return rSocket.requestResponse(
             route = "authorizations.terminate",
-            data = TerminateAuthorizationRequest.Current,
+            data = RSocketTerminateAuthorizationRequest.Current,
             accessHash = input.accessHash.string,
         ).let { _ -> Empty }
     }

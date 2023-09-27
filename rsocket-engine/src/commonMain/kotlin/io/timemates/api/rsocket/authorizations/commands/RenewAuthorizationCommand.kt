@@ -7,7 +7,7 @@ import io.timemates.sdk.authorization.sessions.requests.RenewAuthorizationReques
 import io.timemates.sdk.authorization.types.value.AccessHash
 import io.timemates.sdk.common.annotations.ExperimentalTimeMatesApi
 import io.timemates.sdk.common.constructor.createOrThrow
-import io.timemates.api.rsocket.authorizations.requests.RenewAuthorizationRequest as RSocketRenewAuthorizationRequest
+import io.timemates.api.rsocket.authorizations.requests.RSocketRenewAuthorizationRequest as RSocketRenewAuthorizationRequest
 
 @OptIn(ExperimentalTimeMatesApi::class)
 internal object RenewAuthorizationCommand : RSocketCommand<RenewAuthorizationRequest, RenewAuthorizationRequest.Result> {

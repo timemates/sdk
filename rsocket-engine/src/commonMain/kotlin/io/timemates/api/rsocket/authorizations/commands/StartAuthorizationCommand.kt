@@ -9,7 +9,7 @@ import io.timemates.sdk.authorization.email.types.value.VerificationHash
 import io.timemates.sdk.common.constructor.createOrThrow
 import io.timemates.sdk.common.types.value.Count
 import kotlinx.datetime.Instant
-import io.timemates.api.rsocket.authorizations.requests.StartAuthorizationRequest as RSocketStartAuthorizationRequest
+import io.timemates.api.rsocket.authorizations.requests.RSocketStartAuthorizationRequest as RSocketStartAuthorizationRequest
 
 internal object StartAuthorizationCommand : RSocketCommand<StartAuthorizationRequest, StartAuthorizationRequest.Result> {
     override suspend fun execute(

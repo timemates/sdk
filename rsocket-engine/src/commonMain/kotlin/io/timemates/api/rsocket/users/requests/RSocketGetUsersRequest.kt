@@ -5,9 +5,9 @@ import io.timemates.api.rsocket.users.types.SerializableUser
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class GetUsersRequest(
+internal data class RSocketGetUsersRequest(
     val ids: List<Long>,
-) : RSocketRequest<GetUsersRequest.Result> {
+) : RSocketRequest<RSocketGetUsersRequest.Result> {
     @Serializable
     data class Result(val list: List<SerializableUser>)
 }
