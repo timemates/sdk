@@ -23,6 +23,4 @@ rootProject.name = "timemates-sdk"
 includeBuild("build-logic/publish-library-plugin")
 
 include(":sdk")
-include(":grpc-engine")
 include(":rsocket-engine")
-include(":grpc-engine:android")

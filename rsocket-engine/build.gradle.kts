@@ -18,3 +18,21 @@ dependencies {
     commonMainImplementation(libs.kotlinx.datetime)
     commonMainImplementation(libs.rsocket.client)
 }
+
+deployLibrary {
+    ssh(tag = "rsocket-engine to maven.timemates.io") {
+        host = System.getenv("TIMEMATES_SSH_HOST")
+        user = System.getenv("TIMEMATES_SSH_USER")
+        password = System.getenv("TIMEMATES_SSH_PASSWORD")
+        deployPath = System.getenv("TIMEMATES_SSH_DEPLOY_PATH")
+
+        group = "io.timemates"
+        componentName = "kotlin"
+        artifactId = "rsocket-engine"
+        name = "rsocket-engine"
+
+        description = "TimeMates rsocket adapter for SDK"
+
+        version = System.getenv("TIMEMATES_SDK_VERSION")
+    }
+}
