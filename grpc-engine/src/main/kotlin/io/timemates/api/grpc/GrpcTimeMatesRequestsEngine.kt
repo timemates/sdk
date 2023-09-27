@@ -143,7 +143,7 @@ public class GrpcTimeMatesRequestsEngine(
                     .setVerificationHash(request.verificationHash.string)
                     .build()
             ).let { response ->
-                ConfirmAuthorizationRequest.Response(
+                ConfirmAuthorizationRequest.Result(
                     isNewAccount = response.isNewAccount,
                     authorization = response.authorization.takeIf { !response.isNewAccount }
                         ?.let(authMapper::grpcAuthorizationToSdkAuthorization),

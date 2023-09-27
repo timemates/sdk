@@ -8,4 +8,8 @@ import io.timemates.sdk.timers.types.value.TimerId
 public data class RemoveTimerRequest(
     val accessHash: AccessHash,
     val timerId: TimerId,
-) : TimeMatesRequest<Empty>()
+) : TimeMatesRequest<Empty>() {
+    public companion object Key : TimeMatesRequest.Key<RemoveTimerRequest>
+
+    override val requestKey: Key get() = Key
+}

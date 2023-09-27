@@ -9,7 +9,6 @@ import io.timemates.sdk.users.profile.requests.EditProfileRequest
 import io.timemates.sdk.users.profile.requests.GetUsersRequest
 import io.timemates.sdk.users.profile.types.Avatar
 import io.timemates.sdk.users.profile.types.User
-import io.timemates.sdk.users.profile.types.value.EmailAddress
 import io.timemates.sdk.users.profile.types.value.UserDescription
 import io.timemates.sdk.users.profile.types.value.UserId
 import io.timemates.sdk.users.profile.types.value.UserName
@@ -18,7 +17,7 @@ import io.timemates.sdk.users.profile.types.value.UserName
  * Provides functionality for accessing and modifying user profiles through the API.
  *
  * @property engine The TimeMatesRequestsEngine instance used for making API requests.
- * @property accessHash The access hash for authentication purposes.
+ * @property tokenProvider The provider of access hash for authentication purposes.
  */
 public class ProfileApi(
     private val engine: TimeMatesRequestsEngine,

@@ -8,7 +8,11 @@ import kotlinx.coroutines.flow.Flow
 public data class GetFileBytesRequest(
     val fileId: FileId,
 ) : TimeMatesRequest<GetFileBytesRequest.Result>() {
+    public companion object Key : TimeMatesRequest.Key<GetFileBytesRequest>
+
     public data class Result(
         val bytes: Flow<ByteArray>
     ) : TimeMatesEntity()
+
+    override val requestKey: Key = Key
 }

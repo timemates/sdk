@@ -8,5 +8,9 @@ import io.timemates.sdk.users.profile.types.value.UserId
 public data class GetUsersRequest(
     val users: List<UserId>,
 ) : TimeMatesRequest<GetUsersRequest.Result>() {
+    public companion object Key : TimeMatesRequest.Key<GetUsersRequest>
+
     public data class Result(val users: List<User>) : TimeMatesEntity()
+
+    override val requestKey: Key get() = Key
 }

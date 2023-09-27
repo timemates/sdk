@@ -10,7 +10,12 @@ import io.timemates.sdk.users.profile.types.value.UserName
 public data class ConfigureNewAccountRequest(
     val verificationHash: VerificationHash,
     val name: UserName,
-    val description: UserDescription,
+    val description: UserDescription?,
 ) : TimeMatesRequest<ConfigureNewAccountRequest.Result>() {
+    public companion object Key : TimeMatesRequest.Key<ConfigureNewAccountRequest>
+
     public data class Result(val authorization: Authorization) : TimeMatesEntity()
+
+    override val requestKey: Key
+        get() = Key
 }

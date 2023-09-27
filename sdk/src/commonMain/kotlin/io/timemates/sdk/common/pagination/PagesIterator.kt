@@ -1,7 +1,7 @@
 package io.timemates.sdk.common.pagination
 
 import io.timemates.sdk.common.annotations.ApiStatus
-import io.timemates.sdk.common.annotations.ExperimentalApi
+import io.timemates.sdk.common.annotations.ExperimentalTimeMatesApi
 import io.timemates.sdk.common.constructor.createOrThrow
 import io.timemates.sdk.common.exceptions.TimeMatesException
 import io.timemates.sdk.common.pagination.PagesIteratorImpl.State
@@ -60,7 +60,7 @@ public fun <T> PagesIterator<T>.asFlow(): Flow<Result<List<T>>> = flow {
  *
  * @return A [List] containing all elements from the page iterator.
  */
-@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+@ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
 public suspend fun <T> PagesIterator<T>.toList(): List<Result<T>> {
     return buildList {
         for (result in this@toList) {
@@ -78,7 +78,7 @@ public suspend fun <T> PagesIterator<T>.toList(): List<Result<T>> {
  *
  * @return A [Sequence] containing all elements from the page iterator.
  */
-@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+@ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
 public suspend fun <T> PagesIterator<T>.asSequence(): Sequence<Result<T>> {
     return toList().asSequence()
 }
@@ -99,7 +99,7 @@ public suspend inline fun <T> PagesIterator<T>.forEachPage(block: (Result<List<T
  *
  * @param block The block to be executed on each element.
  */
-@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+@ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
 public suspend inline fun <T> PagesIterator<T>.forEach(block: (Result<T>) -> Unit) {
     forEachPage { page ->
         if (page.isSuccess) {

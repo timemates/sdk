@@ -8,4 +8,15 @@ package io.timemates.sdk.common.types
  *
  * @param R The type of the response expected from the request.
  */
-public abstract class TimeMatesRequest<R : TimeMatesEntity> internal constructor() : TimeMatesEntity()
+public abstract class TimeMatesRequest<R : TimeMatesEntity> internal constructor() : TimeMatesEntity() {
+    /**
+     * A unique key that identifies this request type.
+     */
+    public abstract val requestKey: Key<*>
+
+    /**
+     * An interface representing the key associated with a [TimeMatesRequest].
+     * @param T The specific type of the [TimeMatesRequest].
+     */
+    public interface Key<T : TimeMatesRequest<*>>
+}

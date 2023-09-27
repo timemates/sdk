@@ -1,12 +1,16 @@
-@file:OptIn(InternalApi::class, ExperimentalApi::class)
+@file:OptIn(InternalApi::class, ExperimentalTimeMatesApi::class)
 
 package io.timemates.sdk.common.exceptions.handler
 
 import io.timemates.sdk.common.annotations.ApiStatus
-import io.timemates.sdk.common.annotations.ExperimentalApi
+import io.timemates.sdk.common.annotations.ExperimentalTimeMatesApi
 import io.timemates.sdk.common.annotations.InternalApi
+import io.timemates.sdk.common.exceptions.NotFoundException
+import io.timemates.sdk.common.exceptions.TimeMatesException
+import io.timemates.sdk.common.exceptions.TooManyRequestsException
+import io.timemates.sdk.common.exceptions.UnauthorizedException
+import io.timemates.sdk.common.exceptions.UnavailableException
 import io.timemates.sdk.common.types.TimeMatesEntity
-import io.timemates.sdk.common.exceptions.*
 
 /**
  * Represents a type-safe wrapper class for handling exceptions in the context of an operation's result.
@@ -18,7 +22,7 @@ import io.timemates.sdk.common.exceptions.*
  * @param E The type of the exception.
  * @property result The original result of the operation.
  */
-@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+@ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
 @JvmInline
 public value class SafeExceptionResult<T, E : Throwable> @InternalApi constructor(
     @property:InternalApi public val result: Result<T>
@@ -33,7 +37,7 @@ public value class SafeExceptionResult<T, E : Throwable> @InternalApi constructo
  * @receiver The original result of the operation.
  * @return The [SafeExceptionResult] containing the original result.
  */
-@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+@ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
 public fun <T : TimeMatesEntity> Result<T>.safeResult(): SafeExceptionResult<T, UnauthorizedException> {
     return SafeExceptionResult(this)
 }
@@ -138,7 +142,7 @@ public fun <T> SafeExceptionResult<T, NotFoundException>.ignoreNotFound(): SafeE
  * @param block The block of code to be executed if any exception is encountered.
  * @return The [SafeExceptionResult] after executing the block.
  */
-@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+@ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
 public inline fun <T, E : Throwable> SafeExceptionResult<T, E>.whenOtherError(
     block: (E) -> Unit
 ): SafeExceptionResult<T, Nothing> {
@@ -157,7 +161,7 @@ public inline fun <T, E : Throwable> SafeExceptionResult<T, E>.whenOtherError(
  *
  * But, if it's possible, it's better to use just [Result] API instead of [SafeExceptionResult].
  */
-@ExperimentalApi(status = ApiStatus.NEEDS_REVISION)
+@ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
 public inline fun <T> SafeExceptionResult<T, *>.whenAnyError(
     block: (Throwable) -> Unit
 ): SafeExceptionResult<T, Nothing> {

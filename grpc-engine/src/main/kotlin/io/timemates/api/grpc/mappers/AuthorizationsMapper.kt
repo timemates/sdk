@@ -2,7 +2,7 @@ package io.timemates.api.grpc.mappers
 
 import io.timemates.api.authorizations.types.AuthorizationOuterClass.Authorization
 import io.timemates.sdk.authorization.sessions.types.value.ClientIpAddress
-import io.timemates.sdk.authorization.sessions.types.value.ClientName
+import io.timemates.sdk.authorization.sessions.types.value.ApplicationName
 import io.timemates.sdk.authorization.sessions.types.value.ClientVersion
 import io.timemates.sdk.authorization.types.value.HashValue
 import io.timemates.sdk.common.constructor.createOrThrow
@@ -31,7 +31,7 @@ internal class AuthorizationsMapper {
         metadata: Authorization.Metadata,
     ): SdkAuthorization.Metadata = with(metadata) {
         return@with SdkAuthorization.Metadata(
-            clientName = ClientName.createOrThrow(clientName),
+            applicationName = ApplicationName.createOrThrow(clientName),
             clientVersion = ClientVersion.createOrThrow(clientVersion),
             clientIpAddress = ClientIpAddress.createOrThrow(clientIpAddress),
         )

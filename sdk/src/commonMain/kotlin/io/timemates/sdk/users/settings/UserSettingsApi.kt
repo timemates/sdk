@@ -1,6 +1,5 @@
 package io.timemates.sdk.users.settings
 
-import io.timemates.sdk.authorization.types.value.AccessHash
 import io.timemates.sdk.common.annotations.UnimplementedApi
 import io.timemates.sdk.common.engine.TimeMatesRequestsEngine
 import io.timemates.sdk.common.providers.AccessHashProvider
