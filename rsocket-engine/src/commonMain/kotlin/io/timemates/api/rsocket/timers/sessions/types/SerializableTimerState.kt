@@ -60,3 +60,23 @@ internal fun SerializableTimerState.sdk(): Timer.State {
         )
     }
 }
+
+internal fun Timer.State.serializable(): SerializableTimerState {
+    return when (this) {
+        is Timer.State.ConfirmationWaiting -> SerializableTimerState.Confirmation(
+            endsAt.toEpochMilliseconds(), publishTime.toEpochMilliseconds(),
+        )
+        is Timer.State.Inactive -> SerializableTimerState.Inactive(
+            publishTime.toEpochMilliseconds(),
+        )
+        is Timer.State.Paused -> SerializableTimerState.Pause(
+            publishTime.toEpochMilliseconds(),
+        )
+        is Timer.State.Rest -> SerializableTimerState.Rest(
+            endsAt.toEpochMilliseconds(), publishTime.toEpochMilliseconds(),
+        )
+        is Timer.State.Running -> SerializableTimerState.Running(
+            endsAt.toEpochMilliseconds(), publishTime.toEpochMilliseconds(),
+        )
+    }
+}

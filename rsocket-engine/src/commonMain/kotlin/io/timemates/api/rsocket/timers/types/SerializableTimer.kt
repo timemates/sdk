@@ -1,6 +1,7 @@
 package io.timemates.api.rsocket.timers.types
 
 import io.timemates.api.rsocket.timers.sessions.types.SerializableTimerState
+import io.timemates.api.rsocket.timers.sessions.types.sdk
 import io.timemates.sdk.common.constructor.createOrThrow
 import io.timemates.sdk.common.types.value.Count
 import io.timemates.sdk.timers.types.Timer
@@ -29,5 +30,6 @@ internal fun SerializableTimer.sdk(): Timer {
         ownerId = UserId.createOrThrow(ownerId),
         membersCount = Count.createOrThrow(membersCount),
         settings = settings.sdk(),
+        state = state.sdk()
     )
 }
