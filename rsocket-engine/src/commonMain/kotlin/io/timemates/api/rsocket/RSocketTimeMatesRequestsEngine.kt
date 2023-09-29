@@ -57,6 +57,7 @@ public fun RSocketTimeMatesRequestsEngine(
     config: HttpClientConfig<*>.() -> Unit = {},
 ): RSocketTimeMatesRequestsEngine {
     val client = HttpClient {
+        install(WebSockets)
         install(RSocketSupport) {
             connector {
                 maxFragmentSize = 1024
