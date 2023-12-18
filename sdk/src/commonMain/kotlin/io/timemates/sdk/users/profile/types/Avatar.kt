@@ -15,16 +15,4 @@ public sealed interface Avatar {
             }
         }
     }
-
-    @JvmInline
-    public value class FileId private constructor(public val string: String) : Avatar {
-        public companion object : Factory<FileId, String>() {
-            override fun create(input: String): Result<FileId> {
-                return when {
-                    input.isBlank() -> Result.failure(CreationFailure.ofBlank())
-                    else -> Result.success(FileId(input))
-                }
-            }
-        }
-    }
 }

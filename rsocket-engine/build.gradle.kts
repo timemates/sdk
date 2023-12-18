@@ -2,17 +2,27 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.library.publish)
+    alias(libs.plugins.timemates.rsproto)
 }
 
 kotlin {
     jvm()
     jvmToolchain(17)
 
+    sourceSets {
+        val commonMain by getting {
+            kotlin.srcDirs("src/main/kotlin", "build/generated/rsproto/kotlin")
+        }
+    }
+
     explicitApi()
 }
 
 dependencies {
     commonMainImplementation(projects.sdk)
+
+    commonMainImplementation(libs.timemates.rsproto.common)
+    commonMainImplementation(libs.timemates.rsproto.client)
 
     commonMainImplementation(libs.kotlinx.serialization)
     commonMainImplementation(libs.kotlinx.datetime)
@@ -35,6 +45,14 @@ deployLibrary {
 
         version = System.getenv("TIMEMATES_SDK_VERSION")
     }
+}
+
+rsproto {
+    protoSourcePath = "src/main/proto/"
+    generationOutputPath = "generated/rsproto/kotlin"
+
+    clientGeneration = true
+    serverGeneration = false
 }
 
 tasks.withType<Test> {

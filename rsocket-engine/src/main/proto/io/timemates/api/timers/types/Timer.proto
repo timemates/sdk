@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+import "io/timemates/api/timers/sessions/types/TimerState.proto";
+
+option java_package = "io.timemates.api.timers.types";
+
+/**
+ * Represents a timer.
+ */
+message Timer {
+
+  /**
+   * The ID of the timer.
+   */
+  int64 id = 1;
+
+  /**
+   * The name of the timer.
+   * This field represents the name of the timer and can contain up to 50 characters.
+   */
+  string name = 2;
+
+  /**
+   * The description of the timer.
+   * This field represents an optional description for the timer and can contain up to 500 characters.
+   */
+  optional string description = 3;
+
+  /**
+   * The ID of the owner of the timer.
+   * This field represents the ID of the user who owns the timer.
+   */
+  int64 ownerId = 4;
+
+  /**
+   * The settings of the timer.
+   * This field represents the settings for the timer.
+   */
+  Settings settings = 5;
+
+  /**
+   * The number of members in the timer.
+   * This field represents the count of members associated with the timer.
+   */
+  int32 membersCount = 6;
+
+  /**
+   * The current state of the timer.
+   * This field represents the current state of the timer.
+   */
+  TimerState currentState = 7;
+
+  /**
+   * Represents the settings of the timer.
+   */
+  message Settings {
+    /**
+     * The work time duration in seconds.
+     * This field represents the duration of the work time in milliseconds.
+     */
+    int32 workTime = 1;
+
+    /**
+     * The rest time duration in seconds.
+     * This field represents the duration of the rest time in seconds.
+     */
+    int32 restTime = 2;
+
+    /**
+     * The big rest time duration in seconds.
+     * This field represents the duration of the big rest time in seconds.
+     */
+    int32 bigRestTime = 3;
+
+    /**
+     * Indicates if big rest is enabled.
+     * This field indicates whether the big rest is enabled or not.
+     */
+    bool bigRestEnabled = 4;
+
+    /**
+     * The number of work cycles before big rest.
+     * This field represents the number of work rounds before the big rest is triggered.
+     */
+    int32 bigRestPer = 5;
+
+    /**
+     * Indicates if everyone can pause the timer.
+     * This field indicates whether everyone can pause the timer or not.
+     *
+     * Also, it denotes whether all users can start the timer.
+     */
+    bool isEveryoneCanPause = 6;
+
+    /**
+     * Indicates if confirmation is required for timer round start.
+     * This field indicates whether confirmation is required for timer actions or not.
+     */
+    bool isConfirmationRequired = 7;
+
+    message Patch {
+      optional int32 workTime = 2;
+      optional int32 restTime = 3;
+      optional int32 bigRestTime = 4;
+      optional bool bigRestEnabled = 5;
+      optional int32 bigRestPer = 6;
+      optional bool isEveryoneCanPause = 7;
+      optional bool isConfirmationRequired = 8;
+    }
+  }
+}

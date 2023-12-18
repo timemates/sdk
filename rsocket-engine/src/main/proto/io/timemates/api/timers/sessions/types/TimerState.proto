@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.timers.sessions.types";
+
+/**
+ * Represents the state of a timer.
+ */
+message TimerState {
+
+  /**
+   * The publish time of the timer state.
+   * This field represents the time when the timer state was started.
+   */
+  int64 publishTime = 1;
+
+  /**
+   * The phase of the timer state.
+   * This field is a oneof field, indicating the current phase of the timer.
+   * Only one of the phase options can be set at a time.
+   */
+  oneof phase {
+    Rest rest = 2;
+    Paused paused = 3;
+    Running running = 4;
+    ConfirmationWaiting confirmationWaiting = 5;
+    Inactive inactive = 6;
+  }
+
+  /**
+   * Represents the inactive phase of the timer.
+   * This phase indicates that the timer is inactive.
+   */
+  message Inactive {}
+
+  /**
+   * Represents the rest phase of the timer.
+   * This phase indicates that the timer is in a resting state.
+   */
+  message Rest {
+    /**
+     * The end time of the rest phase.
+     * This field represents the time when the rest phase ends.
+     */
+    int64 endsAt = 1;
+  }
+
+  /**
+   * Represents the paused phase of the timer.
+   * This phase indicates that the timer is paused.
+   */
+  message Paused {}
+
+  /**
+   * Represents the running phase of the timer.
+   * This phase indicates that the timer is currently running.
+   */
+  message Running {
+    /**
+     * The end time of the running phase.
+     * This field represents the time when the running phase ends.
+     */
+    int64 endsAt = 1;
+  }
+
+  /**
+   * Represents the confirmation waiting phase of the timer.
+   * This phase indicates that the timer is waiting for confirmation.
+   */
+  message ConfirmationWaiting {
+    /**
+     * The end time of the confirmation waiting phase.
+     * This field represents the time when the confirmation waiting phase ends.
+     */
+    int64 endsAt = 1;
+  }
+}

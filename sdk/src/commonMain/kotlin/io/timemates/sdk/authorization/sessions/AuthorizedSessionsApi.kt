@@ -52,6 +52,7 @@ public class AuthorizedSessionsApi(
     }
 }
 
+@Suppress("NAME_SHADOWING")
 public fun AuthorizedSessionsApi.getSessionsPages(
     pageToken: PageToken?,
     maxRetries: Count = Count.createOrThrow(5),
