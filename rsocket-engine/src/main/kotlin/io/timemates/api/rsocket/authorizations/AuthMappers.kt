@@ -7,6 +7,7 @@ import io.timemates.sdk.authorization.sessions.types.value.ClientVersion
 import io.timemates.sdk.authorization.types.value.AccessHash
 import io.timemates.sdk.authorization.types.value.HashValue
 import io.timemates.sdk.common.constructor.createOrThrow
+import io.timemates.sdk.users.profile.types.value.UserId
 import kotlinx.datetime.Instant
 import io.timemates.api.authorizations.types.Authorization as RSAuthorization
 import io.timemates.sdk.authorization.sessions.types.Authorization as SdkAuth
@@ -32,6 +33,7 @@ internal fun RSAuthorization.sdk(): SdkAuth {
         refreshHash = refreshHash?.let { SdkAuth.Hash(HashValue.createOrThrow(it.value), Instant.fromEpochMilliseconds(it.expiresAt)) },
         generationTime = Instant.fromEpochMilliseconds(generationTime),
         metadata = metadata?.sdk(),
+        userId = UserId.createOrThrow(userId),
     )
 }
 

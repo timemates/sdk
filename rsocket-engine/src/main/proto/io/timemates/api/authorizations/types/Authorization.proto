@@ -29,6 +29,11 @@ message Authorization {
    */
   optional Metadata metadata = 5;
 
+  /**
+   * Owner's id.
+   */
+  int64 userId = 6;
+
   message Hash {
     string value = 1;
     int64 expiresAt = 2;

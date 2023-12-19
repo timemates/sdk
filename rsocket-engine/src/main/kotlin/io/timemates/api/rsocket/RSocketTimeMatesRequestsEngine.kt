@@ -58,8 +58,8 @@ public fun RSocketTimeMatesRequestsEngine(
                     )
 
                     payloadMimeType = PayloadMimeType(
-                        data = WellKnownMimeType.ApplicationJson,
-                        metadata = WellKnownMimeType.MessageRSocketCompositeMetadata,
+                        data = WellKnownMimeType.ApplicationProtoBuf,
+                        metadata = WellKnownMimeType.ApplicationProtoBuf,
                     )
                 }
             }
@@ -85,7 +85,7 @@ public class RSocketTimeMatesRequestsEngine internal constructor(
     coroutineScope: CoroutineScope,
 ) : TimeMatesRequestsEngine {
     public companion object {
-        public const val API_VERSION: Double = 0.1
+        public const val API_VERSION: Double = 1.0
     }
 
     private val rSocket = coroutineScope.async(start = CoroutineStart.LAZY) {
@@ -107,7 +107,6 @@ public class RSocketTimeMatesRequestsEngine internal constructor(
     override suspend fun <T : TimeMatesEntity> execute(
         request: TimeMatesRequest<T>,
     ): Result<T> = runCatching {
-        val rSocket = rSocket.await()
         return@runCatching rSocketCommandsRegistry.execute(container.await(), request)
             ?: throw UnsupportedException("This type of request is not supported in RSocket engine.")
     }
