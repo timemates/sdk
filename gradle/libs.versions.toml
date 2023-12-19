@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.8.21"
+kotlin = "1.9.20-Beta"
 kotlinx-coroutines = "1.6.4"
 kotlinx-serialization = "1.4.1"
 ktor = "2.0.1"
@@ -7,7 +7,7 @@ kafka = "3.3.1"
 jupiter = "5.4.0"
 exposed = "0.41.1"
 kmongo = "4.8.0"
-androidGradlePlugin = "8.2.0-alpha13"
+androidGradlePlugin = "8.3.0-alpha05"
 androidComposeVersion = "1.4.0-alpha02"
 grpc = "1.3.0"
 protobuf = "3.22.0"
@@ -15,6 +15,7 @@ protobuf-plugin = "0.9.2"
 grpc-netty = "1.55.1"
 android-target = "33"
 android-min = "24"
+rsproto = "0.3.2"
 
 [libraries]
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
@@ -66,6 +67,11 @@ grpc-android = { module = "io.grpc:grpc-android", version.require = "1.56.1" }
 protobuf-kotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
 
+rsocket-client = { module = "io.rsocket.kotlin:rsocket-ktor-client", version.require = "0.15.4" }
+
+timemates-rsproto-client = { module = "io.timemates.rsproto:client-core", version.ref = "rsproto" }
+timemates-rsproto-common = { module = "io.timemates.rsproto:common-core", version.ref = "rsproto" }
+
 [plugins]
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -76,3 +82,4 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 android-application = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 google-protobuf = { id = "com.google.protobuf", version.ref = "protobuf-plugin" }
 library-publish = { id = "publish-library", version.require = "SNAPSHOT" }
+timemates-rsproto = { id = "io.timemates.rsproto", version.ref = "rsproto" }

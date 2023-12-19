@@ -3,6 +3,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        maven("https://maven.timemates.io")
         mavenCentral()
         google()
     }
@@ -15,6 +16,7 @@ dependencyResolutionManagement {
         mavenCentral()
         maven("https://jitpack.io")
         maven("https://maven.y9vad9.com")
+        maven("https://maven.timemates.io")
     }
 }
 
@@ -23,5 +25,4 @@ rootProject.name = "timemates-sdk"
 includeBuild("build-logic/publish-library-plugin")
 
 include(":sdk")
-include(":grpc-engine")
-include(":grpc-engine:android")
+include(":rsocket-engine")

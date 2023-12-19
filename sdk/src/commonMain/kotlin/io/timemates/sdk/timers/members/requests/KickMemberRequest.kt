@@ -10,4 +10,8 @@ public data class KickMemberRequest(
     val accessHash: AccessHash,
     val timerId: TimerId,
     val userId: UserId,
-) : TimeMatesRequest<Empty>()
+) : TimeMatesRequest<Empty>() {
+    public companion object Key : TimeMatesRequest.Key<KickMemberRequest>
+
+    override val requestKey: Key get() = Key
+}

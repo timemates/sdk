@@ -34,3 +34,7 @@ deployLibrary {
         version = System.getenv("TIMEMATES_SDK_VERSION")
     }
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}

@@ -16,9 +16,6 @@ import io.timemates.sdk.common.providers.AccessHashProvider
 import io.timemates.sdk.common.providers.getAsResult
 import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.common.types.value.Count
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -55,6 +52,7 @@ public class AuthorizedSessionsApi(
     }
 }
 
+@Suppress("NAME_SHADOWING")
 public fun AuthorizedSessionsApi.getSessionsPages(
     pageToken: PageToken?,
     maxRetries: Count = Count.createOrThrow(5),

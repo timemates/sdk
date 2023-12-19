@@ -6,7 +6,7 @@ import io.timemates.sdk.common.exceptions.UnauthorizedException
 /**
  * Interface for providing access token hashes.
  */
-public interface AccessHashProvider {
+public fun interface AccessHashProvider {
     /**
      * Retrieves the access hash or null if not available.
      * @return The [AccessHash] or null.

@@ -30,7 +30,7 @@ jobs:
 
       - name: Build and Publish
         env:
-          TIMEMATES_SDK_VERSION: ${{ github.ref }}
+          TIMEMATES_SDK_VERSION: ${{ github.ref_name }}
           TIMEMATES_SSH_DEPLOY_PATH: ${{ secrets.TIMEMATES_SSH_DEPLOY_PATH }}
           TIMEMATES_SSH_HOST: ${{ secrets.TIMEMATES_SSH_HOST }}
           TIMEMATES_SSH_PASSWORD: ${{ secrets.TIMEMATES_SSH_PASSWORD }}

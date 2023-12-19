@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "io/timemates/api/timers/types/Timer.proto";
+
+option java_package = "io.timemates.api.timers.requests";
+
+message JoinTimerByInviteCodeRequest {
+  string inviteCode = 1;
+
+  message Response {
+    Timer timer = 1;
+  }
+}

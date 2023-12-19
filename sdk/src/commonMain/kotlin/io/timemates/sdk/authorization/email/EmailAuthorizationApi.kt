@@ -4,6 +4,7 @@ import io.timemates.sdk.authorization.email.requests.ConfigureNewAccountRequest
 import io.timemates.sdk.authorization.email.requests.ConfirmAuthorizationRequest
 import io.timemates.sdk.authorization.email.requests.StartAuthorizationRequest
 import io.timemates.sdk.authorization.email.types.value.VerificationHash
+import io.timemates.sdk.authorization.sessions.types.Authorization
 import io.timemates.sdk.authorization.sessions.types.value.ConfirmationCode
 import io.timemates.sdk.common.engine.TimeMatesRequestsEngine
 import io.timemates.sdk.users.profile.types.value.EmailAddress
@@ -21,8 +22,12 @@ public class EmailAuthorizationApi(private val engine: TimeMatesRequestsEngine) 
      *
      * @see confirm
      */
-    public suspend fun authorize(emailAddress: EmailAddress): Result<VerificationHash> {
-        return engine.execute(StartAuthorizationRequest(emailAddress)).map { it.verificationHash }
+    public suspend fun authorize(
+        emailAddress: EmailAddress,
+        metadata: Authorization.Metadata,
+    ): Result<VerificationHash> {
+        return engine.execute(StartAuthorizationRequest(emailAddress, metadata))
+            .map { it.verificationHash }
     }
 
     /**
@@ -36,7 +41,7 @@ public class EmailAuthorizationApi(private val engine: TimeMatesRequestsEngine) 
     public suspend fun confirm(
         verificationHash: VerificationHash,
         confirmationCode: ConfirmationCode,
-    ): Result<ConfirmAuthorizationRequest.Response> {
+    ): Result<ConfirmAuthorizationRequest.Result> {
         return engine.execute(ConfirmAuthorizationRequest(verificationHash, confirmationCode))
     }
 

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option java_package = "io.timemates.api.authorizations.types";
+
+message Metadata {
+  string clientName = 1;
+  double clientVersion = 2;
+}
