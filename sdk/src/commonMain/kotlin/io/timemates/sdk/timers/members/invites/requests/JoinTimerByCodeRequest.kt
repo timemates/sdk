@@ -4,6 +4,7 @@ import io.timemates.sdk.authorization.types.value.AccessHash
 import io.timemates.sdk.common.types.TimeMatesEntity
 import io.timemates.sdk.common.types.TimeMatesRequest
 import io.timemates.sdk.timers.members.invites.types.value.InviteCode
+import io.timemates.sdk.timers.types.Timer
 import io.timemates.sdk.timers.types.value.TimerId
 
 public data class JoinTimerByCodeRequest(
@@ -14,5 +15,5 @@ public data class JoinTimerByCodeRequest(
 
     override val requestKey: Key get() = Key
 
-    public data class Result(val timerId: TimerId) : TimeMatesEntity()
+    public data class Result(val timer: Timer) : TimeMatesEntity()
 }

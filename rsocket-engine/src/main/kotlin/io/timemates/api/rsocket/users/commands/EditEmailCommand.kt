@@ -1,10 +1,8 @@
 package io.timemates.api.rsocket.users.commands
 
-import io.rsocket.kotlin.RSocket
 import io.timemates.api.rsocket.ApiContainer
 import io.timemates.api.rsocket.authorizations.toExtra
 import io.timemates.api.rsocket.common.commands.RSocketCommand
-import io.timemates.api.rsocket.common.ext.requestResponse
 import io.timemates.sdk.common.annotations.ExperimentalTimeMatesApi
 import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.users.settings.requests.EditEmailRequest

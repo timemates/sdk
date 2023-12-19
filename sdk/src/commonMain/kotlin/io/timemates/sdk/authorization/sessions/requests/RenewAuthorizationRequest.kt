@@ -1,5 +1,6 @@
 package io.timemates.sdk.authorization.sessions.requests
 
+import io.timemates.sdk.authorization.sessions.types.Authorization
 import io.timemates.sdk.authorization.types.value.AccessHash
 import io.timemates.sdk.authorization.types.value.HashValue
 import io.timemates.sdk.common.annotations.ApiStatus
@@ -15,7 +16,7 @@ public data class RenewAuthorizationRequest(
 
     @ExperimentalTimeMatesApi(status = ApiStatus.NEEDS_REVISION)
     public data class Result(
-        val accessHash: AccessHash,
+        val authorization: Authorization,
     ) : TimeMatesEntity()
 
     override val requestKey: Key get() = Key

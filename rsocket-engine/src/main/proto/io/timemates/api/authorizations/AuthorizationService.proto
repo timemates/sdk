@@ -5,6 +5,7 @@ import "io/timemates/api/authorizations/requests/ConfirmAuthorizationRequest.pro
 import "io/timemates/api/authorizations/requests/GetAuthorizationsRequest.proto";
 import "io/timemates/api/authorizations/options/OmitAuthorizationOption.proto";
 import "io/timemates/api/authorizations/requests/CreateProfileRequest.proto";
+import "io/timemates/api/authorizations/requests/RenewAuthorizationRequest.proto";
 import "io/timemates/api/authorizations/types/Authorization.proto";
 import "google/protobuf/empty.proto";
 
@@ -31,6 +32,18 @@ service AuthorizationService {
     option (omit_authorization) = true;
   }
 
+  /**
+   * Renews authorization using refresh token.
+   *
+   * Returns: new [Authorization].
+   */
+  rpc renewAuthorization(RenewAuthorizationRequest) returns (RenewAuthorizationRequest.Response) {
+    option (omit_authorization) = true;
+  }
+
+  /**
+   * Creates a user's profile if it's a new account.
+   */
   rpc createProfile(CreateProfileRequest) returns (CreateProfileRequest.Response) {
     option (omit_authorization) = true;
   }

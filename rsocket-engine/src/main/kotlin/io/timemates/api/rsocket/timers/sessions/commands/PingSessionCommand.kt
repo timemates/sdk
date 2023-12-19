@@ -1,18 +1,17 @@
 package io.timemates.api.rsocket.timers.sessions.commands
 
-import io.rsocket.kotlin.RSocket
+import io.timemates.api.rsocket.ApiContainer
+import io.timemates.api.rsocket.authorizations.toExtra
 import io.timemates.api.rsocket.common.commands.RSocketCommand
-import io.timemates.api.rsocket.common.ext.fireAndForget
-import io.timemates.api.rsocket.serializable.requests.timers.sessions.LeaveSessionRequest
 import io.timemates.sdk.common.types.Empty
 import io.timemates.sdk.timers.sessions.requests.PingSessionRequest
+import com.google.protobuf.Empty.Companion as RSEmpty
 
 internal object PingSessionCommand : RSocketCommand<PingSessionRequest, Empty> {
-    override suspend fun execute(rSocket: RSocket, input: PingSessionRequest): Empty {
-        return rSocket.fireAndForget(
-            route = "timers.sessions.ping",
-            data = LeaveSessionRequest,
-            accessHash = input.accessHash.string,
+    override suspend fun execute(apis: ApiContainer, input: PingSessionRequest): Empty {
+        return apis.timerSessions.pingSession(
+            message = RSEmpty.Default,
+            extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }
 }
