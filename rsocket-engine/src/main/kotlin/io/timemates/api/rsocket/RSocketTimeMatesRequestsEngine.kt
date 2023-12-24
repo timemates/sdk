@@ -3,6 +3,8 @@ package io.timemates.api.rsocket
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.http.HttpStatusCode
+import io.rsocket.kotlin.RSocketError
 import io.rsocket.kotlin.core.WellKnownMimeType
 import io.rsocket.kotlin.keepalive.KeepAlive
 import io.rsocket.kotlin.ktor.client.RSocketSupport
@@ -13,6 +15,14 @@ import io.timemates.api.timers.TimerSessionsServiceApi
 import io.timemates.api.timers.TimersServiceApi
 import io.timemates.api.users.UsersServiceApi
 import io.timemates.sdk.common.engine.TimeMatesRequestsEngine
+import io.timemates.sdk.common.exceptions.AlreadyExistsException
+import io.timemates.sdk.common.exceptions.InternalServerError
+import io.timemates.sdk.common.exceptions.InvalidArgumentException
+import io.timemates.sdk.common.exceptions.NotFoundException
+import io.timemates.sdk.common.exceptions.PermissionDeniedException
+import io.timemates.sdk.common.exceptions.TooManyRequestsException
+import io.timemates.sdk.common.exceptions.UnauthorizedException
+import io.timemates.sdk.common.exceptions.UnavailableException
 import io.timemates.sdk.common.exceptions.UnsupportedException
 import io.timemates.sdk.common.types.TimeMatesEntity
 import io.timemates.sdk.common.types.TimeMatesRequest
@@ -109,5 +119,31 @@ public class RSocketTimeMatesRequestsEngine internal constructor(
     ): Result<T> = runCatching {
         return@runCatching rSocketCommandsRegistry.execute(container.await(), request)
             ?: throw UnsupportedException("This type of request is not supported in RSocket engine.")
+    }.mapException {
+        val message = it.message ?: "No message provided."
+
+        when (it) {
+            is RSocketError.Custom -> {
+                when (it.errorCode) {
+                    HttpStatusCode.TooManyRequests.value -> TooManyRequestsException(message, it)
+                    HttpStatusCode.NotFound.value -> NotFoundException(message, it)
+                    HttpStatusCode.Conflict.value -> AlreadyExistsException(message, it)
+                    HttpStatusCode.Forbidden.value -> PermissionDeniedException(message, it)
+                    HttpStatusCode.Unauthorized.value -> UnauthorizedException(message, it)
+                    HttpStatusCode.InsufficientStorage.value, HttpStatusCode.GatewayTimeout.value,
+                        HttpStatusCode.ServiceUnavailable.value -> UnavailableException(message, it)
+                    HttpStatusCode.NotImplemented.value -> UnsupportedException(message, it)
+                    else -> InternalServerError(message, it)
+                }
+            }
+
+            is RSocketError.Invalid -> {
+                InvalidArgumentException(message, it)
+            }
+
+            else -> {
+                InternalServerError(message, it)
+            }
+        }
     }
 }

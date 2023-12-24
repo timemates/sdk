@@ -8,5 +8,6 @@ package io.timemates.sdk.common.exceptions
  * @property message The error message associated with the unsupported exception.
  */
 public data class UnsupportedException(
-    override val message: String
-) : TimeMatesException(message)
+    override val message: String,
+    override val cause: Throwable? = null,
+) : TimeMatesException(message, cause)
