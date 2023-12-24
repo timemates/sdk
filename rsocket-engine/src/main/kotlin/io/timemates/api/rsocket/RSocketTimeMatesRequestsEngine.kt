@@ -51,7 +51,7 @@ import kotlin.time.Duration.Companion.seconds
  * @return An instance of the RSocketTimeMatesRequestsEngine.
  */
 public fun RSocketTimeMatesRequestsEngine(
-    endpoint: String = "wss://api.timemates.io/v0/rsocket",
+    endpoint: String = "wss://api.timemates.io/rsocket",
     coroutineScope: CoroutineScope,
     config: HttpClientConfig<*>.() -> Unit = {},
 ): RSocketTimeMatesRequestsEngine {
