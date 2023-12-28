@@ -125,14 +125,14 @@ public class RSocketTimeMatesRequestsEngine internal constructor(
         when (it) {
             is RSocketError.Custom -> {
                 when (it.errorCode) {
-                    HttpStatusCode.TooManyRequests.value -> TooManyRequestsException(message, it)
-                    HttpStatusCode.NotFound.value -> NotFoundException(message, it)
-                    HttpStatusCode.Conflict.value -> AlreadyExistsException(message, it)
-                    HttpStatusCode.Forbidden.value -> PermissionDeniedException(message, it)
-                    HttpStatusCode.Unauthorized.value -> UnauthorizedException(message, it)
+                    1001 -> TooManyRequestsException(message, it)
+                    1003 -> NotFoundException(message, it)
+                    1004 -> AlreadyExistsException(message, it)
+                    1005 -> PermissionDeniedException(message, it)
+                    1006 -> UnauthorizedException(message, it)
                     HttpStatusCode.InsufficientStorage.value, HttpStatusCode.GatewayTimeout.value,
                         HttpStatusCode.ServiceUnavailable.value -> UnavailableException(message, it)
-                    HttpStatusCode.NotImplemented.value -> UnsupportedException(message, it)
+                    1007 -> UnsupportedException(message, it)
                     else -> InternalServerError(message, it)
                 }
             }
@@ -140,6 +140,9 @@ public class RSocketTimeMatesRequestsEngine internal constructor(
             is RSocketError.Invalid -> {
                 InvalidArgumentException(message, it)
             }
+
+            is RSocketError.ApplicationError, is RSocketError.ConnectionError ->
+                UnavailableException(message, it)
 
             else -> {
                 InternalServerError(message, it)
