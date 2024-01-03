@@ -1,7 +1,6 @@
 package io.timemates.api.rsocket
 
 import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.http.HttpStatusCode
 import io.rsocket.kotlin.RSocketError
@@ -28,11 +27,11 @@ import io.timemates.sdk.common.types.TimeMatesEntity
 import io.timemates.sdk.common.types.TimeMatesRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.protobuf.ProtoBuf
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.seconds
 
 /**
@@ -53,7 +52,7 @@ import kotlin.time.Duration.Companion.seconds
 public fun RSocketTimeMatesRequestsEngine(
     endpoint: String = "wss://api.timemates.io/rsocket",
     coroutineScope: CoroutineScope,
-    config: HttpClientConfig<*>.() -> Unit = {},
+    config: RSocketSupport.Config.() -> Unit = {},
 ): RSocketTimeMatesRequestsEngine {
     val client = HttpClient {
         install(WebSockets)
@@ -64,17 +63,29 @@ public fun RSocketTimeMatesRequestsEngine(
                 connectionConfig {
                     keepAlive = KeepAlive(
                         interval = 30.seconds,
-                        maxLifetime = 2.minutes
+                        maxLifetime = INFINITE,
                     )
 
                     payloadMimeType = PayloadMimeType(
                         data = WellKnownMimeType.ApplicationProtoBuf,
                         metadata = WellKnownMimeType.ApplicationProtoBuf,
                     )
+
+                    reconnectable { _, attempt ->
+                        // we make kind of delay between reconnection,
+                        // but within normal frame.
+                        val nerf = if (attempt > 10)
+                            10
+                        else attempt
+
+                        delay(nerf * 250)
+                        true
+                    }
+
+                    config()
                 }
             }
         }
-        config()
     }
 
     return RSocketTimeMatesRequestsEngine(
@@ -131,7 +142,9 @@ public class RSocketTimeMatesRequestsEngine internal constructor(
                     1005 -> PermissionDeniedException(message, it)
                     1006 -> UnauthorizedException(message, it)
                     HttpStatusCode.InsufficientStorage.value, HttpStatusCode.GatewayTimeout.value,
-                        HttpStatusCode.ServiceUnavailable.value -> UnavailableException(message, it)
+                    HttpStatusCode.ServiceUnavailable.value,
+                    -> UnavailableException(message, it)
+
                     1007 -> UnsupportedException(message, it)
                     else -> InternalServerError(message, it)
                 }
