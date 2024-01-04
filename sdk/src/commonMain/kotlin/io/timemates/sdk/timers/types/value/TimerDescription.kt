@@ -9,7 +9,7 @@ public value class TimerDescription private constructor(public val string: Strin
         /**
          * Size range of the timer's name.
          */
-        public val SIZE_RANGE: IntRange = 3..500
+        public val SIZE_RANGE: IntRange = 0..500
 
         override fun create(input: String): Result<TimerDescription> {
             return when (input.length) {
