@@ -24,9 +24,13 @@ public interface PagesIterator<T> {
     /**
      * Returns `true` if there is another page available, `false` otherwise.
      *
+     * **Note**: Even if iterator returns true, it doesn't necessary means that
+     * there should be new elements. It effectively means that we should query next page (using next)
+     * and check whether there's new elements.
+     *
      * @return `true` if there is another page, `false` otherwise.
      */
-    public suspend operator fun hasNext(): Boolean
+    public operator fun hasNext(): Boolean
 
     /**
      * Returns the next page of elements.
@@ -161,7 +165,7 @@ internal class PagesIteratorImpl<T : TimeMatesEntity>(
     /**
      * Returns `true` if there is another page available, `false` otherwise.
      */
-    override suspend fun hasNext(): Boolean {
+    override fun hasNext(): Boolean {
         return state != State.DONE
     }
 
@@ -214,7 +218,7 @@ internal class MappingPagesIterator<T, R>(
     private val source: PagesIterator<T>,
     private val mapper: suspend (T) -> R,
 ) : PagesIterator<R> {
-    override suspend fun hasNext(): Boolean = source.hasNext()
+    override fun hasNext(): Boolean = source.hasNext()
 
     override suspend fun next(): Result<List<R>> {
         return source.next().map {
