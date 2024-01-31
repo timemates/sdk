@@ -14,7 +14,7 @@ To demonstrate the usage of the SDK, consider the following example:
 val engine = RSocketTimeMatesRequestsEngine(
     coroutineScope = Dispatchers.IO,
 )
-val emailAuth = AccountLoginApi(engineBuilder).email
+val emailAuth = AccountLoginApi(engine).email
 val email = EmailAddress.create("developer@y9vad9.com").getOrElse { return }
 
 val authorizationResult = emailAuth.authorize(email)
