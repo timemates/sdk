@@ -1,21 +1,15 @@
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
+    id(libs.plugins.conventions.multiplatform.library.get().pluginId)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.library.publish)
-    alias(libs.plugins.timemates.rsproto)
+    //alias(libs.plugins.timemates.rsproto)
 }
 
 kotlin {
-    jvm()
-    jvmToolchain(17)
-
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             kotlin.srcDirs("src/main/kotlin", "build/generated/rsproto/kotlin")
         }
     }
-
-    explicitApi()
 }
 
 dependencies {
@@ -29,32 +23,27 @@ dependencies {
     commonMainImplementation(libs.rsocket.client)
 }
 
-deployLibrary {
-    ssh(tag = "rsocket-engine to maven.timemates.io") {
-        host = System.getenv("TIMEMATES_SSH_HOST")
-        user = System.getenv("TIMEMATES_SSH_USER")
-        password = System.getenv("TIMEMATES_SSH_PASSWORD")
-        deployPath = System.getenv("TIMEMATES_SSH_DEPLOY_PATH")
-
-        group = "io.timemates"
-        componentName = "kotlin"
-        artifactId = "rsocket-engine"
-        name = "rsocket-engine"
-
-        description = "TimeMates rsocket adapter for SDK"
-
-        version = System.getenv("TIMEMATES_SDK_VERSION")
-    }
-}
-
-rsproto {
-    protoSourcePath = "src/main/proto/"
-    generationOutputPath = "generated/rsproto/kotlin"
-
-    clientGeneration = true
-    serverGeneration = false
-}
+//rsproto {
+//    protoSourcePath = "src/main/proto/"
+//    generationOutputPath = "generated/rsproto/kotlin"
+//
+//    clientGeneration = true
+//    serverGeneration = false
+//}
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = "org.timemates.sdk",
+        artifactId = "rsocket-engine",
+        version = System.getenv("LIB_VERSION") ?: return@mavenPublishing,
+    )
+
+    pom {
+        name.set("TimeMates RSocket Engine")
+        description.set("Multiplatform implementation of the API using rsproto.")
+    }
 }

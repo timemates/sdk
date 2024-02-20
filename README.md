@@ -71,8 +71,8 @@ repositories {
 }
 
 dependencies {
-    implementation("io.timemates:sdk:$version")
-    implementation("io.timemates:rsocket-engine:$version")
+    implementation("org.timemates:sdk:$version")
+    implementation("org.timemates:rsocket-engine:$version")
 }
 ```
 

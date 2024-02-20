@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-option java_package = "io.timemates.api.users.requests";
-
-message GetUsersRequest {
-  repeated int64 userId = 1;
-}

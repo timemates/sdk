@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "org.timemates.api.timers.members.invites.types";
+
+message Invite {
+  string code = 1;
+  int64 creationTime = 2;
+  int32 limit = 3;
+}

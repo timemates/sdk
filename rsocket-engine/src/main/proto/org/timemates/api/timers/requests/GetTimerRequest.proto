@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+option java_package = "org.timemates.api.timers.requests";
+
+message GetTimerRequest {
+  int64 timerId = 1;
+}

@@ -1,8 +1,8 @@
 [versions]
-kotlin = "1.9.20-Beta"
-kotlinx-coroutines = "1.6.4"
-kotlinx-serialization = "1.4.1"
-ktor = "2.0.1"
+kotlin = "1.9.20"
+kotlinx-coroutines = "1.7.3"
+kotlinx-serialization = "1.6.0"
+ktor = "2.3.5"
 kafka = "3.3.1"
 jupiter = "5.4.0"
 exposed = "0.41.1"
@@ -15,7 +15,7 @@ protobuf-plugin = "0.9.2"
 grpc-netty = "1.55.1"
 android-target = "33"
 android-min = "24"
-rsproto = "0.3.2"
+rsproto = "0.6.0"
 
 [libraries]
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
@@ -31,6 +31,8 @@ ktor-server-statusPages = { module = "io.ktor:ktor-server-status-pages", version
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 
 logback-classic = { module = "ch.qos.logback:logback-classic", version.require = "1.3.5" }
 
@@ -69,10 +71,20 @@ protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "p
 
 rsocket-client = { module = "io.rsocket.kotlin:rsocket-ktor-client", version.require = "0.15.4" }
 
-timemates-rsproto-client = { module = "io.timemates.rsproto:client-core", version.ref = "rsproto" }
-timemates-rsproto-common = { module = "io.timemates.rsproto:common-core", version.ref = "rsproto" }
+timemates-rsproto-client = { module = "org.timemates.rsproto:client-core", version.ref = "rsproto" }
+timemates-rsproto-common = { module = "org.timemates.rsproto:common-core", version.ref = "rsproto" }
+
+# Plugin classpaths
+kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+vanniktech-maven-publish = { module = "com.vanniktech.maven.publish:com.vanniktech.maven.publish.gradle.plugin", version.require = "0.25.3" }
 
 [plugins]
+# Build Conventions
+conventions-multiplatform = { id = "multiplatform-convention", version.require = "SNAPSHOT" }
+conventions-multiplatform-library = { id = "multiplatform-library-convention", version.require = "SNAPSHOT" }
+conventions-jvm = { id = "jvm-convention", version.require = "SNAPSHOT" }
+conventions-jvm-library = { id = "jvm-library-convention", version.require = "SNAPSHOT" }
+
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -82,4 +94,4 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 android-application = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 google-protobuf = { id = "com.google.protobuf", version.ref = "protobuf-plugin" }
 library-publish = { id = "publish-library", version.require = "SNAPSHOT" }
-timemates-rsproto = { id = "io.timemates.rsproto", version.ref = "rsproto" }
+timemates-rsproto = { id = "org.timemates.rsproto", version.ref = "rsproto" }

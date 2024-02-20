@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+option java_package = "org.timemates.api.timers.sessions.requests";
+
+message JoinTimerSessionRequest {
+  int64 timerId = 1;
+}

@@ -1,40 +1,27 @@
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.library.publish)
+    id(libs.plugins.conventions.multiplatform.library.get().pluginId)
 }
 
-kotlin {
-    jvm()
-    jvmToolchain(17)
-
-    explicitApi()
-}
-
-group = "io.timemates"
+group = "org.timemates.sdk"
 
 dependencies {
     commonMainImplementation(libs.kotlinx.datetime)
     commonMainImplementation(libs.kotlinx.coroutines)
 }
 
-deployLibrary {
-    ssh(tag = "maven.timemates.io") {
-        host = System.getenv("TIMEMATES_SSH_HOST")
-        user = System.getenv("TIMEMATES_SSH_USER")
-        password = System.getenv("TIMEMATES_SSH_PASSWORD")
-        deployPath = System.getenv("TIMEMATES_SSH_DEPLOY_PATH")
-
-        group = "io.timemates"
-        componentName = "kotlin"
-        artifactId = "sdk"
-        name = "sdk"
-
-        description = "TimeMates SDK"
-
-        version = System.getenv("TIMEMATES_SDK_VERSION")
-    }
-}
-
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = "org.timemates.sdk",
+        artifactId = "sdk",
+        version = System.getenv("LIB_VERSION") ?: return@mavenPublishing,
+    )
+
+    pom {
+        name.set("TimeMates SDK")
+        description.set("Multiplatform SDK for TimeMates API.")
+    }
 }
