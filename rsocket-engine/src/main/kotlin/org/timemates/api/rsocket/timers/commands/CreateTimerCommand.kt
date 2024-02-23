@@ -12,11 +12,11 @@ import org.timemates.api.timers.requests.CreateTimerRequest as RSCreateTimerRequ
 internal object CreateTimerCommand : RSocketCommand<CreateTimerRequest, CreateTimerRequest.Result> {
     override suspend fun execute(apis: ApiContainer, input: CreateTimerRequest): CreateTimerRequest.Result {
         return apis.timers.createTimer(
-            message = RSCreateTimerRequest(
-                name = input.name.string,
-                description = input.description.string,
-                settings = input.settings.rs(),
-            ),
+            message = RSCreateTimerRequest {
+                name = input.name.string
+                description = input.description.string
+                settings = input.settings.rs()
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             CreateTimerRequest.Result(TimerId.createOrThrow(result.timerId))

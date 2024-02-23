@@ -4,6 +4,7 @@ import org.timemates.sdk.common.constructor.CreationFailure
 import org.timemates.sdk.common.constructor.Factory
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
+import kotlin.jvm.JvmInline
 
 @JvmInline
 public value class UserDescription private constructor(public val string: String) {

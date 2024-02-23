@@ -2,6 +2,7 @@ package org.timemates.sdk.users.profile.types.value
 
 import org.timemates.sdk.common.constructor.Factory
 import org.timemates.sdk.common.constructor.CreationFailure
+import kotlin.jvm.JvmInline
 
 @JvmInline
 public value class EmailAddress private constructor(public val string: String) {

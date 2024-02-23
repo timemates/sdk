@@ -10,10 +10,10 @@ import org.timemates.api.timers.requests.EditTimerRequest as RSEditTimerRequest
 internal object EditTimerCommand : RSocketCommand<EditTimerRequest, Empty> {
     override suspend fun execute(apis: ApiContainer, input: EditTimerRequest): Empty {
         return apis.timers.editTimer(
-            message = RSEditTimerRequest(
-                timerId = input.timerId.long,
-                name = input.name?.string.orEmpty(),
-            ),
+            message = RSEditTimerRequest {
+                timerId = input.timerId.long
+                name = input.name?.string.orEmpty()
+            },
             extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }

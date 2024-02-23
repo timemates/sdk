@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "io/timemates/api/authorizations/types/Authorization.proto";
+import "org/timemates/api/authorizations/types/Authorization.proto";
 
 option java_package = "org.timemates.api.authorizations.requests";
 

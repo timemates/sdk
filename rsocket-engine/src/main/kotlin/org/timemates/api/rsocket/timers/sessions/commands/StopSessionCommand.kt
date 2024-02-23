@@ -10,9 +10,9 @@ import org.timemates.api.timers.sessions.requests.StopTimerRequest as RSStopTime
 internal object StopSessionCommand : RSocketCommand<StopTimerRequest, Empty> {
     override suspend fun execute(apis: ApiContainer, input: StopTimerRequest): Empty {
         return apis.timerSessions.stopTimer(
-            message = RSStopTimerRequest(
-                timerId = input.timerId.long,
-            ),
+            message = RSStopTimerRequest {
+                timerId = input.timerId.long
+            },
             extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }

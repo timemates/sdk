@@ -1,14 +1,14 @@
 syntax = "proto3";
 
-import "io/timemates/api/timers/sessions/requests/StartTimerSessionRequest.proto";
-import "io/timemates/api/timers/sessions/requests/StopTimerSessionRequest.proto";
-import "io/timemates/api/timers/sessions/requests/JoinTimerSessionRequest.proto";
-import "io/timemates/api/timers/sessions/requests/ConfirmTimerSessionRequest.proto";
-import "io/timemates/api/timers/sessions/requests/GetTimerStateRequest.proto";
-import "io/timemates/api/timers/sessions/types/TimerState.proto";
+import "org/timemates/api/timers/sessions/requests/StartTimerSessionRequest.proto";
+import "org/timemates/api/timers/sessions/requests/StopTimerSessionRequest.proto";
+import "org/timemates/api/timers/sessions/requests/JoinTimerSessionRequest.proto";
+import "org/timemates/api/timers/sessions/requests/ConfirmTimerSessionRequest.proto";
+import "org/timemates/api/timers/sessions/requests/GetTimerStateRequest.proto";
+import "org/timemates/api/timers/sessions/types/TimerState.proto";
 import "google/protobuf/empty.proto";
-import "io/timemates/api/timers/sessions/requests/GetCurrentTimerSessionRequest.proto";
-import "io/timemates/api/timers/types/Timer.proto";
+import "org/timemates/api/timers/sessions/requests/GetCurrentTimerSessionRequest.proto";
+import "org/timemates/api/timers/types/Timer.proto";
 
 option java_package = "org.timemates.api.timers";
 

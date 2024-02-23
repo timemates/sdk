@@ -2,6 +2,7 @@ package org.timemates.api.rsocket.common.commands
 
 import org.timemates.sdk.common.types.TimeMatesEntity
 import org.timemates.sdk.common.types.TimeMatesRequest
+import kotlin.jvm.JvmInline
 
 @RSocketCommandsDsl
 @JvmInline

@@ -4,6 +4,7 @@ import io.rsocket.kotlin.RSocket
 import org.timemates.api.rsocket.ApiContainer
 import org.timemates.sdk.common.types.TimeMatesEntity
 import org.timemates.sdk.common.types.TimeMatesRequest
+import kotlin.jvm.JvmInline
 
 /**
  * An inline class that encapsulates a set of RSocket commands for executing TimeMates requests.

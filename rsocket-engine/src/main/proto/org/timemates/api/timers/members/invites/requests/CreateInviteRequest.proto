@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "io/timemates/api/users/types/User.proto";
+import "org/timemates/api/users/types/User.proto";
 
 option java_package = "org.timemates.api.timers.members.invites.requests";
 

@@ -12,9 +12,9 @@ import org.timemates.api.timers.requests.JoinTimerByInviteCodeRequest as RSJoinT
 internal object JoinTimerByCodeCommand : RSocketCommand<JoinTimerByCodeRequest, JoinTimerByCodeRequest.Result> {
     override suspend fun execute(apis: ApiContainer, input: JoinTimerByCodeRequest): JoinTimerByCodeRequest.Result {
         return apis.timers.joinByInvite(
-            message = RSJoinTimerByInviteCodeRequest(
-                inviteCode = input.code.string,
-            ),
+            message = RSJoinTimerByInviteCodeRequest {
+                inviteCode = input.code.string
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             JoinTimerByCodeRequest.Result(result.timer!!.sdk())

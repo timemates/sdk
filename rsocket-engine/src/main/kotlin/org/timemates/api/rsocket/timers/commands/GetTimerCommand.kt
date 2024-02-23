@@ -10,9 +10,9 @@ import org.timemates.api.timers.requests.GetTimerRequest as RSGetTimerRequest
 internal object GetTimerCommand : RSocketCommand<GetTimerRequest, GetTimerRequest.Result> {
     override suspend fun execute(apis: ApiContainer, input: GetTimerRequest): GetTimerRequest.Result {
         return apis.timers.getTimer(
-            message = RSGetTimerRequest(
-                timerId = input.timerId.long,
-            ),
+            message = RSGetTimerRequest {
+                timerId = input.timerId.long
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             GetTimerRequest.Result(result.sdk())

@@ -11,10 +11,10 @@ import org.timemates.sdk.timers.members.invites.types.value.InviteCode
 internal object CreateInviteCommand : RSocketCommand<CreateInviteRequest, CreateInviteRequest.Result> {
     override suspend fun execute(apis: ApiContainer, input: CreateInviteRequest): CreateInviteRequest.Result {
         return apis.timers.createInvite(
-            message = InviteMemberRequest(
-                timerId = input.timerId.long,
-                maxJoiners = input.maxJoinersCount.int,
-            ),
+            message = InviteMemberRequest {
+                timerId = input.timerId.long
+                maxJoiners = input.maxJoinersCount.int
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             CreateInviteRequest.Result(InviteCode.createOrThrow(result.inviteCode))

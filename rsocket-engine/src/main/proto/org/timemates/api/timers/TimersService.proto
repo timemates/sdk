@@ -1,17 +1,17 @@
 syntax = "proto3";
 
-import "io/timemates/api/timers/requests/CreateTimerRequest.proto";
-import "io/timemates/api/timers/requests/EditTimerInfoRequest.proto";
-import "io/timemates/api/timers/requests/RemoveTimerRequest.proto";
-import "io/timemates/api/timers/requests/GetTimerRequest.proto";
-import "io/timemates/api/timers/requests/GetTimersRequest.proto";
-import "io/timemates/api/timers/members/requests/KickMemberRequest.proto";
-import "io/timemates/api/timers/members/requests/GetMembersRequest.proto";
-import "io/timemates/api/timers/members/invites/requests/CreateInviteRequest.proto";
-import "io/timemates/api/timers/members/invites/requests/GetInvitesRequest.proto";
-import "io/timemates/api/timers/members/invites/requests/RemoveInviteRequest.proto";
-import "io/timemates/api/timers/members/invites/requests/JoinTimerByInviteCodeRequest.proto";
-import "io/timemates/api/timers/types/Timer.proto";
+import "org/timemates/api/timers/requests/CreateTimerRequest.proto";
+import "org/timemates/api/timers/requests/EditTimerInfoRequest.proto";
+import "org/timemates/api/timers/requests/RemoveTimerRequest.proto";
+import "org/timemates/api/timers/requests/GetTimerRequest.proto";
+import "org/timemates/api/timers/requests/GetTimersRequest.proto";
+import "org/timemates/api/timers/members/requests/KickMemberRequest.proto";
+import "org/timemates/api/timers/members/requests/GetMembersRequest.proto";
+import "org/timemates/api/timers/members/invites/requests/CreateInviteRequest.proto";
+import "org/timemates/api/timers/members/invites/requests/GetInvitesRequest.proto";
+import "org/timemates/api/timers/members/invites/requests/RemoveInviteRequest.proto";
+import "org/timemates/api/timers/members/invites/requests/JoinTimerByInviteCodeRequest.proto";
+import "org/timemates/api/timers/types/Timer.proto";
 import "google/protobuf/empty.proto";
 
 option java_package = "org.timemates.api.timers";

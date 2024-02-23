@@ -10,10 +10,10 @@ import org.timemates.api.timers.members.invites.requests.RemoveInviteRequest as 
 internal object RemoveInviteCommand : RSocketCommand<RemoveInviteRequest, Empty> {
     override suspend fun execute(apis: ApiContainer, input: RemoveInviteRequest): Empty {
         return apis.timers.removeInvite(
-            message = RSRemoveInviteRequest(
-                timerId = input.timerId.long,
-                inviteCode = input.inviteCode.string,
-            ),
+            message = RSRemoveInviteRequest {
+                timerId = input.timerId.long
+                inviteCode = input.inviteCode.string
+            },
             extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }

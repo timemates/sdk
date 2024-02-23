@@ -11,7 +11,9 @@ import org.timemates.api.authorizations.requests.RenewAuthorizationRequest as RS
 internal object RenewAuthorizationCommand : RSocketCommand<RenewAuthorizationRequest, RenewAuthorizationRequest.Result> {
     override suspend fun execute(apis: ApiContainer, input: RenewAuthorizationRequest): RenewAuthorizationRequest.Result {
         return apis.auth.renewAuthorization(
-            message = RSRenewAuthorizationRequest(input.refreshHash.string),
+            message = RSRenewAuthorizationRequest {
+                refreshHash = input.refreshHash.string
+            },
         ).let { result ->
             RenewAuthorizationRequest.Result(
                 authorization = result.authorization!!.sdk()

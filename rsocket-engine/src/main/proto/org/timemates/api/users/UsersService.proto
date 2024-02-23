@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-import "io/timemates/api/users/requests/GetUsersRequest.proto";
-import "io/timemates/api/users/requests/EditUserRequest.proto";
-import "io/timemates/api/users/requests/EditEmailRequest.proto";
-import "io/timemates/api/users/types/User.proto";
+import "org/timemates/api/users/requests/GetUsersRequest.proto";
+import "org/timemates/api/users/requests/EditUserRequest.proto";
+import "org/timemates/api/users/requests/EditEmailRequest.proto";
+import "org/timemates/api/users/types/User.proto";
 import "google/protobuf/empty.proto";
 
 option java_package = "org.timemates.api.users";

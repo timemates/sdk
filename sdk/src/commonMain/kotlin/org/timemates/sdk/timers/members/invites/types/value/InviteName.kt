@@ -2,6 +2,7 @@ package org.timemates.sdk.timers.members.invites.types.value
 
 import org.timemates.sdk.common.constructor.CreationFailure
 import org.timemates.sdk.common.constructor.Factory
+import kotlin.jvm.JvmInline
 
 @JvmInline
 public value class InviteName private constructor(public val string: String) {

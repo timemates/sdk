@@ -1,5 +1,6 @@
 package org.timemates.api.rsocket.authorizations
 
+import io.ktor.utils.io.core.toByteArray
 import org.timemates.api.authorizations.types.Metadata
 import org.timemates.sdk.authorization.sessions.types.value.ApplicationName
 import org.timemates.sdk.authorization.sessions.types.value.ClientIpAddress
@@ -21,10 +22,10 @@ internal fun Metadata.sdk(): SdkAuth.Metadata {
 }
 
 internal fun SdkAuth.Metadata.rs(): Metadata {
-    return Metadata(
-        clientName = applicationName.string,
-        clientVersion = clientVersion.double,
-    )
+    return Metadata {
+        clientName = applicationName.string
+        clientVersion = this@rs.clientVersion.double
+    }
 }
 
 internal fun RSAuthorization.sdk(): SdkAuth {

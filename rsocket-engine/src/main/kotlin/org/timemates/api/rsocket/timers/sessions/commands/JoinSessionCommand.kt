@@ -10,9 +10,9 @@ import org.timemates.api.timers.sessions.requests.JoinTimerSessionRequest as RSJ
 internal object JoinSessionCommand : RSocketCommand<JoinTimerSessionRequest, Empty> {
     override suspend fun execute(apis: ApiContainer, input: JoinTimerSessionRequest): Empty {
         return apis.timerSessions.joinSession(
-            message = RSJoinTimerSessionRequest(
-                timerId = input.timerId.long,
-            ),
+            message = RSJoinTimerSessionRequest {
+                timerId = input.timerId.long
+            },
             extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }

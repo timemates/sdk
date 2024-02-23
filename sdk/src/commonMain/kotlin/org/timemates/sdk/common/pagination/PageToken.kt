@@ -1,6 +1,7 @@
 package org.timemates.sdk.common.pagination
 
 import org.timemates.sdk.common.constructor.Factory
+import kotlin.jvm.JvmInline
 
 /**
  * A value class representing a page token.

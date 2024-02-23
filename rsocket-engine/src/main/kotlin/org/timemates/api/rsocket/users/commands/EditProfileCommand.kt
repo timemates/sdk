@@ -11,11 +11,11 @@ import org.timemates.api.users.requests.EditUserRequest as RSEditUserRequest
 internal object EditProfileCommand : RSocketCommand<EditProfileRequest, Empty> {
     override suspend fun execute(apis: ApiContainer, input: EditProfileRequest): Empty {
         return apis.users.setUser(
-            message = RSEditUserRequest(
-                gravatarId = (input.avatar as? Avatar.GravatarId)?.string.orEmpty(),
-                name = input.name?.string.orEmpty(),
-                description = input.description?.string.orEmpty(),
-            ),
+            message = RSEditUserRequest {
+                gravatarId = (input.avatar as? Avatar.GravatarId)?.string.orEmpty()
+                name = input.name?.string.orEmpty()
+                description = input.description?.string.orEmpty()
+            },
             extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }

@@ -14,9 +14,9 @@ import org.timemates.api.timers.requests.GetTimersRequest as RSGetTimersRequest
 internal object GetUserTimersCommand : RSocketCommand<GetUserTimersRequest, Page<Timer>> {
     override suspend fun execute(apis: ApiContainer, input: GetUserTimersRequest): Page<Timer> {
         return apis.timers.getTimers(
-            message = RSGetTimersRequest(
-                nextPageToken = input.pageToken?.string.orEmpty(),
-            ),
+            message = RSGetTimersRequest {
+                nextPageToken = input.pageToken?.string.orEmpty()
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             Page(

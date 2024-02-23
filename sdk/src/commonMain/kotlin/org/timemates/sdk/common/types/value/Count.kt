@@ -2,6 +2,7 @@ package org.timemates.sdk.common.types.value
 
 import org.timemates.sdk.common.constructor.CreationFailure
 import org.timemates.sdk.common.constructor.Factory
+import kotlin.jvm.JvmInline
 
 @JvmInline
 public value class Count private constructor(public val int: Int) {

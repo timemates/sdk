@@ -2,6 +2,7 @@ package org.timemates.sdk.users.profile.types.value
 
 import org.timemates.sdk.common.constructor.CreationFailure
 import org.timemates.sdk.common.constructor.Factory
+import kotlin.jvm.JvmInline
 
 @JvmInline
 public value class UserId private constructor(public val long: Long) {

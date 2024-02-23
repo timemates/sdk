@@ -2,6 +2,7 @@ package org.timemates.sdk.users.profile.types
 
 import org.timemates.sdk.common.constructor.CreationFailure
 import org.timemates.sdk.common.constructor.Factory
+import kotlin.jvm.JvmInline
 
 public sealed interface Avatar {
     @JvmInline

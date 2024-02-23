@@ -14,10 +14,10 @@ import org.timemates.api.timers.members.requests.GetMembersRequest as RSGetMembe
 internal object GetTimerMembersCommand : RSocketCommand<GetMembersRequest, Page<User>> {
     override suspend fun execute(apis: ApiContainer, input: GetMembersRequest): Page<User> {
         return apis.timers.getMembers(
-            message = RSGetMembersRequest(
-                timerId = input.timerId.long,
-                nextPageToken = input.pageToken?.string.orEmpty(),
-            ),
+            message = RSGetMembersRequest {
+                timerId = input.timerId.long
+                nextPageToken = input.pageToken?.string.orEmpty()
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             Page(

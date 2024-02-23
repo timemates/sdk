@@ -11,7 +11,9 @@ import org.timemates.api.timers.sessions.requests.GetTimerStateRequest as RSGetT
 internal object GetTimerStateCommand : RSocketCommand<GetTimerStateRequest, GetTimerStateRequest.Result> {
     override suspend fun execute(apis: ApiContainer, input: GetTimerStateRequest): GetTimerStateRequest.Result {
         return apis.timerSessions.getState(
-            message = RSGetTimerStateRequest(timerId = input.timerId.long),
+            message = RSGetTimerStateRequest {
+                timerId = input.timerId.long
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             GetTimerStateRequest.Result(result.map { it.sdk() })

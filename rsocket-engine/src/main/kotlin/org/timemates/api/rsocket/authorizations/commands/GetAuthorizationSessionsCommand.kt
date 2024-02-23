@@ -14,7 +14,9 @@ import org.timemates.api.authorizations.requests.GetAuthorizationsRequest as RSG
 internal object GetAuthorizationSessionsCommand : RSocketCommand<GetAuthorizationSessionsRequest, Page<Authorization>> {
     override suspend fun execute(apis: ApiContainer, input: GetAuthorizationSessionsRequest): Page<Authorization> {
         return apis.auth.getAuthorizations(
-            message = RSGetAuthorizationsRequest(input.nextPageToken?.string.orEmpty()),
+            message = RSGetAuthorizationsRequest {
+                pageToken = input.nextPageToken?.string.orEmpty()
+            },
             extra = input.accessHash.toExtra(),
         ).let { result ->
             Page(

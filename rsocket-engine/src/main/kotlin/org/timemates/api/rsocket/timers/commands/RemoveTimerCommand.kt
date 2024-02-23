@@ -10,7 +10,9 @@ import org.timemates.api.timers.requests.RemoveTimerRequest as RSRemoveTimerRequ
 internal object RemoveTimerCommand : RSocketCommand<RemoveTimerRequest, Empty> {
     override suspend fun execute(apis: ApiContainer, input: RemoveTimerRequest): Empty {
         return apis.timers.removeTimer(
-            message = RSRemoveTimerRequest(input.timerId.long),
+            message = RSRemoveTimerRequest {
+                timerId = input.timerId.long
+            },
             extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }

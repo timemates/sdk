@@ -9,9 +9,10 @@ import org.timemates.api.authorizations.requests.ConfirmAuthorizationRequest as 
 internal object ConfirmAuthorizationCommand : RSocketCommand<ConfirmAuthorizationRequest, ConfirmAuthorizationRequest.Result> {
     override suspend fun execute(apis: ApiContainer, input: ConfirmAuthorizationRequest): ConfirmAuthorizationRequest.Result {
         return apis.auth.confirmAuthorization(
-            message = RSConfirmAuthorizationRequest(
-                input.verificationHash.string, input.confirmationCode.string
-            )
+            message = RSConfirmAuthorizationRequest {
+                verificationHash = input.verificationHash.string
+                confirmationCode = input.confirmationCode.string
+            }
         ).let { result ->
             ConfirmAuthorizationRequest.Result(
                 isNewAccount = result.isNewAccount,

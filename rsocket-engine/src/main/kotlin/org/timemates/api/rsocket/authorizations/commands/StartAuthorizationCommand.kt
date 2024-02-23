@@ -16,10 +16,10 @@ internal object StartAuthorizationCommand : RSocketCommand<StartAuthorizationReq
         input: StartAuthorizationRequest,
     ): StartAuthorizationRequest.Result {
         return apis.auth.startAuthorization(
-            message = RSStartAuthorizationRequest(
-                input.emailAddress.string,
-                input.metadata.rs(),
-            )
+            message = RSStartAuthorizationRequest {
+                input.emailAddress.string
+                input.metadata.rs()
+            }
         ).let { result ->
             StartAuthorizationRequest.Result(
                 verificationHash = VerificationHash.createOrThrow(result.verificationHash),

@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-import "io/timemates/api/authorizations/requests/StartAuthorizationRequest.proto";
-import "io/timemates/api/authorizations/requests/ConfirmAuthorizationRequest.proto";
-import "io/timemates/api/authorizations/requests/GetAuthorizationsRequest.proto";
-import "io/timemates/api/authorizations/options/OmitAuthorizationOption.proto";
-import "io/timemates/api/authorizations/requests/CreateProfileRequest.proto";
-import "io/timemates/api/authorizations/requests/RenewAuthorizationRequest.proto";
-import "io/timemates/api/authorizations/types/Authorization.proto";
+import "org/timemates/api/authorizations/requests/StartAuthorizationRequest.proto";
+import "org/timemates/api/authorizations/requests/ConfirmAuthorizationRequest.proto";
+import "org/timemates/api/authorizations/requests/GetAuthorizationsRequest.proto";
+import "org/timemates/api/authorizations/options/OmitAuthorizationOption.proto";
+import "org/timemates/api/authorizations/requests/CreateProfileRequest.proto";
+import "org/timemates/api/authorizations/requests/RenewAuthorizationRequest.proto";
+import "org/timemates/api/authorizations/types/Authorization.proto";
 import "google/protobuf/empty.proto";
 
 option java_package = "org.timemates.api.authorizations";

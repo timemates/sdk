@@ -10,9 +10,9 @@ import org.timemates.api.timers.sessions.requests.StartTimerRequest as RSStartTi
 internal object StartSessionCommand : RSocketCommand<StartTimerRequest, Empty> {
     override suspend fun execute(apis: ApiContainer, input: StartTimerRequest): Empty {
         return apis.timerSessions.startTimer(
-            message = RSStartTimerRequest(
-                timerId = input.timerId.long,
-            ),
+            message = RSStartTimerRequest {
+                timerId = input.timerId.long
+            },
             extra = input.accessHash.toExtra(),
         ).let { _ -> Empty }
     }

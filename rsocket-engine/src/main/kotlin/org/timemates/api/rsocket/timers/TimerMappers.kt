@@ -71,13 +71,13 @@ internal fun RSTimer.Settings.sdk(): SdkTimerSettings {
 }
 
 internal fun SdkTimerSettings.rs(): RSTimer.Settings {
-    return RSTimer.Settings(
-        workTime = workTime.toInt(DurationUnit.MINUTES),
-        restTime = restTime.toInt(DurationUnit.MINUTES),
-        bigRestEnabled = bigRestEnabled,
-        bigRestTime = bigRestTime.toInt(DurationUnit.MINUTES),
-        isConfirmationRequired = isConfirmationRequired,
-    )
+    return RSTimer.Settings {
+        workTime = this@rs.workTime.toInt(DurationUnit.MINUTES)
+        restTime = this@rs.restTime.toInt(DurationUnit.MINUTES)
+        bigRestEnabled = this@rs.bigRestEnabled
+        bigRestTime = this@rs.bigRestTime.toInt(DurationUnit.MINUTES)
+        isConfirmationRequired = this@rs.isConfirmationRequired
+    }
 }
 
 internal fun RSInvite.sdk(): SdkInvite {

@@ -1,7 +1,7 @@
 plugins {
     id(libs.plugins.conventions.multiplatform.library.get().pluginId)
     alias(libs.plugins.kotlinx.serialization)
-    //alias(libs.plugins.timemates.rsproto)
+    alias(libs.plugins.timemates.rsproto)
 }
 
 kotlin {
@@ -23,13 +23,13 @@ dependencies {
     commonMainImplementation(libs.rsocket.client)
 }
 
-//rsproto {
-//    protoSourcePath = "src/main/proto/"
-//    generationOutputPath = "generated/rsproto/kotlin"
-//
-//    clientGeneration = true
-//    serverGeneration = false
-//}
+rsproto {
+    protoSourcePath = "src/main/proto/"
+    generationOutputPath = "build/generated/rsproto/kotlin"
+
+    clientGeneration = true
+    serverGeneration = false
+}
 
 tasks.withType<Test> {
     useJUnitPlatform()
