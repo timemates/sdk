@@ -3,7 +3,8 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven("https://maven.timemates.org")
+        maven("https://maven.timemates.org/dev")
+        maven("https://maven.timemates.org/releases")
         mavenCentral()
         google()
     }
@@ -16,7 +17,8 @@ dependencyResolutionManagement {
         mavenCentral()
         maven("https://jitpack.io")
         maven("https://maven.y9vad9.com")
-        maven("https://maven.timemates.org")
+        maven("https://maven.timemates.org/dev")
+        maven("https://maven.timemates.org/releases")
     }
 }
 
