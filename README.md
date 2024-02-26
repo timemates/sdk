@@ -57,7 +57,7 @@ iterator.forEach { timer -> /* ... */ }
 > **Warning** <br>
 > `asSequence` is experimental API and needs more considerations about possible misunderstanding of non-laziness way of loading and iterating data at start. You can just use `iterator.toList().asSequence()` or simply opt-in `ExperimentalApi` annotation.
 
-Overall, you can take a look at sources of [PagesIterator](/sdk/src/commonMain/kotlin/io/timemates/sdk/common/pagination/PagesIterator.kt) to get more information.
+Overall, you can take a look at sources of [PagesIterator](/sdk/src/commonMain/kotlin/org/timemates/sdk/common/pagination/PagesIterator.kt) to get more information.
 
 ## Implementation
 > **Warning** <br>
@@ -67,7 +67,9 @@ Overall, you can take a look at sources of [PagesIterator](/sdk/src/commonMain/k
 You can implement sdk in next way:
 ```kotlin
 repositories {
-    maven("https://maven.timemates.io")
+    maven("https://maven.timemates.org/releases")
+    // if you want, you can also use dev builds:
+    maven("https://maven.timemates.org/dev")
 }
 
 dependencies {
