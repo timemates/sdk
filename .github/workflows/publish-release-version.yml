@@ -33,4 +33,4 @@ jobs:
           REPOSILITE_USER: ${{ secrets.REPOSILITE_USER }}
           REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
           LIB_VERSION: dev-${{ github.sha }}
-        run: ./gradlew publish -Pversion=dev-${{ env.TIMEMATES_SDK_VERSION }}
+        run: ./gradlew publish -Pversion=dev-${{ env.LIB_VERSION }}
