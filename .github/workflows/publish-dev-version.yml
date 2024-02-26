@@ -30,9 +30,7 @@ jobs:
 
       - name: Build and Publish
         env:
-          TIMEMATES_SSH_DEPLOY_PATH: ${{ secrets.TIMEMATES_SSH_DEPLOY_PATH }}
-          TIMEMATES_SSH_HOST: ${{ secrets.TIMEMATES_SSH_HOST }}
-          TIMEMATES_SSH_PASSWORD: ${{ secrets.TIMEMATES_SSH_PASSWORD }}
-          TIMEMATES_SSH_USER: ${{ secrets.TIMEMATES_SSH_USER }}
-          TIMEMATES_SDK_VERSION: dev-${{ github.sha }}
-        run: ./gradlew publish -Pversion=dev-${{ env.TIMEMATES_SDK_VERSION }}
+          REPOSILITE_USER: ${{ secrets.REPOSILITE_USER }}
+          REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
+          LIB_VERSION: dev-${{ github.sha }}
+        run: ./gradlew publishKotlinMultiplatformPublicationToTimeMatesReleasesRepository -Pversion=${{ env.LIB_VERSION }}

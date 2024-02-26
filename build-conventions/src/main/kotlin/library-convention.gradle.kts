@@ -39,15 +39,24 @@ mavenPublishing {
 publishing {
     repositories {
         maven {
-            name = "TimeMates"
+            name = "timeMatesReleases"
 
-            url = uri(
-                "sftp://${System.getenv("SSH_HOST")}:22/${System.getenv("SSH_DEPLOY_PATH")}"
-            )
+            url = uri("https://maven.timemates.org/releases")
 
             credentials {
-                username = System.getenv("SSH_USER")
-                password = System.getenv("SSH_PASSWORD")
+                username = System.getenv("REPOSILITE_USER")
+                password = System.getenv("REPOSILITE_SECRET")
+            }
+        }
+
+        maven {
+            name = "timeMatesDev"
+
+            url = uri("https://maven.timemates.org/dev")
+
+            credentials {
+                username = System.getenv("REPOSILITE_USER")
+                password = System.getenv("REPOSILITE_SECRET")
             }
         }
     }
