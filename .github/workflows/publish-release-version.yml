@@ -32,5 +32,5 @@ jobs:
         env:
           REPOSILITE_USER: ${{ secrets.REPOSILITE_USER }}
           REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
-          LIB_VERSION: dev-${{ github.sha }}
-        run: ./gradlew publishKotlinMultiplatformPublicationToTimeMatesReleasesRepository -Pversion=dev-${{ env.LIB_VERSION }}
+          LIB_VERSION: ${{ github.ref_name }}
+        run: ./gradlew publishKotlinMultiplatformPublicationToTimeMatesReleasesRepository -Pversion=${{ env.LIB_VERSION }}
