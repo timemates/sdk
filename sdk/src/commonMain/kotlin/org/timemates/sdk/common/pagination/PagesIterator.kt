@@ -1,5 +1,6 @@
 package org.timemates.sdk.common.pagination
 
+import kotlinx.coroutines.CancellationException
 import org.timemates.sdk.common.annotations.ApiStatus
 import org.timemates.sdk.common.annotations.ExperimentalTimeMatesApi
 import org.timemates.sdk.common.constructor.createOrThrow
@@ -38,7 +39,7 @@ public interface PagesIterator<T> {
      * @return The list of elements in the next page.
      * @throws NoSuchElementException if there are no more pages available.
      */
-    @Throws(NoSuchElementException::class)
+    @Throws(NoSuchElementException::class, CancellationException::class)
     public suspend operator fun next(): Result<List<T>>
 
     /**
