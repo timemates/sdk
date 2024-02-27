@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
@@ -33,4 +33,4 @@ jobs:
           REPOSILITE_USER: ${{ secrets.REPOSILITE_USER }}
           REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}
           LIB_VERSION: dev-${{ github.sha }}
-        run: ./gradlew publishKotlinMultiplatformPublicationToTimeMatesDevRepository -Pversion=${{ env.LIB_VERSION }}
+        run: ./gradlew publishAllPublicationsToTimeMatesDevRepository -Pversion=${{ env.LIB_VERSION }}
