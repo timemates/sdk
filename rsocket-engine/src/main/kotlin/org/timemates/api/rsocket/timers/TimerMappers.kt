@@ -37,7 +37,7 @@ internal fun RSTimerState.sdk(): SdkTimerState {
     val publishTime = Instant.fromEpochMilliseconds(publishTime)
     return when (phase) {
         is TimerState.PhaseOneOf.ConfirmationWaiting -> SdkTimerState.ConfirmationWaiting(
-            endsAt = Instant.fromEpochMilliseconds(phase.value!!.endsAt),
+            endsAt = Instant.fromEpochMilliseconds(phase.value.endsAt),
             publishTime = publishTime,
         )
         is TimerState.PhaseOneOf.Inactive -> SdkTimerState.Inactive(
@@ -47,11 +47,11 @@ internal fun RSTimerState.sdk(): SdkTimerState {
             publishTime = publishTime,
         )
         is TimerState.PhaseOneOf.Rest -> SdkTimerState.Rest(
-            endsAt = Instant.fromEpochMilliseconds(phase.value!!.endsAt),
+            endsAt = Instant.fromEpochMilliseconds(phase.value.endsAt),
             publishTime = publishTime,
         )
         is TimerState.PhaseOneOf.Running -> SdkTimerState.Running(
-            endsAt = Instant.fromEpochMilliseconds(phase.value!!.endsAt),
+            endsAt = Instant.fromEpochMilliseconds(phase.value.endsAt),
             publishTime = publishTime,
         )
         null -> SdkTimerState.Inactive(Instant.DISTANT_PAST)
