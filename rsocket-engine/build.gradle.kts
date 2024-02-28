@@ -25,7 +25,7 @@ dependencies {
 
 rsproto {
     protoSourcePath = "src/main/proto/"
-    generationOutputPath = "build/generated/rsproto/kotlin"
+    generationOutputPath = "generated/rsproto/kotlin"
 
     clientGeneration = true
     serverGeneration = false
