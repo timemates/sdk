@@ -17,8 +17,8 @@ internal object StartAuthorizationCommand : RSocketCommand<StartAuthorizationReq
     ): StartAuthorizationRequest.Result {
         return apis.auth.startAuthorization(
             message = RSStartAuthorizationRequest {
-                input.emailAddress.string
-                input.metadata.rs()
+                emailAddress = input.emailAddress.string
+                metadata = input.metadata.rs()
             }
         ).let { result ->
             StartAuthorizationRequest.Result(
