@@ -2,7 +2,7 @@
 
 package org.timemates.sdk.common.constructor
 
-import org.timemates.sdk.common.exceptions.TimeMatesException
+import org.timemates.sdk.common.types.TimeMatesEntity
 
 /**
  * Represents a failure that occurs during the creation of an object.
@@ -12,51 +12,77 @@ import org.timemates.sdk.common.exceptions.TimeMatesException
  *
  * @property message The error message associated with the creation failure.
  */
-public sealed class CreationFailure(message: String) : TimeMatesException(message) {
+public sealed class CreationFailure(
+    public val message: String,
+) : TimeMatesEntity() {
     /**
      * Represents a creation failure due to a size range constraint.
      */
-    public data class SizeRangeFailure(public val range: IntRange) : CreationFailure("Constraint failure: size must be in range of $range")
+    public data class LengthRangeFailure(public val range: IntRange) : CreationFailure("Length must be in range of $range")
 
     /**
      * Represents a creation failure due to an exact size constraint.
      */
-    public data class SizeExactFailure(public val size: Int) : CreationFailure("Constraint failure: size must be exactly $size")
+    public data class LengthExactFailure(public val size: Int) : CreationFailure("Length must be exactly $size")
 
     /**
      * Represents a creation failure due to a minimum value constraint.
      */
-    public data class MinValueFailure(public val size: Int) : CreationFailure("Constraint failure: minimal value is $size")
+    public data class MinValueFailure<T>(
+        public val size: T,
+    ) : CreationFailure("Minimal value is $size")
+        where T : Number, T : Comparable<T>
+
+    /**
+     * Represents a creation failure due to a invalid value range.
+     */
+    public data class ValueRangeFailure<T>(
+        public val range: ClosedRange<T>,
+    ) : CreationFailure("Value should be in range $range.")
+        where T : Number, T : Comparable<T>
 
     /**
      * Represents a creation failure due to a blank value constraint.
      */
-    public class BlankValueFailure : CreationFailure("Constraint failure: provided value is empty")
+    public class BlankValueFailure : CreationFailure("Provided value is empty")
 
     /**
      * Represents a creation failure due to a pattern constraint.
      */
-    public data class PatternFailure(public val regex: Regex) : CreationFailure("Constraint failure: input should match $regex")
+    public data class PatternFailure(public val regex: Regex) : CreationFailure("Input should match $regex")
+
+    public data class CompoundFailure(
+        public val failures: List<CreationFailure>,
+    ) : CreationFailure(
+        "Multiple validation was failed: \n " +
+            failures.withIndex().joinToString("\n") { "${it.index + 1}. ${it.value.message}" }
+    )
 
     public companion object {
-        /**
-         * Creates a [SizeRangeFailure] object with a size constraint failure message.
-         *
-         * @param size The size range constraint for the creation failure.
-         * @return The [SizeRangeFailure] object with the specified size constraint failure message.
-         */
-        public fun ofSizeRange(size: IntRange): CreationFailure {
-            return SizeRangeFailure(size)
+        public fun <T> ofValueRange(
+            range: ClosedRange<T>,
+        ): CreationFailure where T : Number, T : Comparable<T> {
+            return ValueRangeFailure(range)
         }
 
         /**
-         * Creates a [SizeExactFailure] with a constraint failure message based on the provided size.
+         * Creates a [LengthRangeFailure] object with a size constraint failure message.
+         *
+         * @param size The size range constraint for the creation failure.
+         * @return The [LengthRangeFailure] object with the specified size constraint failure message.
+         */
+        public fun ofLengthRange(size: IntRange): CreationFailure {
+            return LengthRangeFailure(size)
+        }
+
+        /**
+         * Creates a [LengthExactFailure] with a constraint failure message based on the provided size.
          *
          * @param size The expected size that caused the constraint failure.
-         * @return A [SizeExactFailure] object with the constraint failure message.
+         * @return A [LengthExactFailure] object with the constraint failure message.
          */
-        public fun ofSizeExact(size: Int): CreationFailure {
-            return SizeExactFailure(size)
+        public fun ofLengthExact(size: Int): CreationFailure {
+            return LengthExactFailure(size)
         }
 
         /**
@@ -65,7 +91,7 @@ public sealed class CreationFailure(message: String) : TimeMatesException(messag
          * @param size The minimal value that caused the constraint failure.
          * @return A [MinValueFailure] object with the constraint failure message.
          */
-        public fun ofMin(size: Int): CreationFailure {
+        public fun <T> ofMin(size: T): CreationFailure where T : Number, T : Comparable<T> {
             return MinValueFailure(size)
         }
 

@@ -1,6 +1,12 @@
 package org.timemates.sdk.common.pagination
 
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
 import org.timemates.sdk.common.annotations.ApiStatus
 import org.timemates.sdk.common.annotations.ExperimentalTimeMatesApi
 import org.timemates.sdk.common.constructor.createOrThrow
@@ -8,13 +14,8 @@ import org.timemates.sdk.common.exceptions.TimeMatesException
 import org.timemates.sdk.common.pagination.PagesIteratorImpl.State
 import org.timemates.sdk.common.types.TimeMatesEntity
 import org.timemates.sdk.common.types.value.Count
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.retry
 import kotlin.time.Duration
+import kotlin.coroutines.cancellation.CancellationException as CoreCancellationException
 
 /**
  * Interface representing a page iterator for paginated data retrieval.
@@ -39,7 +40,7 @@ public interface PagesIterator<T> {
      * @return The list of elements in the next page.
      * @throws NoSuchElementException if there are no more pages available.
      */
-    @Throws(NoSuchElementException::class, CancellationException::class)
+    @Throws(NoSuchElementException::class, CancellationException::class, CoreCancellationException::class)
     public suspend operator fun next(): Result<List<T>>
 
     /**

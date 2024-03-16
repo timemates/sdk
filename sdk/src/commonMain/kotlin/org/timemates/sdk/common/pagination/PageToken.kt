@@ -1,6 +1,7 @@
 package org.timemates.sdk.common.pagination
 
 import org.timemates.sdk.common.constructor.Factory
+import org.timemates.sdk.common.constructor.factory
 import kotlin.jvm.JvmInline
 
 /**
@@ -12,9 +13,5 @@ import kotlin.jvm.JvmInline
  */
 @JvmInline
 public value class PageToken private constructor(public val string: String) {
-    public companion object : Factory<PageToken, String>() {
-        override fun create(input: String): Result<PageToken> {
-            return Result.success(PageToken(input))
-        }
-    }
+    public companion object : Factory<PageToken, String> by factory(::PageToken)
 }
