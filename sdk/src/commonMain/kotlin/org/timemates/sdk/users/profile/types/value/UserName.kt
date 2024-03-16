@@ -9,7 +9,9 @@ import kotlin.jvm.JvmInline
 @JvmInline
 public value class UserName private constructor(public val string: String) {
     public companion object : Factory<UserName, String> by factory(
-        rules = listOf(ValidationRule.lengthRange(3..50)),
+        rules = listOf(ValidationRule.lengthRange(UserName.LENGTH_RANGE)),
         constructor = ::UserName,
     )
 }
+
+public val UserName.Companion.LENGTH_RANGE: IntRange get() = 3..50

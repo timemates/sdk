@@ -10,8 +10,10 @@ import kotlin.jvm.JvmInline
 public value class UserDescription private constructor(public val string: String) {
     public companion object : Factory<UserDescription, String> by factory(
         rules = listOf(
-            ValidationRule.lengthRange(3..200),
+            ValidationRule.lengthRange(UserDescription.LENGTH_RANGE),
         ),
         constructor = ::UserDescription,
     )
 }
+
+public val UserDescription.Companion.LENGTH_RANGE: IntRange get() = 3..200

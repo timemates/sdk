@@ -10,8 +10,10 @@ import kotlin.jvm.JvmInline
 public value class TimerDescription private constructor(public val string: String) {
     public companion object : Factory<TimerDescription, String> by factory(
         rules = listOf(
-            ValidationRule.lengthRange(0..500),
+            ValidationRule.lengthRange(TimerDescription.LENGTH_RANGE),
         ),
         constructor = ::TimerDescription,
     )
 }
+
+public val TimerDescription.Companion.LENGTH_RANGE: IntRange get() = 0..500

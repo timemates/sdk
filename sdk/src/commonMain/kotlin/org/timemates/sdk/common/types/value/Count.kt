@@ -9,7 +9,9 @@ import kotlin.jvm.JvmInline
 @JvmInline
 public value class Count private constructor(public val int: Int) {
     public companion object : Factory<Count, Int> by factory(
-        rules = listOf(ValidationRule.minValue(0)),
+        rules = listOf(ValidationRule.minValue(Count.MIN_REQUIRED_VALUE)),
         constructor = ::Count,
     )
 }
+
+public val Count.Companion.MIN_REQUIRED_VALUE: Int get() = 0
