@@ -15,7 +15,10 @@ val engine = RSocketTimeMatesRequestsEngine(
     coroutineScope = Dispatchers.IO,
 )
 val emailAuth = AccountLoginApi(engine).email
-val email = EmailAddress.create("developer@y9vad9.com").getOrElse { return }
+val email = EmailAddress.factory
+    .createSafe("developer@y9vad9.com")
+    .toResult()
+    .getOrElse { return }
 
 val authorizationResult = emailAuth.authorize(email)
     // requestCode returns ConfirmationCode from user
