@@ -23,7 +23,7 @@ internal object GetAuthorizationSessionsCommand : RSocketCommand<GetAuthorizatio
                 results = result.authorizations.map { it.sdk() },
                 nextPageToken = result.nextPageToken
                     .takeIf { it.isNotEmpty() }
-                    ?.let { PageToken.createOrThrow(it) },
+                    ?.let { PageToken.factory.createOrThrow(it) },
             )
         }
     }

@@ -11,10 +11,10 @@ import org.timemates.sdk.users.profile.types.User as SdkUser
 
 internal fun RSUser.sdk(): SdkUser {
     return SdkUser(
-        id = UserId.createOrThrow(id),
-        name = UserName.createOrThrow(name),
-        description = description.takeIf { it.isNotEmpty() }?.let { UserDescription.createOrThrow(it) },
-        emailAddress = email.takeIf { it.isNotEmpty() }?.let { EmailAddress.createOrThrow(it) },
-        avatar = gravatarId.takeIf { it.isNotBlank() }?.let { Avatar.GravatarId.createOrThrow(it) },
+        id = UserId.factory.createOrThrow(id),
+        name = UserName.factory.createOrThrow(name),
+        description = description.takeIf { it.isNotEmpty() }?.let { UserDescription.factory.createOrThrow(it) },
+        emailAddress = email.takeIf { it.isNotEmpty() }?.let { EmailAddress.factory.createOrThrow(it) },
+        avatar = gravatarId.takeIf { it.isNotBlank() }?.let { Avatar.GravatarId.factory.createOrThrow(it) },
     )
 }

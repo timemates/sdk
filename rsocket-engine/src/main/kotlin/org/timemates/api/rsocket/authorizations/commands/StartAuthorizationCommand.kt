@@ -22,7 +22,7 @@ internal object StartAuthorizationCommand : RSocketCommand<StartAuthorizationReq
             }
         ).let { result ->
             StartAuthorizationRequest.Result(
-                verificationHash = VerificationHash.createOrThrow(result.verificationHash),
+                verificationHash = VerificationHash.factory.createOrThrow(result.verificationHash),
                 attempts = Count.factory.createOrThrow(result.attempts),
                 expiresAt = Instant.fromEpochMilliseconds(result.expiresAt),
             )

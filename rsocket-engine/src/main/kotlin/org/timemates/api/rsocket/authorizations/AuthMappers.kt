@@ -15,9 +15,9 @@ import org.timemates.sdk.authorization.sessions.types.Authorization as SdkAuth
 
 internal fun Metadata.sdk(): SdkAuth.Metadata {
     return SdkAuth.Metadata(
-        applicationName = ApplicationName.createOrThrow(clientName),
-        clientVersion = ClientVersion.createOrThrow(clientVersion),
-        clientIpAddress = ClientIpAddress.createOrThrow("UNDEFINED")
+        applicationName = ApplicationName.factory.createOrThrow(clientName),
+        clientVersion = ClientVersion.factory.createOrThrow(clientVersion),
+        clientIpAddress = ClientIpAddress.factory.createOrThrow("UNDEFINED")
     )
 }
 
@@ -30,11 +30,11 @@ internal fun SdkAuth.Metadata.rs(): Metadata {
 
 internal fun RSAuthorization.sdk(): SdkAuth {
     return SdkAuth(
-        accessHash = accessHash?.let { SdkAuth.Hash(HashValue.createOrThrow(it.value), Instant.fromEpochMilliseconds(it.expiresAt)) },
-        refreshHash = refreshHash?.let { SdkAuth.Hash(HashValue.createOrThrow(it.value), Instant.fromEpochMilliseconds(it.expiresAt)) },
+        accessHash = accessHash?.let { SdkAuth.Hash(HashValue.factory.createOrThrow(it.value), Instant.fromEpochMilliseconds(it.expiresAt)) },
+        refreshHash = refreshHash?.let { SdkAuth.Hash(HashValue.factory.createOrThrow(it.value), Instant.fromEpochMilliseconds(it.expiresAt)) },
         generationTime = Instant.fromEpochMilliseconds(generationTime),
         metadata = metadata?.sdk(),
-        userId = UserId.createOrThrow(userId),
+        userId = UserId.factory.createOrThrow(userId),
     )
 }
 

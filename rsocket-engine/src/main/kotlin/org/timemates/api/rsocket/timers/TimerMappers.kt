@@ -1,16 +1,15 @@
 package org.timemates.api.rsocket.timers
 
+import kotlinx.datetime.Instant
 import org.timemates.api.timers.sessions.types.TimerState
 import org.timemates.sdk.common.constructor.createOrThrow
 import org.timemates.sdk.common.types.value.Count
 import org.timemates.sdk.timers.members.invites.types.value.InviteCode
-import org.timemates.sdk.timers.types.Timer
 import org.timemates.sdk.timers.types.TimerSettings
 import org.timemates.sdk.timers.types.value.TimerDescription
 import org.timemates.sdk.timers.types.value.TimerId
 import org.timemates.sdk.timers.types.value.TimerName
 import org.timemates.sdk.users.profile.types.value.UserId
-import kotlinx.datetime.Instant
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 import org.timemates.api.timers.members.invites.types.Invite as RSInvite
@@ -23,10 +22,10 @@ import org.timemates.sdk.timers.types.TimerSettings as SdkTimerSettings
 
 internal fun RSTimer.sdk(): SdkTimer {
     return SdkTimer(
-        timerId = TimerId.createOrThrow(id),
-        name = TimerName.createOrThrow(name),
-        description = TimerDescription.createOrThrow(description),
-        ownerId = UserId.createOrThrow(ownerId),
+        timerId = TimerId.factory.createOrThrow(id),
+        name = TimerName.factory.createOrThrow(name),
+        description = TimerDescription.factory.createOrThrow(description),
+        ownerId = UserId.factory.createOrThrow(ownerId),
         membersCount = Count.factory.createOrThrow(membersCount),
         state = currentState?.sdk() ?: SdkTimerState.Inactive(Instant.DISTANT_PAST),
         settings = settings?.sdk() ?: TimerSettings(),
@@ -40,20 +39,25 @@ internal fun RSTimerState.sdk(): SdkTimerState {
             endsAt = Instant.fromEpochMilliseconds(phase.value.endsAt),
             publishTime = publishTime,
         )
+
         is TimerState.PhaseOneOf.Inactive -> SdkTimerState.Inactive(
             publishTime = publishTime,
         )
+
         is TimerState.PhaseOneOf.Paused -> SdkTimerState.Paused(
             publishTime = publishTime,
         )
+
         is TimerState.PhaseOneOf.Rest -> SdkTimerState.Rest(
             endsAt = Instant.fromEpochMilliseconds(phase.value.endsAt),
             publishTime = publishTime,
         )
+
         is TimerState.PhaseOneOf.Running -> SdkTimerState.Running(
             endsAt = Instant.fromEpochMilliseconds(phase.value.endsAt),
             publishTime = publishTime,
         )
+
         null -> SdkTimerState.Inactive(Instant.DISTANT_PAST)
     }
 }
@@ -82,7 +86,7 @@ internal fun SdkTimerSettings.rs(): RSTimer.Settings {
 
 internal fun RSInvite.sdk(): SdkInvite {
     return SdkInvite(
-        inviteCode = InviteCode.createOrThrow(code),
+        inviteCode = InviteCode.factory.createOrThrow(code),
         creationTime = Instant.fromEpochMilliseconds(creationTime),
         limit = Count.factory.createOrThrow(limit),
     )

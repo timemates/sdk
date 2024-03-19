@@ -24,7 +24,7 @@ internal object GetTimerMembersCommand : RSocketCommand<GetMembersRequest, Page<
                 results = result.users.map { it.sdk() },
                 nextPageToken = result.nextPageToken
                     .takeIf { it.isNotEmpty() }
-                    ?.let { PageToken.createOrThrow(it) },
+                    ?.let { PageToken.factory.createOrThrow(it) },
             )
         }
     }

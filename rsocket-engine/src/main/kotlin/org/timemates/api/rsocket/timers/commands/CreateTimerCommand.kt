@@ -19,7 +19,7 @@ internal object CreateTimerCommand : RSocketCommand<CreateTimerRequest, CreateTi
             },
             extra = input.accessHash.toExtra(),
         ).let { result ->
-            CreateTimerRequest.Result(TimerId.createOrThrow(result.timerId))
+            CreateTimerRequest.Result(TimerId.factory.createOrThrow(result.timerId))
         }
     }
 }

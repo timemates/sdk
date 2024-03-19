@@ -24,7 +24,7 @@ internal object GetInvitesCommand : RSocketCommand<GetInvitesRequest, Page<Invit
                 results = result.invites.map { it.sdk() },
                 nextPageToken = result.nextPageToken
                     .takeIf { it.isNotEmpty() }
-                    ?.let { PageToken.createOrThrow(it) },
+                    ?.let { PageToken.factory.createOrThrow(it) },
             )
         }
     }

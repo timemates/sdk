@@ -17,7 +17,7 @@ internal object CreateInviteCommand : RSocketCommand<CreateInviteRequest, Create
             },
             extra = input.accessHash.toExtra(),
         ).let { result ->
-            CreateInviteRequest.Result(InviteCode.createOrThrow(result.inviteCode))
+            CreateInviteRequest.Result(InviteCode.factory.createOrThrow(result.inviteCode))
         }
     }
 }

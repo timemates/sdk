@@ -23,7 +23,7 @@ internal object GetUserTimersCommand : RSocketCommand<GetUserTimersRequest, Page
                 results = result.timers.map { it.sdk() },
                 nextPageToken = result.nextPageToken
                     .takeIf { it.isNotEmpty() }
-                    ?.let { PageToken.createOrThrow(it) },
+                    ?.let { PageToken.factory.createOrThrow(it) },
             )
         }
     }
