@@ -11,7 +11,7 @@ public data class TimerSettings(
     val restTime: Duration = 5.minutes,
     val bigRestTime: Duration = 10.minutes,
     val bigRestEnabled: Boolean = true,
-    val bigRestPer: Count = Count.createOrThrow(4),
+    val bigRestPer: Count = Count.factory.createOrThrow(4),
     val isEveryoneCanPause: Boolean = false,
     val isConfirmationRequired: Boolean = false,
 ) : TimeMatesEntity() {

@@ -72,7 +72,7 @@ public class TimerInvitesApi(
 public fun TimerInvitesApi.getInvitesPages(
     timerId: TimerId,
     pageToken: PageToken? = null,
-    maxRetries: Count = Count.createOrThrow(5),
+    maxRetries: Count = Count.factory.createOrThrow(5),
     initialDelayOnRetries: Duration = 1.seconds,
 ): PagesIterator<Invite> = PagesIteratorImpl(
     initialPageToken = pageToken,

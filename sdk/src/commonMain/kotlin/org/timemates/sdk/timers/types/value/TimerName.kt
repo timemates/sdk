@@ -5,15 +5,20 @@ import org.timemates.sdk.common.constructor.factory
 import org.timemates.sdk.common.constructor.rules.ValidationRule
 import org.timemates.sdk.common.constructor.rules.lengthRange
 import kotlin.jvm.JvmInline
+import kotlin.jvm.JvmStatic
 
 @JvmInline
 public value class TimerName private constructor(public val string: String) {
-    public companion object : Factory<TimerName, String> by factory(
-        rules = listOf(
-            ValidationRule.lengthRange(TimerName.LENGTH_RANGE),
-        ),
-        constructor = ::TimerName,
-    )
-}
+    public companion object {
+        @JvmStatic
+        public val LENGTH_RANGE: IntRange = 3..50
 
-public val TimerName.Companion.LENGTH_RANGE: IntRange get() = 3..50
+        @JvmStatic
+        public val factory: Factory<TimerName, String> = factory(
+            rules = listOf(
+                ValidationRule.lengthRange(LENGTH_RANGE),
+            ),
+            constructor = ::TimerName,
+        )
+    }
+}

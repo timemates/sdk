@@ -17,6 +17,12 @@ import org.timemates.sdk.common.constructor.results.getUnsafe
  * @param TRaw The type of TRaw used to create the object.
  */
 public interface Factory<TBoxed, TRaw> {
+
+    /**
+     * Validation rules that apply to the creation of [TBoxed] by contract of this factory.
+     *
+     * @see ValidationRule
+     */
     public val rules: List<ValidationRule<TRaw>>
 
 

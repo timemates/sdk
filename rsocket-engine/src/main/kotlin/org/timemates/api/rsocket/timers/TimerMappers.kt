@@ -27,7 +27,7 @@ internal fun RSTimer.sdk(): SdkTimer {
         name = TimerName.createOrThrow(name),
         description = TimerDescription.createOrThrow(description),
         ownerId = UserId.createOrThrow(ownerId),
-        membersCount = Count.createOrThrow(membersCount),
+        membersCount = Count.factory.createOrThrow(membersCount),
         state = currentState?.sdk() ?: SdkTimerState.Inactive(Instant.DISTANT_PAST),
         settings = settings?.sdk() ?: TimerSettings(),
     )
@@ -64,7 +64,7 @@ internal fun RSTimer.Settings.sdk(): SdkTimerSettings {
         restTime = restTime.minutes,
         bigRestTime = bigRestTime.minutes,
         bigRestEnabled = bigRestEnabled,
-        bigRestPer = Count.createOrThrow(bigRestPer),
+        bigRestPer = Count.factory.createOrThrow(bigRestPer),
         isEveryoneCanPause = isEveryoneCanPause,
         isConfirmationRequired = isConfirmationRequired,
     )
@@ -84,6 +84,6 @@ internal fun RSInvite.sdk(): SdkInvite {
     return SdkInvite(
         inviteCode = InviteCode.createOrThrow(code),
         creationTime = Instant.fromEpochMilliseconds(creationTime),
-        limit = Count.createOrThrow(limit),
+        limit = Count.factory.createOrThrow(limit),
     )
 }

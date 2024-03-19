@@ -141,12 +141,12 @@ public fun <T, R> PagesIterator<T>.map(mapper: suspend (T) -> R): PagesIterator<
  * on every retry.
  */
 internal class PagesIteratorImpl<T : TimeMatesEntity>(
-    private val chunkSize: Count = Count.createOrThrow(20),
+    private val chunkSize: Count = Count.factory.createOrThrow(20),
     private val initialPageToken: PageToken?,
     prevPage: Page<T>? = null,
     private val provider: suspend (size: Count, pageToken: PageToken?) -> Result<Page<T>>,
     private val delayOnServerErrors: Duration,
-    private val maxRetries: Count = Count.createOrThrow(5),
+    private val maxRetries: Count = Count.factory.createOrThrow(5),
     private val increaseDelayOnRetries: Boolean = true,
 ) : PagesIterator<T> {
     /**

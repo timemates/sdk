@@ -55,7 +55,7 @@ public class AuthorizedSessionsApi(
 @Suppress("NAME_SHADOWING")
 public fun AuthorizedSessionsApi.getSessionsPages(
     pageToken: PageToken?,
-    maxRetries: Count = Count.createOrThrow(5),
+    maxRetries: Count = Count.factory.createOrThrow(5),
     initialDelayOnRetries: Duration = 1.seconds,
 ): PagesIterator<Authorization> = PagesIteratorImpl(
     initialPageToken = pageToken,

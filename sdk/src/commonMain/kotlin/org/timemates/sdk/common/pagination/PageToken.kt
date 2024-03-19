@@ -3,6 +3,7 @@ package org.timemates.sdk.common.pagination
 import org.timemates.sdk.common.constructor.Factory
 import org.timemates.sdk.common.constructor.factory
 import kotlin.jvm.JvmInline
+import kotlin.jvm.JvmStatic
 
 /**
  * A value class representing a page token.
@@ -13,5 +14,8 @@ import kotlin.jvm.JvmInline
  */
 @JvmInline
 public value class PageToken private constructor(public val string: String) {
-    public companion object : Factory<PageToken, String> by factory(::PageToken)
+    public companion object {
+        @JvmStatic
+        public val factory: Factory<PageToken, String> = factory(::PageToken)
+    }
 }
